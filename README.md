@@ -24,6 +24,22 @@ The application uses a modern three-tier architecture:
 
 The frontend communicates with the backend API for authentication, data management, and business logic, while static assets are served directly from GitHub Pages.
 
+#### Hybrid Authentication
+
+The application uses a **hybrid authentication system** that supports both:
+
+1. **Demo Accounts** (localStorage) - For quick testing and demonstrations
+   - Email domains: `@imsop.io`, `@demo.local`
+   - Pre-configured accounts: admin@imsop.io, engineer@imsop.io, analyst@imsop.io, demo@imsop.io
+   - No backend required, works offline
+
+2. **Production Accounts** (Backend API) - For real users
+   - All other email addresses use the Render backend
+   - Persistent storage in MySQL database
+   - JWT token-based authentication
+
+The system automatically detects which authentication method to use based on the email address.
+
 ## Key Features
 
 ### Real-time Operations Monitoring

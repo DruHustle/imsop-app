@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import * as authService from '@/lib/api-auth';
-import type { User } from '@/lib/api-auth';
+import * as authService from '@/lib/hybrid-auth';
+import type { User } from '@/lib/hybrid-auth';
 
 interface AuthContextType {
   user: User | null;
