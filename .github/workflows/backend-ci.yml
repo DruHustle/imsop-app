@@ -1,0 +1,61 @@
+name: Backend CI/CD
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'server/**'
+  pull_request:
+    branches: [ main ]
+    paths:
+      - 'server/**'
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Setup PNPM
+      uses: pnpm/action-setup@v3
+      with:
+        version: 10
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '22'
+        cache: 'pnpm'
+        cache-dependency-path: 'server/pnpm-lock.yaml'
+
+    - name: Install dependencies
+      run: |
+        cd server
+        pnpm install
+
+    - name: Lint
+      run: |
+        cd server
+        # Add linting command if available, e.g., pnpm lint
+        echo "Linting backend..."
+
+    - name: Build
+      run: |
+        cd server
+        pnpm build
+
+    - name: Run Tests
+      run: |
+        cd server
+        # Add test command if available, e.g., pnpm test
+        echo "Running backend tests..."
+
+  # Optional: Add a deploy job if you have a target environment
+  # deploy:
+  #   needs: build-and-test
+  #   if: github.ref == 'refs/heads/main'
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Deploy to Production
+  #       run: echo "Deploying backend..."

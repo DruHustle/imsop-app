@@ -1,0 +1,54 @@
+graph TD
+    subgraph "External Systems"
+        A[Third-Party Logistics APIs]
+        B[IoT Devices]
+        C[ERP Systems]
+        D[Customer Portals]
+    end
+
+    subgraph "IMSOP Platform"
+        subgraph "Frontend"
+            E[Web Application]
+        end
+
+        subgraph "Backend"
+            F[API Gateway]
+            G[Microservices]
+        end
+
+        subgraph "Data & Messaging"
+            H[Kafka]
+            I[Databases]
+        end
+
+        subgraph "AI & Analytics"
+            J[Python Services]
+            K[Spark/Databricks]
+        end
+    end
+
+    subgraph "Users"
+        L[Operations Managers]
+        M[Data Analysts]
+        N[Customer Support]
+    end
+
+    A --> F
+    B --> H
+    C --> F
+    D --> F
+
+    L --> E
+    M --> E
+    N --> E
+
+    E --> F
+
+    F --> G
+
+    G --> H
+    G --> I
+    G --> J
+
+    J --> K
+    K --> I

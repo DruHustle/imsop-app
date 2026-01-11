@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: imsop-backend
+  namespace: imsop
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: imsop-backend
+  template:
+    metadata:
+      labels:
+        app: imsop-backend
+    spec:
+      containers:
+      - name: backend
+        image: druhustle/imsop-backend:latest
+        ports:
+        - containerPort: 3001
+        env:
+        - name: DB_HOST
+          valueFrom:
+            secretKeyRef:
+              name: db-secrets
+              key: host
+        - name: DB_USER
+          valueFrom:
+            secretKeyRef:
+              name: db-secrets
+              key: user
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: db-secrets
+              key: password
+        resources:
+          limits:
+            cpu: "500m"
+            memory: "512Mi"
+          requests:
+            cpu: "250m"
+            memory: "256Mi"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: imsop-backend-service
+  namespace: imsop
+spec:
+  selector:
+    app: imsop-backend
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 3001
+  type: LoadBalancer
