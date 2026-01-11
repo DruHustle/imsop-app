@@ -37,6 +37,8 @@ jobs:
         run: pnpm install
 
       - name: Build
+        env:
+          VITE_GOOGLE_MAPS_API_KEY: ${{ secrets.VITE_GOOGLE_MAPS_API_KEY }}
         run: pnpm build
 
       - name: Upload Pages artifact
