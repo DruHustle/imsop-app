@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import * as authService from '@/lib/auth';
-import type { User } from '@/lib/auth';
+import * as authService from '@/lib/api-auth';
+import type { User } from '@/lib/api-auth';
 
 interface AuthContextType {
   user: User | null;
@@ -33,8 +33,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   }, []);
 
-  const login = (email: string, password: string) => {
-    const result = authService.login(email, password);
+  const login = async (email: string, password: string) => {
+    const result = await authService.login(email, password);
     if (result.success && result.user) {
       setUser(result.user);
     }
@@ -46,30 +46,30 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setUser(null);
   };
 
-  const register = (email: string, password: string, name: string) => {
-    return authService.register(email, password, name);
+  const register = async (email: string, password: string, name: string) => {
+    return await authService.register(email, password, name);
   };
 
-  const requestPasswordReset = (email: string) => {
-    return authService.requestPasswordReset(email);
+  const requestPasswordReset = async (email: string) => {
+    return await authService.requestPasswordReset(email);
   };
 
-  const resetPassword = (token: string, newPassword: string) => {
-    return authService.resetPassword(token, newPassword);
+  const resetPassword = async (token: string, newPassword: string) => {
+    return await authService.resetPassword(token, newPassword);
   };
 
-  const updateProfile = (updates: Partial<Pick<User, 'name' | 'avatar'>>) => {
+  const updateProfile = async (updates: Partial<Pick<User, 'name' | 'avatar'>>) => {
     if (!user) return { success: false, error: 'Not authenticated' };
-    const result = authService.updateProfile(user.id, updates);
+    const result = await authService.updateProfile(user.id, updates);
     if (result.success && result.user) {
       setUser(result.user);
     }
     return result;
   };
 
-  const changePassword = (currentPassword: string, newPassword: string) => {
+  const changePassword = async (currentPassword: string, newPassword: string) => {
     if (!user) return { success: false, error: 'Not authenticated' };
-    return authService.changePassword(user.id, currentPassword, newPassword);
+    return await authService.changePassword(user.id, currentPassword, newPassword);
   };
 
   return (

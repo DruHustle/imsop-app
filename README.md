@@ -14,6 +14,16 @@
 
 IMSOP is an enterprise-grade platform designed for real-time supply chain visibility, operational analytics, and multi-cloud infrastructure management. The platform provides comprehensive tools for monitoring operations, managing telemetry data, and gaining actionable insights through advanced analytics.
 
+### Architecture
+
+The application uses a modern three-tier architecture:
+
+- **Frontend**: React app hosted on GitHub Pages
+- **Backend**: Node.js/Express API hosted on Render
+- **Database**: MySQL hosted on Aiven
+
+The frontend communicates with the backend API for authentication, data management, and business logic, while static assets are served directly from GitHub Pages.
+
 ## Key Features
 
 ### Real-time Operations Monitoring
@@ -220,6 +230,24 @@ cp .env.example .env
 
 Then configure the following variables:
 
+#### Frontend Configuration (`.env`)
+
+```bash
+# Backend API URL
+# For local development with local backend
+VITE_API_URL=http://localhost:3001
+
+# For local development with production backend
+# VITE_API_URL=https://imsop-app.onrender.com
+
+# Google Maps API (Optional - for map visualization)
+# Get your API key from: https://console.cloud.google.com/google/maps-apis
+# Required APIs: Maps JavaScript API, Places API, Geocoding API, Geometry API
+VITE_GOOGLE_MAPS_API_KEY=your_api_key_here
+```
+
+#### Backend Configuration (`.env` in server directory)
+
 ```bash
 # Database Configuration
 DB_HOST=localhost
@@ -229,13 +257,8 @@ DB_PASSWORD=
 DB_NAME=imsop_dev
 
 # API Configuration
-API_PORT=3000
+API_PORT=3001
 API_HOST=localhost
-
-# Google Maps API (Optional - for map visualization)
-# Get your API key from: https://console.cloud.google.com/google/maps-apis
-# Required APIs: Maps JavaScript API, Places API, Geocoding API, Geometry API
-VITE_GOOGLE_MAPS_API_KEY=your_api_key_here
 
 # Authentication
 JWT_SECRET=dev-secret-key-change-in-production
@@ -247,7 +270,10 @@ CORS_ORIGINS=*
 LOG_LEVEL=debug
 ```
 
-**Note:** The Google Maps API key is optional. If not configured, the map component will display a placeholder message. The rest of the application will function normally.`
+**Important Notes:**
+- The frontend uses `VITE_API_URL` to connect to the backend API
+- In production (GitHub Pages), the API URL is automatically set to `https://imsop-app.onrender.com`
+- The Google Maps API key is optional. If not configured, the map component will display a placeholder message
 
 ### Available Scripts
 
@@ -312,16 +338,28 @@ mysql -u root -p -e "DROP DATABASE imsop_dev;"
 ./setup-dev-db.sh
 ```
 
-### Deployment Options
+### Deployment Architecture
+
+The application uses a distributed deployment model:
+
+**Frontend (GitHub Pages)**
+- Automatically deployed on push to `main` branch
+- Static React app served from `https://druhustle.github.io/imsop-app/`
+- Configured to connect to Render backend API
+
+**Backend (Render)**
+- Node.js/Express API hosted at `https://imsop-app.onrender.com`
+- Handles authentication, data management, and business logic
+- Connected to Aiven MySQL database
+
+**Database (Aiven)**
+- MySQL database hosted on Aiven cloud
+- Secure connection from Render backend
+- Managed backups and scaling
 
 **Development:**
 - Local Node.js server with local MySQL database
 - Run `./deploy.sh` for automated setup
-
-**Production:**
-- Backend: Render (https://render.com)
-- Database: Aiven MySQL (https://aiven.io)
-- Frontend: GitHub Pages (automatic)
 - See `RENDER_DEPLOYMENT.md` for detailed deployment instructions
 
 ### Next Steps
