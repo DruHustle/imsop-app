@@ -53,11 +53,9 @@ export default function Layout({ children }: LayoutProps) {
   const NavContent = () => (
     <div className="flex flex-col h-full">
       <div className="p-6 flex items-center gap-3">
-        <img
-          src="images/profile.jpg"
-          alt="Andrew Gotora"
-          className="w-10 h-10 rounded-full border-2 border-primary/50 object-cover shadow-[0_0_15px_var(--primary)]"
-        />
+        <div className="w-10 h-10 rounded-full border-2 border-primary/50 bg-primary/10 flex items-center justify-center shadow-[0_0_15px_var(--primary)]">
+          <Activity className="w-6 h-6 text-primary" />
+        </div>
         <span className="font-display font-bold text-2xl tracking-wider text-foreground">IMSOP</span>
       </div> 
       <nav className="flex-1 px-4 space-y-2 mt-4">
@@ -116,11 +114,9 @@ export default function Layout({ children }: LayoutProps) {
       {/* Mobile Header */}
       <div className="md:hidden fixed top-0 left-0 right-0 h-16 border-b border-white/10 bg-black/40 backdrop-blur-xl z-50 flex items-center justify-between px-4">
         <div className="flex items-center gap-3">
-          <img
-            src="images/profile.jpg"
-            alt="Andrew Gotora"
-            className="w-8 h-8 rounded-full border-2 border-primary/50 object-cover shadow-[0_0_10px_var(--primary)]"
-          />
+          <div className="w-8 h-8 rounded-full border-2 border-primary/50 bg-primary/10 flex items-center justify-center shadow-[0_0_10px_var(--primary)]">
+            <Activity className="w-5 h-5 text-primary" />
+          </div>
           <span className="font-display font-bold text-xl tracking-wider">IMSOP</span>
         </div>
         <div className="flex items-center gap-2">
