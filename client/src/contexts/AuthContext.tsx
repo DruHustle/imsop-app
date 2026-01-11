@@ -23,9 +23,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     // Check for existing session on mount
-    const currentUser = authService.getCurrentUser();
-    setUser(currentUser);
-    setLoading(false);
+    try {
+      const currentUser = authService.getCurrentUser();
+      setUser(currentUser);
+    } catch (error) {
+      console.error("Failed to load user session:", error);
+    } finally {
+      setLoading(false);
+    }
   }, []);
 
   const login = (email: string, password: string) => {

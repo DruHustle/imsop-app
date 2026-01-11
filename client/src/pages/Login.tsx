@@ -49,7 +49,7 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[url('/images/hero-bg.jpg')] bg-cover bg-center relative">
+    <div className="min-h-screen flex items-center justify-center bg-[url('./images/hero-bg.jpg')] bg-cover bg-center relative">
       <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
       
       <Card className="w-full max-w-md glass-panel border-white/10 relative z-10 animate-in fade-in zoom-in duration-500">

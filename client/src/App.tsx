@@ -40,6 +40,7 @@ function Router() {
           <Route path="/forgot-password" component={ForgotPassword} />
           <Route path="/reset-password" component={ResetPassword} />
           <Route path="/register" component={Register} />
+          <Route path="/" component={Login} />
           <Route component={Login} />
         </Switch>
       </WouterRouter>

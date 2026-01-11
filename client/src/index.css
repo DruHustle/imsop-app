@@ -136,7 +136,7 @@
   }
   body {
     @apply bg-background text-foreground antialiased;
-    background-image: url('/images/dashboard-bg.jpg');
+    background-image: url('./images/dashboard-bg.jpg');
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
