@@ -137,10 +137,16 @@ export function MapView({
         // Show placeholder if Maps API is not available
         if (mapContainer.current) {
           mapContainer.current.innerHTML = `
-            <div class="flex items-center justify-center h-full bg-slate-800 text-slate-400 text-sm">
-              <div class="text-center p-4">
-                <p class="mb-2">Map unavailable</p>
-                <p class="text-xs">Configure VITE_GOOGLE_MAPS_API_KEY to enable maps</p>
+            <div class="flex items-center justify-center h-full glass-panel rounded-lg border border-white/10">
+              <div class="text-center p-6 space-y-3">
+                <div class="flex justify-center mb-2">
+                  <svg class="w-12 h-12 text-primary/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"></path>
+                  </svg>
+                </div>
+                <p class="text-muted-foreground font-medium">Map Visualization Unavailable</p>
+                <p class="text-xs text-muted-foreground/70">Google Maps API key not configured</p>
+                <p class="text-xs text-muted-foreground/50 mt-2">Set <code class="bg-white/5 px-1 py-0.5 rounded">VITE_GOOGLE_MAPS_API_KEY</code> in .env to enable</p>
               </div>
             </div>
           `;

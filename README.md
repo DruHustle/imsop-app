@@ -212,8 +212,13 @@ The login page includes quick-fill buttons for demo accounts:
 Click any demo account button on the login page to auto-fill credentials.
 
 ### Environment Variables
+Create a `.env` file based on `.env.example`:
 
-Create a `.env` file based on `.env.dev`:
+```bash
+cp .env.example .env
+```
+
+Then configure the following variables:
 
 ```bash
 # Database Configuration
@@ -227,7 +232,9 @@ DB_NAME=imsop_dev
 API_PORT=3000
 API_HOST=localhost
 
-# Google Maps API
+# Google Maps API (Optional - for map visualization)
+# Get your API key from: https://console.cloud.google.com/google/maps-apis
+# Required APIs: Maps JavaScript API, Places API, Geocoding API, Geometry API
 VITE_GOOGLE_MAPS_API_KEY=your_api_key_here
 
 # Authentication
@@ -239,6 +246,8 @@ CORS_ORIGINS=*
 # Logging
 LOG_LEVEL=debug
 ```
+
+**Note:** The Google Maps API key is optional. If not configured, the map component will display a placeholder message. The rest of the application will function normally.`
 
 ### Available Scripts
 
