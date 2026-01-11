@@ -355,6 +355,82 @@ export JWT_SECRET="..."
 pnpm start
 ```
 
+### Configuring Google Maps API for Production (GitHub Pages)
+
+The Google Maps integration is optional but enhances the dashboard with interactive map visualizations.
+
+#### Step 1: Get Google Maps API Key
+
+1. **Go to Google Cloud Console**
+   - Visit: https://console.cloud.google.com/google/maps-apis
+   - Create a new project or select an existing one
+
+2. **Enable Required APIs**
+   - Maps JavaScript API
+   - Places API
+   - Geocoding API
+   - Geometry API
+
+3. **Create API Key**
+   - Go to Credentials → Create Credentials → API key
+   - Copy the generated API key (format: `AIzaSyC...`)
+
+4. **Restrict API Key (Recommended)**
+   - Under "Application restrictions", select "HTTP referrers"
+   - Add: `https://druhustle.github.io/*`
+   - Under "API restrictions", select the 4 APIs above
+   - Click "Save"
+
+#### Step 2: Add to GitHub Repository Secrets
+
+1. **Navigate to Repository Settings**
+   - Go to: https://github.com/DruHustle/imsop-app/settings/secrets/actions
+
+2. **Create New Secret**
+   - Click "New repository secret"
+   - Name: `VITE_GOOGLE_MAPS_API_KEY` (must be exact)
+   - Secret: Paste your Google Maps API key
+   - Click "Add secret"
+
+#### Step 3: Deploy
+
+The GitHub Actions workflow is already configured to use the secret during build.
+
+**Automatic Deployment:**
+- Any push to `main` branch will trigger deployment with the API key
+
+**Manual Deployment:**
+1. Go to: https://github.com/DruHustle/imsop-app/actions
+2. Click "Deploy to GitHub Pages"
+3. Click "Run workflow"
+
+#### Step 4: Verify
+
+1. Wait for deployment to complete (~2-3 minutes)
+2. Visit: https://druhustle.github.io/imsop-app/
+3. Log in and check the Dashboard
+4. The "Global Activity Map" should now show an interactive map
+
+#### Troubleshooting
+
+**Map still shows placeholder:**
+- Verify secret name is exactly `VITE_GOOGLE_MAPS_API_KEY`
+- Check that all 4 APIs are enabled in Google Cloud Console
+- Ensure `https://druhustle.github.io/*` is in HTTP referrers
+- Check GitHub Actions logs for build errors
+
+**"This page can't load Google Maps correctly":**
+- Set up billing in Google Cloud Console (free tier: $200/month credit)
+- Verify API key restrictions aren't too strict
+
+**For Local Development:**
+Create a `.env` file:
+```bash
+VITE_GOOGLE_MAPS_API_KEY=your_api_key_here
+```
+
+**Note:** The application works perfectly without the API key - you'll just see a placeholder message instead of the interactive map.
+
 ## 📝 Contributing
 
 1. Create a feature branch (`git checkout -b feature/amazing-feature`)
