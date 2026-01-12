@@ -44,11 +44,11 @@ const StatCard = ({ title, value, change, icon: Icon, trend }: any) => (
 
 export default function Dashboard() {
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 p-4 md:p-0"> 
       {/* Condensed Header */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight text-white">
+          <h1 className="text-2xl md:text-3xl font-bold tracking-tight text-white">
             Operational Overview
           </h1>
           <p className="text-sm text-muted-foreground mt-1">Real-time supply chain monitoring and predictive insights.</p>
@@ -59,21 +59,21 @@ export default function Dashboard() {
         </div>
       </div>
 
-      {/* Key Metrics Grid - Condensed */}
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+      {/* Key Metrics Grid */}
+      <div className="grid gap-4 grid-cols-2 lg:grid-cols-4">
         <StatCard title="Active Shipments" value="1,284" change="+12.5%" trend="up" icon={Box} />
         <StatCard title="On-Time Delivery" value="98.2%" change="+2.1%" trend="up" icon={Clock} />
         <StatCard title="Predicted Delays" value="14" change="-4" trend="down" icon={AlertTriangle} />
         <StatCard title="System Load" value="42%" change="+5%" trend="up" icon={Activity} />
       </div>
 
-      <div className="grid gap-4 md:grid-cols-7">
-        {/* Main Chart - Condensed Height */}
-        <Card className="col-span-4 glass border-white/5">
+      <div className="grid gap-4 grid-cols-1 md:grid-cols-7">
+        {/* Main Chart */}
+        <Card className="md:col-span-4 glass border-white/5">
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-bold uppercase tracking-wider">Throughput Analytics</CardTitle>
           </CardHeader>
-          <CardContent className="pl-2">
+          <CardContent className="pl-0 md:pl-2">
             <div className="h-[250px] w-full">
               <ResponsiveContainer width="100%" height="100%">
                 <AreaChart data={data}>
@@ -97,29 +97,32 @@ export default function Dashboard() {
           </CardContent>
         </Card>
 
-        {/* Interactive Map - Condensed Height */}
-        <Card className="col-span-3 glass border-white/5 flex flex-col min-h-[300px]">
+        {/* Interactive Map */}
+        <Card className="md:col-span-3 glass border-white/5 flex flex-col h-[350px] md:h-auto">
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-bold uppercase tracking-wider">Global Activity Map</CardTitle>
           </CardHeader>
-          <CardContent className="flex-1 p-0 relative overflow-hidden rounded-b-xl">
-            <MapView className="w-full h-full min-h-[250px]" onMapReady={() => {}} />
-            <div className="absolute bottom-3 left-3 right-3 pointer-events-none">
+          <CardContent className="relative flex-1 p-0 overflow-hidden rounded-b-xl">
+            {/* Using absolute inset to ensure map fills the remaining space of the card */}
+            <MapView className="absolute inset-0 w-full h-full" onMapReady={() => {}} />
+            
+            {/* Overlay notification */}
+            <div className="absolute bottom-3 inset-x-3 pointer-events-none">
               <div className="glass-panel p-2 rounded-lg flex items-center gap-3 animate-in slide-in-from-bottom-2 fade-in duration-500 pointer-events-auto">
-                <div className="w-1.5 h-1.5 rounded-full bg-purple-500 animate-pulse" />
-                <div className="flex-1">
-                  <p className="text-[10px] font-bold text-white">Anomaly: Route 42</p>
-                  <p className="text-[8px] text-white/60">Pacific Ocean • 2m ago</p>
+                <div className="shrink-0 w-1.5 h-1.5 rounded-full bg-purple-500 animate-pulse" />
+                <div className="flex-1 min-w-0">
+                  <p className="text-[10px] font-bold text-white truncate">Anomaly: Route 42</p>
+                  <p className="text-[8px] text-white/60 truncate">Pacific Ocean • 2m ago</p>
                 </div>
-                <Button size="sm" variant="outline" className="h-6 text-[10px] border-white/20 hover:bg-white/10 px-2">View</Button>
+                <Button size="sm" variant="outline" className="shrink-0 h-6 text-[10px] border-white/20 hover:bg-white/10 px-2">View</Button>
               </div>
             </div>
           </CardContent>
         </Card>
       </div>
 
-      {/* AI Insights Section - Condensed */}
-      <div className="grid gap-4 md:grid-cols-3">
+      {/* AI Insights Section */}
+      <div className="grid gap-4 grid-cols-1 md:grid-cols-3">
         <Card className="glass border-white/5 md:col-span-2">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-sm font-bold uppercase tracking-wider flex items-center gap-2">
@@ -135,13 +138,13 @@ export default function Dashboard() {
                   <div className="w-7 h-7 rounded bg-purple-500/20 flex items-center justify-center shrink-0 text-purple-400">
                     <TrendingUp className="w-3 h-3" />
                   </div>
-                  <div className="flex-1">
+                  <div className="flex-1 min-w-0">
                     <h4 className="text-xs font-bold text-white">Demand Spike Predicted</h4>
                     <p className="text-[10px] text-muted-foreground mt-0.5 line-clamp-1">
-                      AI models forecast a 25% increase in demand for electronics in APAC over 14 days.
+                      AI models forecast a 25% increase in demand for electronics in APAC.
                     </p>
                   </div>
-                  <div className="text-[10px] font-bold text-primary">98% CONF.</div>
+                  <div className="text-[10px] font-bold text-primary shrink-0">98% CONF.</div>
                 </div>
               ))}
             </div>
