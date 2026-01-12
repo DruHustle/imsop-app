@@ -20,6 +20,10 @@ import Profile from "./pages/Profile";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 
+
+// LOG TO VERIFY YOUR CONFIGURATION
+console.log("Connecting to backend at:", import.meta.env.VITE_API_URL);
+
 function Router() {
   const { isAuthenticated, loading } = useAuth();
 
