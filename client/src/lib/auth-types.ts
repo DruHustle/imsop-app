@@ -1,16 +1,11 @@
 export interface User {
-  id: string;
-  email: string;
-  name: string;
+  id: string; email: string; name: string;
   role: 'admin' | 'engineer' | 'analyst' | 'user';
   avatar?: string;
 }
 
 export interface AuthResponse {
-  success: boolean;
-  user?: User;
-  error?: string;
-  token?: string;
+  success: boolean; user?: User; error?: string; token?: string;
 }
 
 export interface IAuthService {
