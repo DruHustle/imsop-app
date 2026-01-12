@@ -1,20 +1,18 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { safeLocalStorage } from '@/lib/storage';
-import * as apiAuth from '@/lib/api-auth';
-import * as mockAuth from '@/lib/auth';
-import { User } from '@/lib/auth';
+import { User, AuthResponse } from '@/lib/auth-types';
+import { AuthServiceFactory } from '@/lib/auth-factory';
 
 interface AuthContextType {
   user: User | null;
   isAuthenticated: boolean;
   isLoading: boolean;
-  login: (email: string, password: string) => Promise<{ success: boolean; error?: string }>;
+  login: (email: string, password: string) => Promise<AuthResponse>;
   logout: () => void;
-  register: (email: string, password: string, name: string) => Promise<{ success: boolean; error?: string }>;
-  requestPasswordReset: (email: string) => Promise<{ success: boolean; token?: string; error?: string }>;
-  resetPassword: (token: string, newPassword: string) => Promise<{ success: boolean; error?: string }>;
-  updateProfile: (updates: Partial<Pick<User, 'name' | 'avatar'>>) => Promise<{ success: boolean; error?: string }>;
-  changePassword: (currentPassword: string, newPassword: string) => Promise<{ success: boolean; error?: string }>;
+  register: (email: string, password: string, name: string) => Promise<AuthResponse>;
+  requestPasswordReset: (email: string) => Promise<AuthResponse>;
+  resetPassword: (token: string, newPassword: string) => Promise<AuthResponse>;
+  updateProfile: (updates: Partial<Pick<User, 'name' | 'avatar'>>) => Promise<AuthResponse>;
+  changePassword: (currentPassword: string, newPassword: string) => Promise<AuthResponse>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -25,32 +23,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const initializeAuth = async () => {
-      // Use imsop_token to check session status
-      const token = safeLocalStorage.getItem('imsop_token');
-      
-      if (!token) {
-        setUser(null);
-        setIsLoading(false);
-        return;
-      }
-
       try {
-        if (token.startsWith('mock_')) {
-          // RESTORE MOCK SESSION
-          const currentUser = mockAuth.getCurrentUser();
-          setUser(currentUser);
+        const service = AuthServiceFactory.getService();
+        const result = await service.getCurrentUser();
+        if (result.success && result.user) {
+          setUser(result.user);
         } else {
-          // VALIDATE REAL SESSION (Render API)
-          const result = await apiAuth.getCurrentUser();
-          if (result.success && result.user) {
-            setUser(result.user);
-          } else {
-            // Token likely expired, clean up
-            logout();
-          }
+          setUser(null);
         }
       } catch (error) {
         console.error("Auth initialization failed:", error);
+        setUser(null);
       } finally {
         setIsLoading(false);
       }
@@ -60,48 +43,23 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const login = async (email: string, password: string) => {
-    try {
-      // --- Hybrid Logic: Define demo accounts criteria ---
-      const isDemoAccount = email.endsWith('@dev.local') || email === 'admin@demo.com' || email.endsWith('@imsop.io');
-
-      if (isDemoAccount) {
-        // Use Mock Auth (Updates local imsop_token with 'mock_' prefix)
-        const result = await mockAuth.login(email, password);
-        if (result.success && result.user) {
-          // Manually ensuring the token has the mock prefix for initializeAuth logic
-          safeLocalStorage.setItem('imsop_token', `mock_${btoa(email)}`);
-          setUser(result.user);
-        }
-        return result;
-      } else {
-        // Use Real Backend (Render)
-        const result = await apiAuth.login(email, password);
-        if (result.success && result.user) {
-          setUser(result.user);
-        }
-        return result;
-      }
-    } catch (error: any) {
-      return { success: false, error: error.message || 'Authentication failed' };
+    const service = AuthServiceFactory.getService(email);
+    const result = await service.login(email, password);
+    if (result.success && result.user) {
+      setUser(result.user);
     }
+    return result;
   };
 
   const logout = () => {
-    // Clear both possible session types
-    mockAuth.logout();
-    apiAuth.logout();
-    safeLocalStorage.removeItem('imsop_token');
+    const service = AuthServiceFactory.getService();
+    service.logout();
     setUser(null);
   };
 
   const register = async (email: string, password: string, name: string) => {
-    const isDemoAccount = email.endsWith('@dev.local') || email === 'admin@demo.com' || email.endsWith('@imsop.io');
-    
-    if (isDemoAccount) {
-      return { success: false, error: 'Cannot register with a demo email domain.' };
-    }
-    
-    const result = await apiAuth.register(email, password, name);
+    const service = AuthServiceFactory.getService(email);
+    const result = await service.register(email, password, name);
     if (result.success && result.user) {
       setUser(result.user);
     }
@@ -109,40 +67,29 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   const requestPasswordReset = async (email: string) => {
-    const isDemoAccount = email.endsWith('@dev.local') || email === 'admin@demo.com' || email.endsWith('@imsop.io');
-    if (isDemoAccount) return mockAuth.requestPasswordReset(email);
-    return apiAuth.requestPasswordReset(email);
+    const service = AuthServiceFactory.getService(email);
+    return service.requestPasswordReset(email);
   };
 
   const resetPassword = async (token: string, newPassword: string) => {
-    if (token.startsWith('mock_')) return mockAuth.resetPassword(token, newPassword);
-    return apiAuth.resetPassword(token, newPassword);
+    const service = AuthServiceFactory.getService();
+    return service.resetPassword(token, newPassword);
   };
 
   const updateProfile = async (updates: Partial<Pick<User, 'name' | 'avatar'>>) => {
     if (!user) return { success: false, error: 'Not authenticated' };
-    
-    const token = safeLocalStorage.getItem('imsop_token');
-    if (token?.startsWith('mock_')) {
-      const result = mockAuth.updateProfile(user.id, updates);
-      if (result.success && result.user) setUser(result.user);
-      return result;
+    const service = AuthServiceFactory.getService();
+    const result = await service.updateProfile(user.id, updates);
+    if (result.success && result.user) {
+      setUser(result.user);
     }
-    
-    const result = await apiAuth.updateProfile(user.id, updates);
-    if (result.success && result.user) setUser(result.user);
     return result;
   };
 
   const changePassword = async (currentPassword: string, newPassword: string) => {
     if (!user) return { success: false, error: 'Not authenticated' };
-    
-    const token = safeLocalStorage.getItem('imsop_token');
-    if (token?.startsWith('mock_')) {
-      return mockAuth.changePassword(user.id, currentPassword, newPassword);
-    }
-    
-    return apiAuth.changePassword(user.id, currentPassword, newPassword);
+    const service = AuthServiceFactory.getService();
+    return service.changePassword(user.id, currentPassword, newPassword);
   };
 
   return (

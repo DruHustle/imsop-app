@@ -25,9 +25,9 @@ import ResetPassword from "./pages/ResetPassword";
 console.log("Connecting to backend at:", import.meta.env.VITE_API_URL);
 
 function Router() {
-  const { isAuthenticated, loading } = useAuth();
+  const { isAuthenticated, isLoading } = useAuth();
 
-  if (loading) {
+  if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>

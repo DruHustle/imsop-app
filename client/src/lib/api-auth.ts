@@ -1,73 +1,131 @@
-/**
- * API-based authentication service for IMSOP
- * Uses backend API for authentication with Safari private mode fallback
- */
 import { safeLocalStorage, safeSessionStorage } from './storage';
-
-export interface User {
-  id: string;
-  email: string;
-  name: string;
-  role: 'admin' | 'engineer' | 'analyst' | 'user';
-  avatar?: string;
-}
+import { User, AuthResponse, IAuthService } from './auth-types';
 
 const TOKEN_KEY = 'imsop_token';
 const USER_KEY = 'imsop_user';
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
 
-/**
- * Get the appropriate storage based on private mode detection logic in storage.ts
- */
 function getStorage() {
-  // If local storage is not available (Safari Private), use session memory fallback
   return safeLocalStorage.getItem('__storage_test__') === null && 
          !window.localStorage ? safeSessionStorage : safeLocalStorage;
 }
 
-export async function login(email: string, password: string) {
-  const response = await fetch(`${API_BASE_URL}/api/login`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ email, password }),
-  });
+export class ApiAuthService implements IAuthService {
+  private async fetchApi(endpoint: string, options: RequestInit = {}): Promise<any> {
+    const storage = getStorage();
+    const token = storage.getItem(TOKEN_KEY);
+    
+    const headers = {
+      'Content-Type': 'application/json',
+      ...(token ? { 'Authorization': `Bearer ${token}` } : {}),
+      ...options.headers,
+    };
 
-  if (!response.ok) {
-    const error = await response.json().catch(() => ({}));
-    return { success: false, error: error.error || 'Login failed' };
+    const response = await fetch(`${API_BASE_URL}${endpoint}`, { ...options, headers });
+    
+    if (!response.ok) {
+      const error = await response.json().catch(() => ({}));
+      throw new Error(error.error || 'API request failed');
+    }
+
+    return response.json();
   }
 
-  const data = await response.json();
-  const storage = getStorage();
-  
-  storage.setItem(TOKEN_KEY, data.token);
-  storage.setItem(USER_KEY, JSON.stringify(data.user));
-  
-  return { success: true, user: data.user };
-}
+  async login(email: string, password: string): Promise<AuthResponse> {
+    try {
+      const data = await this.fetchApi('/api/auth/login', {
+        method: 'POST',
+        body: JSON.stringify({ email, password }),
+      });
+      
+      const storage = getStorage();
+      storage.setItem(TOKEN_KEY, data.token);
+      storage.setItem(USER_KEY, JSON.stringify(data.user));
+      
+      return { success: true, user: data.user };
+    } catch (error: any) {
+      return { success: false, error: error.message };
+    }
+  }
 
-export async function getCurrentUser() {
-  const storage = getStorage();
-  const token = storage.getItem(TOKEN_KEY);
-  
-  // If no token or it's a mock token, don't hit the API
-  if (!token || token.startsWith('mock_')) return { success: false };
+  logout(): void {
+    const storage = getStorage();
+    storage.removeItem(TOKEN_KEY);
+    storage.removeItem(USER_KEY);
+  }
 
-  try {
-    const response = await fetch(`${API_BASE_URL}/api/me`, {
-      headers: { 'Authorization': `Bearer ${token}` }
-    });
+  async getCurrentUser(): Promise<AuthResponse> {
+    const storage = getStorage();
+    const token = storage.getItem(TOKEN_KEY);
+    if (!token || token.startsWith('mock_')) return { success: false };
 
-    if (!response.ok) return { success: false };
-    const data = await response.json();
-    return { success: true, user: data.user };
-  } catch (error) {
-    return { success: false };
+    try {
+      const data = await this.fetchApi('/api/auth/me');
+      return { success: true, user: data.user };
+    } catch (error) {
+      return { success: false };
+    }
+  }
+
+  async register(email: string, password: string, name: string): Promise<AuthResponse> {
+    try {
+      const data = await this.fetchApi('/api/auth/register', {
+        method: 'POST',
+        body: JSON.stringify({ email, password, name }),
+      });
+      return { success: true, user: data.user };
+    } catch (error: any) {
+      return { success: false, error: error.message };
+    }
+  }
+
+  async requestPasswordReset(email: string): Promise<AuthResponse> {
+    try {
+      const data = await this.fetchApi('/api/auth/request-reset', {
+        method: 'POST',
+        body: JSON.stringify({ email }),
+      });
+      return { success: true, token: data.token };
+    } catch (error: any) {
+      return { success: false, error: error.message };
+    }
+  }
+
+  async resetPassword(token: string, newPassword: string): Promise<AuthResponse> {
+    try {
+      await this.fetchApi('/api/auth/reset-password', {
+        method: 'POST',
+        body: JSON.stringify({ token, newPassword }),
+      });
+      return { success: true };
+    } catch (error: any) {
+      return { success: false, error: error.message };
+    }
+  }
+
+  async updateProfile(userId: string, updates: Partial<Pick<User, 'name' | 'avatar'>>): Promise<AuthResponse> {
+    try {
+      const data = await this.fetchApi(`/api/auth/profile/${userId}`, {
+        method: 'PATCH',
+        body: JSON.stringify(updates),
+      });
+      return { success: true, user: data.user };
+    } catch (error: any) {
+      return { success: false, error: error.message };
+    }
+  }
+
+  async changePassword(userId: string, currentPassword: string, newPassword: string): Promise<AuthResponse> {
+    try {
+      await this.fetchApi(`/api/auth/change-password/${userId}`, {
+        method: 'POST',
+        body: JSON.stringify({ currentPassword, newPassword }),
+      });
+      return { success: true };
+    } catch (error: any) {
+      return { success: false, error: error.message };
+    }
   }
 }
 
-export function logout() {
-  const storage = getStorage();
-  storage.removeItem(TOKEN_KEY);
-  storage.removeItem(USER_KEY);
-}
+export const apiAuthService = new ApiAuthService();
