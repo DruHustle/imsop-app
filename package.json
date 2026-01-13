@@ -7,10 +7,12 @@
   "scripts": {
     "dev": "vite --host",
     "build": "vite build",
+    "start": "NODE_ENV=production node dist/index.js",
     "test ": "vitest run",
     "predeploy": "pnpm build",
     "deploy": "gh-pages -d dist",
     "preview": "vite preview --host"
+  
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
