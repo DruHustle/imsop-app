@@ -1,6 +1,6 @@
 #!/bin/bash
 # IMSOP - Intelligent Multi-Cloud Supply Chain & Operations Platform
-# Deployment Script - (Demo Accounts uses localStorage)
+# Deployment Script 
 # Features: Automated Build, Testing, and Safe Rollback Mechanism
 
 set -e  # Exit on any error
@@ -28,7 +28,7 @@ PREVIOUS_COMMIT=$(git rev-parse origin/gh-pages 2>/dev/null || echo "")
 # Rollback function
 rollback() {
     echo ""
-    echo "⚠️  Deployment failed. Initiating rollback..."
+    echo -e "${RED}⚠️  Deployment failed. Initiating rollback...${NC}"
     
     if [ -z "$PREVIOUS_COMMIT" ]; then
         echo "❌ No previous version available for rollback."
@@ -85,16 +85,16 @@ fi
 echo "📡 Fetching latest changes..."
 git fetch origin
 
-# Install dependencies (using frozen-lockfile for consistency)
+# Install dependencies
 echo "📦 Installing dependencies..."
 pnpm install --frozen-lockfile || pnpm install
 
-# Run tests
+# Run tests (Fixed to show errors)
 echo "🧪 Running tests..."
-if pnpm test 2>/dev/null; then
+if pnpm test --reporter=default; then
     print_success "All tests passed!"
 else
-    echo "❌ Tests failed. Aborting deployment."
+    echo "❌ Tests failed. See report above. Aborting deployment."
     exit 1
 fi
 
@@ -120,7 +120,7 @@ fi
 # Deploy to GitHub Pages
 echo "🚀 Deploying to GitHub Pages..."
 
-# Create a temporary directory for the deployment to avoid workspace clutter
+# Create a temporary directory
 TEMP_DIR=$(mktemp -d)
 trap "rm -rf $TEMP_DIR" EXIT
 
@@ -130,8 +130,11 @@ cp -r dist/* "$TEMP_DIR/"
 # Switch to gh-pages branch
 git checkout gh-pages
 
-# Clear old content and copy new content
-find . -maxdepth 1 -not -name '.git' -not -name '.gitignore' -exec rm -rf {} +
+# Clear old content but PRESERVE the .git folder
+echo "🧹 Cleaning old files..."
+find . -maxdepth 1 -not -name '.git' -not -name '.' -exec rm -rf {} +
+
+# Copy new content
 cp -r "$TEMP_DIR"/* .
 
 # Verify new content was copied
@@ -140,13 +143,9 @@ if [ ! -f "index.html" ]; then
     exit 1
 fi
 
-# Create .gitignore for gh-pages
-cat > .gitignore << 'GITIGNORE'
-node_modules/
-.DS_Store
-Thumbs.db
-*.env
-GITIGNORE
+# Create .gitignore using printf (Fixed: More robust than heredoc)
+printf "node_modules/\n.DS_Store\nThumbs.db\n*.env\n" > .gitignore
+print_success ".gitignore created"
 
 # Commit and push
 git add .
@@ -161,11 +160,7 @@ fi
 # Switch back to main branch
 git checkout main 2>/dev/null || git checkout master
 
-echo ""
-echo "✨ Deployment complete!"
+echo -e "\n${GREEN}✨ Deployment complete!${NC}"
 REPO_URL=$(git remote get-url origin | sed -E 's/.*github.com[:\/]([^\/]+)\/([^\.]+).*/\1\/\2/')
 echo "🌐 Your website is live at: https://$(echo $REPO_URL | cut -d'/' -f1).github.io/$(echo $REPO_URL | cut -d'/' -f2)"
-echo ""
-echo "📝 Data Note:"
-echo "   Since you are using localStorage, user data will persist in the"
-echo "   browser cache but will not sync across devices."
+echo -e "\n📝 Data Note: Using localStorage for demo persistency."
