@@ -10,7 +10,10 @@ dotenv.config();
 const app = express();
 const port = process.env.PORT || 3001;
 
-app.use(cors());
+app.use(cors({
+  origin: process.env.ALLOWED_ORIGIN || 'http://localhost:5173',
+  credentials: true
+}));
 app.use(express.json());
 
 // API Routes
@@ -25,3 +28,4 @@ app.get('/health', (req, res) => {
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
+
