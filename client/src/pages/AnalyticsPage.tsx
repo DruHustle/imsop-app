@@ -57,7 +57,7 @@ const totalDelays = monthlyData.reduce((sum, d) => sum + d.delays, 0);
 const avgOnTimeRate = (monthlyData.reduce((sum, d) => sum + d.onTimeRate, 0) / monthlyData.length).toFixed(1);
 const avgCost = (monthlyData.reduce((sum, d) => sum + d.cost, 0) / monthlyData.length).toFixed(0);
 
-export default function Analytics() {
+export default function AnalyticsPage() {
   const handleExportCSV = () => {
     const exportData: AnalyticsData[] = monthlyData.map(d => ({
       period: d.name,

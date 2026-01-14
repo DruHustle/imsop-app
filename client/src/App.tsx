@@ -1,3 +1,4 @@
+import { Analytics } from '@vercel/analytics/react';
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/NotFound";
@@ -8,7 +9,7 @@ import { ThemeProvider } from "./contexts/ThemeContext";
 import { AuthProvider, useAuth } from "./contexts/AuthContext";
 import Dashboard from "./pages/Dashboard";
 import Operations from "./pages/Operations";
-import Analytics from "./pages/Analytics";
+import AnalyticsPage from "./pages/AnalyticsPage";
 import Assistant from "./pages/Assistant";
 import Infrastructure from "./pages/Infrastructure";
 import Intelligence from "./pages/Intelligence";
@@ -57,7 +58,7 @@ function Router() {
       <Switch>
         <Route path="/" component={Dashboard} />
         <Route path="/operations" component={Operations} />
-        <Route path="/analytics" component={Analytics} />
+        <Route path="/analytics" component={AnalyticsPage} />
         <Route path="/infrastructure" component={Infrastructure} />
         <Route path="/intelligence" component={Intelligence} />
         <Route path="/assistant" component={Assistant} />
