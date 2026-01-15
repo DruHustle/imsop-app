@@ -127,8 +127,54 @@ export default function Layout({ children }: LayoutProps) {
                 <Menu className="w-6 h-6" />
               </Button>
             </SheetTrigger>
-            <SheetContent side="left" className="p-0 bg-black/90 border-r border-white/10 text-foreground w-72">
-              <NavContent />
+            <SheetContent side="left" className="p-0 bg-black/90 border-r border-white/10 text-foreground w-72 flex flex-col">
+              <div className="flex-1 overflow-y-auto">
+                <NavContent />
+              </div>
+              <div className="p-4 border-t border-white/10 bg-black/40">
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center gap-3">
+                    <Avatar className="h-10 w-10 border border-white/20">
+                      <AvatarImage src={user?.avatar || undefined} alt={user?.name || "User"} />
+                      <AvatarFallback className="bg-primary/10 text-primary">
+                        {getInitials(user?.name)}
+                      </AvatarFallback>
+                    </Avatar>
+                    <div className="flex flex-col">
+                      <p className="text-sm font-medium leading-none">{user?.name || "User"}</p>
+                      <p className="text-xs leading-none text-muted-foreground truncate max-w-[150px]">
+                        {user?.email || "No email"}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div className="grid grid-cols-2 gap-2">
+                  <Button 
+                    variant="outline" 
+                    size="sm" 
+                    className="w-full border-white/10 hover:bg-white/5"
+                    onClick={() => {
+                      setLocation("/profile");
+                      setIsMobileMenuOpen(false);
+                    }}
+                  >
+                    <User className="mr-2 h-4 w-4" />
+                    Profile
+                  </Button>
+                  <Button 
+                    variant="outline" 
+                    size="sm" 
+                    className="w-full border-red-500/50 text-red-400 hover:bg-red-500/10 hover:text-red-400"
+                    onClick={() => {
+                      logout();
+                      setIsMobileMenuOpen(false);
+                    }}
+                  >
+                    <LogOut className="mr-2 h-4 w-4" />
+                    Logout
+                  </Button>
+                </div>
+              </div>
             </SheetContent>
           </Sheet>
         </div>
