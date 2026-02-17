@@ -1,0 +1,71 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e2]:
+  - region "Notifications alt+T"
+  - generic [ref=e3]:
+    - complementary [ref=e4]:
+      - generic [ref=e5]:
+        - generic [ref=e6]:
+          - img [ref=e8]
+          - generic [ref=e10]: IMSOP
+        - navigation [ref=e11]:
+          - link "Dashboard" [ref=e12] [cursor=pointer]:
+            - /url: "#/"
+            - generic [ref=e13]:
+              - img [ref=e14]
+              - generic [ref=e19]: Dashboard
+          - link "Operations" [ref=e20] [cursor=pointer]:
+            - /url: "#/operations"
+            - generic [ref=e21]:
+              - img [ref=e22]
+              - generic [ref=e27]: Operations
+          - link "Analytics" [ref=e28] [cursor=pointer]:
+            - /url: "#/analytics"
+            - generic [ref=e29]:
+              - img [ref=e30]
+              - generic [ref=e32]: Analytics
+          - link "Infrastructure" [ref=e33] [cursor=pointer]:
+            - /url: "#/infrastructure"
+            - generic [ref=e34]:
+              - img [ref=e35]
+              - generic [ref=e37]: Infrastructure
+          - link "Intelligence" [ref=e38] [cursor=pointer]:
+            - /url: "#/intelligence"
+            - generic [ref=e39]:
+              - img [ref=e40]
+              - generic [ref=e52]: Intelligence
+          - link "AI Assistant" [ref=e53] [cursor=pointer]:
+            - /url: "#/assistant"
+            - generic [ref=e54]:
+              - img [ref=e55]
+              - generic [ref=e57]: AI Assistant
+        - generic [ref=e58]:
+          - generic [ref=e59]:
+            - generic [ref=e62]: System Status
+            - generic [ref=e63]: All Systems Operational
+          - link "Settings" [ref=e64] [cursor=pointer]:
+            - /url: "#/settings"
+            - generic [ref=e65]:
+              - img [ref=e66]
+              - generic [ref=e69]: Settings
+    - main [ref=e70]:
+      - generic [ref=e71]:
+        - generic [ref=e72]: Welcome back, Admin User
+        - generic [ref=e73]:
+          - button "2" [ref=e74] [cursor=pointer]:
+            - img
+            - generic [ref=e75]: "2"
+          - button "AU" [ref=e76] [cursor=pointer]:
+            - generic [ref=e78]: AU
+      - generic [ref=e83]:
+        - img [ref=e87]
+        - heading "404" [level=1] [ref=e89]
+        - heading "Page Not Found" [level=2] [ref=e90]
+        - paragraph [ref=e91]:
+          - text: Sorry, the page you are looking for doesn't exist.
+          - text: It may have been moved or deleted.
+        - button "Go Home" [ref=e93] [cursor=pointer]:
+          - img
+          - text: Go Home
+```

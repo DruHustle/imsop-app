@@ -1,0 +1,43 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e2]:
+  - region "Notifications alt+T"
+  - generic [ref=e5]:
+    - generic [ref=e6]:
+      - img [ref=e9]
+      - generic [ref=e21]: Welcome to IMSOP
+      - generic [ref=e22]: Intelligent Multi-Cloud Supply Chain & Operations Platform
+    - generic [ref=e23]:
+      - generic [ref=e24]:
+        - generic [ref=e25]:
+          - generic [ref=e26]: Email
+          - generic [ref=e27]:
+            - img [ref=e28]
+            - textbox "Email" [ref=e31]:
+              - /placeholder: Enter your email
+        - generic [ref=e32]:
+          - generic [ref=e33]:
+            - generic [ref=e34]: Password
+            - button "Forgot password?" [ref=e35] [cursor=pointer]
+          - generic [ref=e36]:
+            - img [ref=e37]
+            - textbox "Password" [ref=e40]:
+              - /placeholder: Enter your password
+            - button [ref=e41] [cursor=pointer]:
+              - img [ref=e42]
+        - button "Sign In" [ref=e45] [cursor=pointer]
+      - generic [ref=e46]:
+        - text: Don't have an account?
+        - button "Sign Up" [ref=e47] [cursor=pointer]
+      - generic [ref=e48]:
+        - paragraph [ref=e49]: "Demo Accounts (click to fill):"
+        - generic [ref=e50]:
+          - button "Admin" [ref=e51] [cursor=pointer]
+          - button "Engineer" [ref=e52] [cursor=pointer]
+          - button "Analyst" [ref=e53] [cursor=pointer]
+          - button "Demo" [ref=e54] [cursor=pointer]
+      - generic [ref=e55]:
+        - paragraph [ref=e56]: Protected by IMSOP Identity Service
+        - paragraph [ref=e57]: v2.5.0-stable
+```

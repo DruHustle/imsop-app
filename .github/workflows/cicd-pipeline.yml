@@ -1,0 +1,187 @@
+# ========================================
+# Smart Factory IoT Backend - CI/CD Pipeline
+# ========================================
+# This workflow automates the following:
+# 1. Continuous Integration (CI):
+#    - Restores dependencies
+#    - Builds the solution
+#    - Runs unit and integration tests
+# 2. Continuous Deployment (CD):
+#    - Builds Docker images for each microservice
+#    - Scans images for vulnerabilities (Best Practice)
+#    - Pushes images to Azure Container Registry (ACR)
+# ========================================
+
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  # ----------------------------------------
+  # Job 1: Build and Test
+  # ----------------------------------------
+  build-and-test:
+    name: Build and Test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup PNPM
+        uses: pnpm/action-setup@v3
+        with:
+          version: 10
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "pnpm"
+
+      - name: Restore Dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build Solution
+        run: pnpm build
+
+      - name: Run Tests
+        run: pnpm test
+
+  # ----------------------------------------
+  # Job 2: Docker Build and Push
+  # ----------------------------------------
+  docker-build-push:
+    name: Docker Build and Push
+    needs: build-and-test
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        # Define all microservices to be built
+        include:
+          - service: client
+            image: imsop-client
+            context: .
+            dockerfile: client/Dockerfile
+          - service: server
+            image: imsop-server
+            context: server
+            dockerfile: server/Dockerfile
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Check ACR credentials
+        id: acr
+        run: |
+          REGISTRY="${{ secrets.ACR_REGISTRY }}"
+          if [ -z "$REGISTRY" ]; then
+            REGISTRY="smartfactory.azurecr.io"
+          fi
+
+          if [ -n "${{ secrets.ACR_USERNAME }}" ] && [ -n "${{ secrets.ACR_PASSWORD }}" ]; then
+            echo "enabled=true" >> "$GITHUB_OUTPUT"
+            echo "registry=$REGISTRY" >> "$GITHUB_OUTPUT"
+          else
+            echo "enabled=false" >> "$GITHUB_OUTPUT"
+            echo "registry=$REGISTRY" >> "$GITHUB_OUTPUT"
+            echo "ACR credentials are missing. Skipping image push."
+          fi
+
+      - name: Login to Azure Container Registry
+        id: acr-login
+        if: steps.acr.outputs.enabled == 'true'
+        continue-on-error: true
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ steps.acr.outputs.registry }}
+          username: ${{ secrets.ACR_USERNAME }}
+          password: ${{ secrets.ACR_PASSWORD }}
+
+      - name: Validate ACR login
+        id: acr-auth
+        if: steps.acr.outputs.enabled == 'true'
+        run: |
+          if [ "${{ steps.acr-login.outcome }}" = "success" ]; then
+            echo "enabled=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "enabled=false" >> "$GITHUB_OUTPUT"
+            echo "ACR login failed. Check ACR_USERNAME/ACR_PASSWORD secrets and ACR registry access."
+          fi
+
+      - name: Check Dockerfile
+        id: dockerfile
+        run: |
+          if [ -f "${{ matrix.dockerfile }}" ]; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+            echo "Missing ${{ matrix.dockerfile }} for ${{ matrix.service }}. Skipping this image."
+          fi
+
+      - name: Set image tags
+        id: meta
+        if: steps.acr.outputs.enabled == 'true' && steps.acr-auth.outputs.enabled == 'true' && steps.dockerfile.outputs.exists == 'true'
+        run: |
+          IMAGE="${{ steps.acr.outputs.registry }}/${{ matrix.image }}"
+          echo "sha_tag=$IMAGE:${{ github.sha }}" >> "$GITHUB_OUTPUT"
+          echo "latest_tag=$IMAGE:latest" >> "$GITHUB_OUTPUT"
+
+      - name: Build Docker Image for Scan
+        if: steps.acr.outputs.enabled == 'true' && steps.acr-auth.outputs.enabled == 'true' && steps.dockerfile.outputs.exists == 'true'
+        uses: docker/build-push-action@v5
+        with:
+          context: ${{ matrix.context }}
+          file: ${{ matrix.dockerfile }}
+          push: false
+          load: true
+          tags: ${{ steps.meta.outputs.sha_tag }}
+          build-args: |
+            VITE_BASE_PATH=/
+            VITE_API_URL=${{ secrets.VITE_API_URL }}
+            VITE_GOOGLE_MAPS_API_KEY=${{ secrets.VITE_GOOGLE_MAPS_API_KEY }}
+          cache-from: type=gha
+
+      - name: Scan image for vulnerabilities
+        if: steps.acr.outputs.enabled == 'true' && steps.acr-auth.outputs.enabled == 'true' && steps.dockerfile.outputs.exists == 'true'
+        uses: aquasecurity/trivy-action@0.28.0
+        with:
+          image-ref: ${{ steps.meta.outputs.sha_tag }}
+          format: table
+          exit-code: '1'
+          ignore-unfixed: true
+          severity: CRITICAL,HIGH
+
+      - name: Build and Push Docker Image
+        if: steps.acr.outputs.enabled == 'true' && steps.acr-auth.outputs.enabled == 'true' && steps.dockerfile.outputs.exists == 'true'
+        uses: docker/build-push-action@v5
+        with:
+          context: ${{ matrix.context }}
+          file: ${{ matrix.dockerfile }}
+          push: true
+          build-args: |
+            VITE_BASE_PATH=/
+            VITE_API_URL=${{ secrets.VITE_API_URL }}
+            VITE_GOOGLE_MAPS_API_KEY=${{ secrets.VITE_GOOGLE_MAPS_API_KEY }}
+          # Tag with Git SHA and 'latest'
+          tags: |
+            ${{ steps.meta.outputs.sha_tag }}
+            ${{ steps.meta.outputs.latest_tag }}
+          # Cache optimization for faster builds
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
