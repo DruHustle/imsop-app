@@ -4,10 +4,11 @@ import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react';
 import path from "path";
 
+const basePath = process.env.VITE_BASE_PATH || '/imsop-app/';
 
 export default defineConfig({
   plugins: [react(), tailwindcss()],
-  base: '/imsop-app/',
+  base: basePath,
   resolve: {
     alias: {
       "@": path.resolve(import.meta.dirname, "client", "src"),
