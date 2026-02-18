@@ -52,11 +52,7 @@ jobs:
         pnpm build
 
     - name: Run Tests
-      # We use 'pnpm test -- --reporter=default' to pass the reporter flag 
-      # directly to the underlying runner (Vitest/Jest)
-      run: |
-        cd server
-        pnpm test -- --reporter=default
+      run: pnpm -C server test
 
   # Optional: Add a deploy job if you have a target environment
   # deploy:
