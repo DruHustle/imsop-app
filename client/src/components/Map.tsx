@@ -55,7 +55,7 @@
 
 /// <reference types="@types/google.maps" />
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { usePersistFn } from "@/hooks/usePersistFn";
 import { cn } from "@/lib/utils";
 
@@ -63,49 +63,73 @@ declare global {
   interface Window {
     google?: typeof google;
     initGoogleMaps?: () => void;
+    gm_authFailure?: () => void;
   }
 }
 
 // Use environment variable for Google Maps API key
 // Users should set VITE_GOOGLE_MAPS_API_KEY in their .env file
 const API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY || "";
+let mapScriptPromise: Promise<void> | null = null;
 
 function loadMapScript(): Promise<void> {
-  return new Promise((resolve, reject) => {
-    // Check if already loaded
-    if (window.google?.maps) {
-      resolve();
-      return;
-    }
+  if (window.google?.maps) return Promise.resolve();
+  if (!API_KEY) return Promise.reject(new Error("Google Maps API key is not configured"));
+  if (mapScriptPromise) return mapScriptPromise;
 
-    // Check if script is already loading
-    const existingScript = document.querySelector('script[src*="maps.googleapis.com"]');
-    if (existingScript) {
-      existingScript.addEventListener("load", () => resolve());
-      return;
-    }
+  const scriptPromise = new Promise<void>((resolve, reject) => {
+    let settled = false;
+    let timeoutId: number | undefined;
+    const previousInit = window.initGoogleMaps;
 
-    if (!API_KEY) {
-      console.warn("Google Maps API key not configured. Set VITE_GOOGLE_MAPS_API_KEY in your .env file.");
-      // Still resolve to allow the component to render (will show error in map container)
-      resolve();
-      return;
-    }
+    const finish = (error?: Error) => {
+      if (settled) return;
+      settled = true;
+      if (timeoutId !== undefined) window.clearTimeout(timeoutId);
+      if (window.initGoogleMaps === onReady) window.initGoogleMaps = previousInit;
 
-    window.initGoogleMaps = () => {
-      resolve();
+      if (error) reject(error);
+      else resolve();
     };
 
-    const script = document.createElement("script");
-    script.src = `https://maps.googleapis.com/maps/api/js?key=${API_KEY}&v=weekly&libraries=marker,places,geocoding,geometry&callback=initGoogleMaps`;
-    script.async = true;
-    script.defer = true;
-    script.onerror = () => {
-      console.error("Failed to load Google Maps script");
-      reject(new Error("Failed to load Google Maps"));
+    const onReady = () => {
+      if (window.google?.maps) finish();
+      else finish(new Error("Google Maps loaded without initializing"));
     };
-    document.head.appendChild(script);
+    const onLoad = () => {
+      if (window.google?.maps) finish();
+      else finish(new Error("Google Maps loaded without initializing"));
+    };
+    const onError = () => finish(new Error("Failed to load Google Maps"));
+
+    const existingScript = document.querySelector<HTMLScriptElement>(
+      'script[src*="maps.googleapis.com/maps/api/js"]',
+    );
+    const script = existingScript ?? document.createElement("script");
+
+    if (!existingScript) {
+      window.initGoogleMaps = onReady;
+      script.src = `https://maps.googleapis.com/maps/api/js?key=${API_KEY}&v=weekly&libraries=marker,places,geocoding,geometry&callback=initGoogleMaps`;
+      script.async = true;
+      script.defer = true;
+    }
+
+    script.addEventListener("load", onLoad, { once: true });
+    script.addEventListener("error", onError, { once: true });
+    timeoutId = window.setTimeout(
+      () => finish(new Error("Timed out while loading Google Maps")),
+      15_000,
+    );
+
+    if (!existingScript) document.head.appendChild(script);
   });
+
+  mapScriptPromise = scriptPromise.catch((error: unknown) => {
+    mapScriptPromise = null;
+    throw error;
+  });
+
+  return mapScriptPromise;
 }
 
 interface MapViewProps {
@@ -123,35 +147,20 @@ export function MapView({
 }: MapViewProps) {
   const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<google.maps.Map | null>(null);
+  const authenticationFailed = useRef(false);
+  const [status, setStatus] = useState<"loading" | "google" | "fallback">("loading");
 
-  const init = usePersistFn(async () => {
+  const init = usePersistFn(async (isActive: () => boolean) => {
+    if (!API_KEY) {
+      if (isActive()) setStatus("fallback");
+      return;
+    }
+
     try {
       await loadMapScript();
-      
-      if (!mapContainer.current) {
-        console.error("Map container not found");
-        return;
-      }
-
-      if (!window.google?.maps) {
-        // Show placeholder if Maps API is not available
-        if (mapContainer.current) {
-          mapContainer.current.innerHTML = `
-            <div class="flex items-center justify-center h-full glass-panel rounded-lg border border-white/10">
-              <div class="text-center p-6 space-y-3">
-                <div class="flex justify-center mb-2">
-                  <svg class="w-12 h-12 text-primary/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"></path>
-                  </svg>
-                </div>
-                <p class="text-muted-foreground font-medium">Map Visualization Unavailable</p>
-                <p class="text-xs text-muted-foreground/70">Google Maps API key not configured</p>
-                <p class="text-xs text-muted-foreground/50 mt-2">Set <code class="bg-white/5 px-1 py-0.5 rounded">VITE_GOOGLE_MAPS_API_KEY</code> in .env to enable</p>
-              </div>
-            </div>
-          `;
-        }
-        return;
+      if (!isActive() || authenticationFailed.current) return;
+      if (!mapContainer.current || !window.google?.maps) {
+        throw new Error("Google Maps could not initialize the map");
       }
 
       map.current = new window.google.maps.Map(mapContainer.current, {
@@ -163,20 +172,56 @@ export function MapView({
         streetViewControl: true,
         mapId: "DEMO_MAP_ID",
       });
-      
-      if (onMapReady) {
-        onMapReady(map.current);
-      }
+
+      setStatus("google");
+      onMapReady?.(map.current);
     } catch (error) {
       console.error("Failed to initialize map:", error);
+      if (isActive()) setStatus("fallback");
     }
   });
 
   useEffect(() => {
-    init();
+    let active = true;
+    const previousAuthFailure = window.gm_authFailure;
+    const handleAuthFailure = () => {
+      previousAuthFailure?.();
+      authenticationFailed.current = true;
+      console.error("Google Maps authentication failed; showing OpenStreetMap instead.");
+      if (active) setStatus("fallback");
+    };
+
+    window.gm_authFailure = handleAuthFailure;
+    init(() => active);
+
+    return () => {
+      active = false;
+      if (window.gm_authFailure === handleAuthFailure) {
+        window.gm_authFailure = previousAuthFailure;
+      }
+      map.current = null;
+    };
   }, [init]);
 
   return (
-    <div ref={mapContainer} className={cn("w-full h-[500px]", className)} />
+    <div className={cn("relative w-full h-[500px]", className)}>
+      <iframe
+        title="Global activity map powered by OpenStreetMap"
+        src="https://www.openstreetmap.org/export/embed.html?bbox=-180%2C-85%2C180%2C85&layer=mapnik"
+        className={cn(
+          "absolute inset-0 h-full w-full border-0",
+          status === "google" ? "invisible" : "visible",
+        )}
+        loading="eager"
+      />
+      <div
+        ref={mapContainer}
+        className={cn(
+          "absolute inset-0 h-full w-full",
+          status === "google" ? "visible" : "invisible",
+        )}
+        aria-hidden={status !== "google"}
+      />
+    </div>
   );
 }

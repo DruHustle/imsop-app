@@ -98,7 +98,7 @@ export default function Dashboard() {
         </Card>
 
         {/* Interactive Map */}
-        <Card className="md:col-span-3 glass border-white/5 flex flex-col h-[350px] md:h-auto">
+        <Card className="md:col-span-3 glass border-white/5 flex flex-col h-[350px]">
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-bold uppercase tracking-wider">Global Activity Map</CardTitle>
           </CardHeader>
