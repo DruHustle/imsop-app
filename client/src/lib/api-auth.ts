@@ -9,22 +9,25 @@ export class ApiAuthService implements IAuthService {
   private async fetchApi(path: string, opts: RequestInit = {}) {
     const storage = getStorage(), token = storage.getItem(TOKEN_KEY);
     const res = await fetch(`${API_BASE}${path}`, {
-      ...opts, headers: { 'Content-Type': 'application/json', ...(token && { Authorization: `Bearer ${token}` }), ...opts.headers }
+      ...opts, credentials: 'include', headers: { 'Content-Type': 'application/json', ...(token?.startsWith('mock_') && { Authorization: `Bearer ${token}` }), ...opts.headers }
     });
     if (!res.ok) throw new Error((await res.json().catch(() => ({}))).error || 'API failed');
     return res.json();
   }
   async login(email: string, password: string): Promise<AuthResponse> {
     try {
-      const { token, user } = await this.fetchApi('/api/auth/login', { method: 'POST', body: JSON.stringify({ email, password }) });
-      const s = getStorage(); s.setItem(TOKEN_KEY, token); s.setItem(USER_KEY, JSON.stringify(user));
+      const { user } = await this.fetchApi('/api/auth/login', { method: 'POST', body: JSON.stringify({ email, password }) });
+      const s = getStorage(); s.removeItem(TOKEN_KEY); s.setItem(USER_KEY, JSON.stringify(user));
       return { success: true, user };
     } catch (e: any) { return { success: false, error: e.message }; }
   }
-  logout = () => [TOKEN_KEY, USER_KEY].forEach(k => getStorage().removeItem(k));
+  logout = () => {
+    void this.fetchApi('/api/auth/logout', { method: 'POST' }).catch(() => undefined);
+    [TOKEN_KEY, USER_KEY].forEach(k => getStorage().removeItem(k));
+  };
   async getCurrentUser(): Promise<AuthResponse> {
     const t = getStorage().getItem(TOKEN_KEY);
-    if (!t || t.startsWith('mock_')) return { success: false };
+    if (t?.startsWith('mock_')) return { success: false };
     try { return { success: true, user: (await this.fetchApi('/api/auth/me')).user }; } catch { return { success: false }; }
   }
   register = async (email: string, password: string, name: string) => this.wrap(() => this.fetchApi('/api/auth/register', { method: 'POST', body: JSON.stringify({ email, password, name }) }));

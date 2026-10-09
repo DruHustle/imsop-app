@@ -37,13 +37,13 @@ export default function Layout({ children }: LayoutProps) {
   const { user, logout } = useAuth();
 
   const navItems = [
-    { href: "/", icon: LayoutDashboard, label: "Dashboard" },
-    { href: "/operations", icon: Truck, label: "Operations" },
-    { href: "/analytics", icon: BarChart3, label: "Analytics" },
-    { href: "/infrastructure", icon: Activity, label: "Infrastructure" },
-    { href: "/intelligence", icon: BrainCircuit, label: "Intelligence" },
-    { href: "/assistant", icon: MessageSquare, label: "AI Assistant" },
-  ];
+    { href: "/", icon: LayoutDashboard, label: "Dashboard", roles: ['admin', 'engineer', 'analyst', 'user'] },
+    { href: "/operations", icon: Truck, label: "Operations", roles: ['admin', 'engineer', 'analyst', 'user'] },
+    { href: "/analytics", icon: BarChart3, label: "Analytics", roles: ['admin', 'analyst'] },
+    { href: "/infrastructure", icon: Activity, label: "Infrastructure", roles: ['admin', 'engineer'] },
+    { href: "/intelligence", icon: BrainCircuit, label: "Intelligence", roles: ['admin', 'engineer', 'analyst'] },
+    { href: "/assistant", icon: MessageSquare, label: "AI Assistant", roles: ['admin', 'engineer', 'analyst', 'user'] },
+  ].filter(item => user && item.roles.includes(user.role));
 
   const getInitials = (name: string | null | undefined) => {
     if (!name) return "U";
@@ -123,7 +123,7 @@ export default function Layout({ children }: LayoutProps) {
           <NotificationCenter />
           <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="icon">
+              <Button variant="ghost" size="icon" aria-label="Open navigation menu">
                 <Menu className="w-6 h-6" />
               </Button>
             </SheetTrigger>

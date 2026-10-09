@@ -38,6 +38,7 @@ export default function Settings() {
                   variant={theme === 'light' ? 'secondary' : 'ghost'} 
                   size="sm" 
                   onClick={() => setTheme('light')}
+                  aria-label="Use light theme"
                   className="h-8 w-8 p-0"
                 >
                   <Sun className="w-4 h-4" />
@@ -46,6 +47,7 @@ export default function Settings() {
                   variant={theme === 'system' ? 'secondary' : 'ghost'} 
                   size="sm" 
                   onClick={() => setTheme('system')}
+                  aria-label="Use system theme"
                   className="h-8 w-8 p-0"
                 >
                   <Monitor className="w-4 h-4" />
@@ -54,6 +56,7 @@ export default function Settings() {
                   variant={theme === 'dark' ? 'secondary' : 'ghost'} 
                   size="sm" 
                   onClick={() => setTheme('dark')}
+                  aria-label="Use dark theme"
                   className="h-8 w-8 p-0"
                 >
                   <Moon className="w-4 h-4" />
@@ -128,14 +131,14 @@ export default function Settings() {
                 <Label className="text-base">Two-Factor Authentication</Label>
                 <p className="text-sm text-muted-foreground">Add an extra layer of security to your account.</p>
               </div>
-              <Button variant="outline" className="border-white/10 hover:bg-white/5">Enable 2FA</Button>
+              <Button variant="outline" className="border-white/10" disabled title="Two-factor setup is not available in demo mode">Enable 2FA</Button>
             </div>
             <div className="flex items-center justify-between">
               <div className="space-y-0.5">
                 <Label className="text-base">API Keys</Label>
                 <p className="text-sm text-muted-foreground">Manage access keys for external integrations.</p>
               </div>
-              <Button variant="outline" className="border-white/10 hover:bg-white/5">Manage Keys</Button>
+              <Button variant="outline" className="border-white/10" disabled title="API-key management is not available in demo mode">Manage Keys</Button>
             </div>
           </CardContent>
         </Card>

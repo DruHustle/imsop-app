@@ -1,8 +1,0 @@
-node_modules
-dist
-drizzle
-.env
-.env.*
-*.log
-.git
-.github

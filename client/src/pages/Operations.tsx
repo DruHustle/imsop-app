@@ -30,8 +30,13 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 import { exportShipmentsToCSV, exportShipmentsToPDF, type ShipmentData } from "@/lib/export";
+import { useEffect, useMemo, useState } from "react";
+import { safeLocalStorage } from "@/lib/storage";
+import { MapView } from "@/components/Map";
 
-const shipments = [
+type LogisticsShipment = ShipmentData & { type: string; latitude?: number; longitude?: number };
+
+const demoShipments: LogisticsShipment[] = [
   {
     id: "SHP-8829",
     origin: "Hamburg, DE",
@@ -41,7 +46,7 @@ const shipments = [
     eta: "2023-10-24",
     type: "Sea Freight",
     weight: "12,500 kg",
-    value: "$45,000"
+    value: "$45,000", latitude: 40.7128, longitude: -74.0060
   },
   {
     id: "SHP-9921",
@@ -52,7 +57,7 @@ const shipments = [
     eta: "2023-11-02",
     type: "Sea Freight",
     weight: "8,200 kg",
-    value: "$32,000"
+    value: "$32,000", latitude: 34.0522, longitude: -118.2437
   },
   {
     id: "SHP-1002",
@@ -63,7 +68,7 @@ const shipments = [
     eta: "2023-11-05",
     type: "Air Freight",
     weight: "1,500 kg",
-    value: "$78,000"
+    value: "$78,000", latitude: 37.7749, longitude: -122.4194
   },
   {
     id: "SHP-3321",
@@ -74,7 +79,7 @@ const shipments = [
     eta: "2023-10-30",
     type: "Air Freight",
     weight: "850 kg",
-    value: "$15,000"
+    value: "$15,000", latitude: 25.2048, longitude: 55.2708
   },
   {
     id: "SHP-4452",
@@ -85,7 +90,7 @@ const shipments = [
     eta: "2023-10-28",
     type: "Air Freight",
     weight: "2,100 kg",
-    value: "$28,000"
+    value: "$28,000", latitude: 1.3521, longitude: 103.8198
   },
   {
     id: "SHP-5567",
@@ -96,7 +101,7 @@ const shipments = [
     eta: "2023-11-15",
     type: "Sea Freight",
     weight: "25,000 kg",
-    value: "$120,000"
+    value: "$120,000", latitude: -33.8688, longitude: 151.2093
   },
   {
     id: "SHP-6678",
@@ -107,7 +112,7 @@ const shipments = [
     eta: "2023-10-20",
     type: "Sea Freight",
     weight: "18,000 kg",
-    value: "$95,000"
+    value: "$95,000", latitude: 49.2827, longitude: -123.1207
   },
 ];
 
@@ -122,6 +127,46 @@ const getStatusColor = (status: string) => {
 };
 
 export default function Operations() {
+  const [shipments, setShipments] = useState<LogisticsShipment[]>(demoShipments);
+  const [query, setQuery] = useState("");
+  const [dataSource, setDataSource] = useState<"demo" | "live" | "error">("demo");
+
+  useEffect(() => {
+    const token = safeLocalStorage.getItem('imsop_token');
+    if (token?.startsWith('mock_')) return;
+    const baseUrl = (import.meta.env.VITE_API_URL || 'http://localhost:3001').replace(/\/$/, '');
+    fetch(`${baseUrl}/api/operations/shipments`, { credentials: 'include' })
+      .then(async response => {
+        if (!response.ok) throw new Error(`API returned ${response.status}`);
+        return response.json();
+      })
+      .then((rows: any[]) => {
+        setShipments(rows.map(row => ({
+          id: row.trackingNumber ?? row.tracking_number ?? String(row.id),
+          origin: row.origin,
+          destination: row.destination,
+          status: row.status,
+          carrier: row.carrier ?? 'Unassigned',
+          eta: row.estimatedArrival ?? row.estimated_arrival ?? 'Not scheduled',
+          type: row.type ?? 'Freight',
+          weight: row.weight ?? 'Not reported',
+          value: row.value ?? 'Not reported',
+          latitude: row.latitude == null ? undefined : Number(row.latitude),
+          longitude: row.longitude == null ? undefined : Number(row.longitude),
+        })));
+        setDataSource('live');
+      })
+      .catch(error => {
+        console.error('Unable to load logistics assets', error);
+        setShipments([]);
+        setDataSource('error');
+      });
+  }, []);
+
+  const visibleShipments = useMemo(() => {
+    const normalized = query.trim().toLowerCase();
+    return normalized ? shipments.filter(shipment => Object.values(shipment).some(value => String(value).toLowerCase().includes(normalized))) : shipments;
+  }, [query, shipments]);
   const handleExportCSV = () => {
     const exportData: ShipmentData[] = shipments.map(s => ({
       id: s.id,
@@ -164,6 +209,9 @@ export default function Operations() {
             Operations Center
           </h1>
           <p className="text-muted-foreground mt-1">Manage shipments, orders, and logistics assets.</p>
+          <p className={dataSource === 'error' ? 'text-xs text-red-400 mt-1' : 'text-xs text-green-400 mt-1'} role="status">
+            {dataSource === 'live' ? 'Connected to live logistics API' : dataSource === 'demo' ? 'Demo logistics data' : 'Logistics API unavailable'}
+          </p>
         </div>
         <div className="flex gap-2">
           <DropdownMenu>
@@ -184,7 +232,7 @@ export default function Operations() {
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
-          <Button className="bg-primary hover:bg-primary/80 text-primary-foreground shadow-[0_0_15px_var(--primary)]">
+          <Button disabled title="Shipment creation requires a connected production logistics provider" className="bg-primary text-primary-foreground">
             New Shipment
           </Button>
         </div>
@@ -227,6 +275,18 @@ export default function Operations() {
         </Card>
       </div>
 
+      <Card className="glass border-white/5 overflow-hidden">
+        <CardHeader><CardTitle className="font-display tracking-wide">Logistics Asset Map</CardTitle></CardHeader>
+        <CardContent className="p-0 h-[280px] sm:h-[360px]">
+          <MapView className="h-full" assets={visibleShipments.flatMap(shipment =>
+            shipment.latitude == null || shipment.longitude == null ? [] : [{
+              id: shipment.id, label: shipment.status,
+              position: { lat: shipment.latitude, lng: shipment.longitude },
+            }]
+          )} />
+        </CardContent>
+      </Card>
+
       {/* Main Table Card */}
       <Card className="glass border-white/5">
         <CardHeader>
@@ -238,6 +298,8 @@ export default function Operations() {
                 <Input 
                   type="search" 
                   placeholder="Search shipments..." 
+                  value={query}
+                  onChange={event => setQuery(event.target.value)}
                   className="pl-9 bg-white/5 border-white/10 focus:border-primary/50"
                 />
               </div>
@@ -264,7 +326,7 @@ export default function Operations() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {shipments.map((shipment) => (
+                {visibleShipments.map((shipment) => (
                   <TableRow key={shipment.id} className="border-white/10 hover:bg-white/5 transition-colors">
                     <TableCell className="font-medium font-mono text-primary">{shipment.id}</TableCell>
                     <TableCell>{shipment.origin}</TableCell>

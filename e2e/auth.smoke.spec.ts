@@ -23,8 +23,14 @@ test.describe('imsop-app auth smoke', () => {
     await page.getByRole('button', { name: /^sign in$/i }).first().click();
 
     await expect(page.getByRole('heading', { name: /operational overview/i })).toBeVisible();
+    await expect(page.getByTitle(/global activity map powered by openstreetmap/i)).toBeVisible();
 
-    await page.getByRole('link', { name: /operations/i }).first().click();
+    if ((page.viewportSize()?.width ?? 1024) < 768) {
+      await page.getByRole('button', { name: /open navigation menu/i }).click();
+      await page.getByRole('link', { name: /operations/i }).last().click();
+    } else {
+      await page.getByRole('link', { name: /operations/i }).first().click();
+    }
     await expect(page).toHaveURL(/#\/operations/);
     await expect(page.getByText(/operations center/i)).toBeVisible();
   });

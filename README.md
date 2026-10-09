@@ -1,5 +1,7 @@
 # IMSOP - Intelligent Multi-Cloud Supply Chain & Operations Platform
 
+> Repository boundary: this repository contains frontend artifacts only. The API, database migrations, deployment manifests, backend environment, and backend documentation live in the sibling `imsop-app-backend` repository. Backend commands shown later in this historical README must be run from that repository.
+
 **Version:** 1.0.0  
 **Author:** Andrew Gotora  
 **Email:** andrewgotora@yahoo.com
@@ -119,32 +121,7 @@ imsop-app/
 │   │   └── index.css            # Global styles
 │   ├── public/                  # Static assets
 │   └── index.html               # HTML template
-│
-├── server/                      # Backend Node.js application
-│   ├── src/
-│   │   ├── config/              # Configuration files
-│   │   │   └── db.ts            # Database connection
-│   │   ├── controllers/         # Request handlers
-│   │   │   ├── authController.ts
-│   │   │   ├── operationsController.ts
-│   │   │   └── telemetryController.ts
-│   │   ├── middleware/          # Express middleware
-│   │   │   └── auth.ts          # Authentication middleware
-│   │   ├── models/              # Database models
-│   │   │   └── schema.ts        # Drizzle ORM schema
-│   │   ├── routes/              # API routes
-│   │   ├── services/            # Business logic
-│   │   └── index.ts             # Server entry point
-│   ├── drizzle.config.ts        # Drizzle ORM configuration
-│   └── tsconfig.json            # TypeScript configuration
-│
-├── infrastructure/              # Infrastructure as Code
-│   ├── terraform/               # Terraform configurations
-│   ├── kubernetes/              # Kubernetes manifests
-│   └── docker/                  # Docker configurations
-│
 ├── e2e/                         # End-to-end tests
-├── docs/                        # Documentation files
 ├── package.json                 # Project dependencies
 ├── tsconfig.json                # Root TypeScript configuration
 ├── vite.config.mts              # Vite configuration
@@ -172,7 +149,7 @@ imsop-app/
 
 ```bash
 # 1. Set up development database
-./setup-dev-db.sh
+cd ../imsop-app-backend && ./setup-dev-db.sh
 
 # 2. Copy environment file
 cp .env.dev .env
@@ -190,7 +167,7 @@ The application will be available at `http://localhost:5173` (frontend) and `htt
 
 #### Development Database
 ```bash
-./setup-dev-db.sh
+cd ../imsop-app-backend && ./setup-dev-db.sh
 ```
 
 Creates `imsop_dev` database with:
@@ -207,7 +184,7 @@ Creates `imsop_dev` database with:
 
 #### Test Database
 ```bash
-./setup-test-db.sh
+cd ../imsop-app-backend && ./setup-test-db.sh
 ```
 
 Creates `imsop_test` database for running tests.
@@ -221,7 +198,7 @@ export DB_HOST=localhost
 export DB_PORT=3306
 export DB_USER=your_user
 export DB_PASSWORD=your_password
-./setup-dev-db.sh
+cd ../imsop-app-backend && ./setup-dev-db.sh
 ```
 
 ### Demo Accounts
@@ -295,32 +272,17 @@ LOG_LEVEL=debug
 
 ```bash
 # Development
-pnpm dev              # Start development server
-pnpm dev:client       # Start frontend only
-pnpm dev:server       # Start backend only
+pnpm dev              # Start the frontend development server
 
 # Building
 pnpm build            # Build for production
-pnpm build:client     # Build frontend only
-pnpm build:server     # Build backend only
 
 # Testing
 pnpm test             # Run test suite
-pnpm test:watch       # Run tests in watch mode
-pnpm test:ui          # Run tests with UI
-
-# Code Quality
-pnpm check            # TypeScript type checking
-pnpm lint             # Run ESLint
-pnpm format           # Format code with Prettier
-
-# Database
-pnpm db:generate      # Generate Drizzle migrations
-pnpm db:migrate       # Run database migrations
-pnpm db:push          # Push schema changes to database
+pnpm e2e              # Run Playwright browser tests
 
 # Production
-pnpm start            # Start production server
+pnpm start            # Preview the production frontend
 ./deploy.sh           # Automated deployment script
 ```
 
@@ -351,7 +313,7 @@ lsof -ti:3000 | xargs kill -9
 ```bash
 # Reset database
 mysql -u root -p -e "DROP DATABASE imsop_dev;"
-./setup-dev-db.sh
+cd ../imsop-app-backend && ./setup-dev-db.sh
 ```
 
 ### Deployment Architecture

@@ -34,7 +34,18 @@ jobs:
           cache: pnpm
 
       - name: Install dependencies
-        run: pnpm install
+        run: pnpm install --frozen-lockfile
+
+      - name: Run unit tests
+        run: pnpm test
+
+      - name: Install Playwright Chromium
+        run: pnpm exec playwright install --with-deps chromium
+
+      - name: Run desktop and mobile end-to-end tests
+        env:
+          VITE_BASE_PATH: /
+        run: pnpm e2e
 
       - name: Build
         env:

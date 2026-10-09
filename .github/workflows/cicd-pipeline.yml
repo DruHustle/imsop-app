@@ -48,22 +48,21 @@ jobs:
       - name: Restore Dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Restore Server Dependencies
-        run: pnpm -C server install --frozen-lockfile
-
       - name: Build Solution
         env:
           VITE_BASE_PATH: /
         run: pnpm build
 
-      - name: Build Server
-        run: pnpm -C server build
-
       - name: Run Tests
         run: pnpm test
 
-      - name: Run Server Tests
-        run: pnpm -C server test
+      - name: Install Playwright Chromium
+        run: pnpm exec playwright install --with-deps chromium
+
+      - name: Run End-to-End Tests
+        env:
+          VITE_BASE_PATH: /
+        run: pnpm e2e
 
   # ----------------------------------------
   # Job 2: Vercel Deploy

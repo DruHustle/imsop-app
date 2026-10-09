@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # IMSOP - Development Setup Script
-# This script sets up the development environment, starts the database, and runs the dev server
+# This script sets up and runs the frontend development server.
 
 set -e  # Exit on error
 
@@ -59,11 +59,6 @@ setup_environment() {
         if [ -f ".env.example" ]; then
             print_info "Creating .env from .env.example..."
             cp .env.example .env
-            # Set local defaults for development
-            sed -i 's|DATABASE_URL=.*|DATABASE_URL="mysql://root@localhost:3306/imsop"|' .env
-            sed -i 's|VITE_API_URL=.*|VITE_API_URL="http://localhost:3000/api"|' .env
-            sed -i 's|BACKEND_URL=.*|BACKEND_URL="http://localhost:3000"|' .env
-            sed -i 's|NODE_ENV=.*|NODE_ENV=development|' .env
             print_success ".env created with local development defaults"
         else
             print_error ".env.example not found"
@@ -87,19 +82,6 @@ install_dependencies() {
     fi
 }
 
-# Setup database
-setup_database() {
-    print_header "Setting Up Database"
-    
-    if [ -f "./setup-dev-db.sh" ]; then
-        print_info "Running database setup script..."
-        chmod +x ./setup-dev-db.sh
-        ./setup-dev-db.sh || print_warning "Database setup failed. Make sure MySQL is running."
-    else
-        print_warning "setup-dev-db.sh not found, skipping database setup"
-    fi
-}
-
 # Start development server
 start_dev_server() {
     print_header "Starting Development Server"
@@ -107,7 +89,7 @@ start_dev_server() {
     echo ""
     echo -e "${GREEN}Development environment is ready!${NC}"
     echo ""
-    echo "Access the application at: http://localhost:3000"
+    echo "Access the application at: http://localhost:5173"
     echo ""
     
     pnpm dev
@@ -120,7 +102,6 @@ main() {
     check_prerequisites
     setup_environment
     install_dependencies
-    setup_database
     start_dev_server
 }
 

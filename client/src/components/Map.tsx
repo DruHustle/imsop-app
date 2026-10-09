@@ -137,6 +137,7 @@ interface MapViewProps {
   initialCenter?: google.maps.LatLngLiteral;
   initialZoom?: number;
   onMapReady?: (map: google.maps.Map) => void;
+  assets?: Array<{ id: string; label: string; position: google.maps.LatLngLiteral }>;
 }
 
 export function MapView({
@@ -144,6 +145,7 @@ export function MapView({
   initialCenter = { lat: 37.7749, lng: -122.4194 },
   initialZoom = 12,
   onMapReady,
+  assets = [],
 }: MapViewProps) {
   const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<google.maps.Map | null>(null);
@@ -174,6 +176,13 @@ export function MapView({
       });
 
       setStatus("google");
+      assets.slice(0, 100).forEach(asset => {
+        new window.google.maps.Marker({
+          map: map.current,
+          position: asset.position,
+          title: `${asset.label} (${asset.id})`,
+        });
+      });
       onMapReady?.(map.current);
     } catch (error) {
       console.error("Failed to initialize map:", error);

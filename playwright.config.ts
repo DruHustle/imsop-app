@@ -16,6 +16,10 @@ export default defineConfig({
       name: 'chromium',
       use: { ...devices['Desktop Chrome'] },
     },
+    {
+      name: 'mobile-chromium',
+      use: { ...devices['Pixel 5'] },
+    },
   ],
   webServer: {
     command: 'VITE_BASE_PATH=/ pnpm build && VITE_BASE_PATH=/ pnpm preview --host 127.0.0.1 --port 4173',
