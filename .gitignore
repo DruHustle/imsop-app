@@ -12,7 +12,8 @@ build/
 .env.local
 .env.dev
 .env.test
-.env.production
+# Production contains public Vite build-time configuration only.
+!.env.production
 
 # IDE and editor files
 .vscode/

@@ -8,7 +8,7 @@
 
 ## 🚀 Quick Links
 
-- [Live Demo](https://imsop-app.onrender.com/) - View the live demo
+- [Live Demo](https://imsop-app.vercel.app/) - View the live demo
 - [GitHub Repository](https://github.com/DruHustle/imsop-app) - View source code
 - [Issues](https://github.com/DruHustle/imsop-app/issues) - Report bugs or request features
 
@@ -231,7 +231,7 @@ Then configure the following variables:
 VITE_API_URL=http://localhost:3001
 
 # For local development with production backend
-# VITE_API_URL=https://imsop-app.onrender.com
+# VITE_API_URL=https://imsop-backend-api.onrender.com
 
 # Google Maps API (Optional - for map visualization)
 # Get your API key from: https://console.cloud.google.com/google/maps-apis
@@ -265,7 +265,7 @@ LOG_LEVEL=debug
 
 **Important Notes:**
 - The frontend uses `VITE_API_URL` to connect to the backend API
-- In production (GitHub Pages), the API URL is automatically set to `https://imsop-app.onrender.com`
+- In production (Vercel), the API URL is `https://imsop-backend-api.onrender.com`
 - The Google Maps API key is optional. If not configured, the map component will display a placeholder message
 
 ### Available Scripts
@@ -326,7 +326,7 @@ The application uses a distributed deployment model:
 - Configured to connect to Render backend API
 
 **Backend (Render)**
-- Node.js/Express API hosted at `https://imsop-app.onrender.com`
+- Containerized backend gateway hosted at `https://imsop-backend-api.onrender.com`
 - Handles authentication, data management, and business logic
 - Connected to Aiven MySQL database
 
