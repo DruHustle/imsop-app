@@ -9,8 +9,8 @@
 ## 🚀 Quick Links
 
 - [Live Demo](https://imsop-app.vercel.app/) - View the live demo
-- [GitHub Repository](https://github.com/DruHustle/imsop-app) - View source code
-- [Issues](https://github.com/DruHustle/imsop-app/issues) - Report bugs or request features
+- [GitHub Repository](https://github.com/DruHustle/imsop-app-frontend) - View source code
+- [Issues](https://github.com/DruHustle/imsop-app-frontend/issues) - Report bugs or request features
 
 ## Overview
 
@@ -106,7 +106,7 @@ Generate detailed reports on operational performance, supply chain efficiency, a
 ## Project Structure
 
 ```
-imsop-app/
+imsop-app-frontend/
 ├── client/                      # Frontend React application
 │   ├── src/
 │   │   ├── components/          # Reusable UI components
@@ -322,7 +322,7 @@ The application uses a distributed deployment model:
 
 **Frontend (GitHub Pages)**
 - Automatically deployed on push to `main` branch
-- Static React app served from `https://druhustle.github.io/imsop-app/`
+- Static React app served from `https://druhustle.github.io/imsop-app-frontend/`
 - Configured to connect to Render backend API
 
 **Backend (Render)**
@@ -400,7 +400,7 @@ The Google Maps integration is optional but enhances the dashboard with interact
 #### Step 2: Add to GitHub Repository Secrets
 
 1. **Navigate to Repository Settings**
-   - Go to: https://github.com/DruHustle/imsop-app/settings/secrets/actions
+   - Go to: https://github.com/DruHustle/imsop-app-frontend/settings/secrets/actions
 
 2. **Create New Secret**
    - Click "New repository secret"
@@ -416,14 +416,14 @@ The GitHub Actions workflow is already configured to use the secret during build
 - Any push to `main` branch will trigger deployment with the API key
 
 **Manual Deployment:**
-1. Go to: https://github.com/DruHustle/imsop-app/actions
+1. Go to: https://github.com/DruHustle/imsop-app-frontend/actions
 2. Click "Deploy to GitHub Pages"
 3. Click "Run workflow"
 
 #### Step 4: Verify
 
 1. Wait for deployment to complete (~2-3 minutes)
-2. Visit: https://druhustle.github.io/imsop-app/
+2. Visit: https://druhustle.github.io/imsop-app-frontend/
 3. Log in and check the Dashboard
 4. The "Global Activity Map" should now show an interactive map
 

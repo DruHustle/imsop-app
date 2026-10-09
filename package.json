@@ -1,7 +1,7 @@
 {
   "name": "imsop-app",
   "version": "1.0.0",
-  "homepage": "https://druhustle.github.io/imsop-app/",
+  "homepage": "https://druhustle.github.io/imsop-app-frontend/",
   "type": "module",
   "license": "MIT",
   "scripts": {

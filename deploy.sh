@@ -73,8 +73,8 @@ REMOTE_URL=$(git remote get-url origin 2>/dev/null)
 if [ -z "$REMOTE_URL" ]; then
     echo "🔗 Configuring GitHub repository..."
     read -p "Enter your GitHub username: " USERNAME
-    read -p "Enter your repository name (default: imsop-app): " REPO_NAME
-    REPO_NAME=${REPO_NAME:-imsop-app}
+    read -p "Enter your repository name (default: imsop-app-frontend): " REPO_NAME
+    REPO_NAME=${REPO_NAME:-imsop-app-frontend}
     git remote add origin "https://github.com/$USERNAME/$REPO_NAME.git"
     print_success "Remote origin added"
 else

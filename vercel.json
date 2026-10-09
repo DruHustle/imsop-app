@@ -2,6 +2,14 @@
   "version": 2,
   "rewrites": [
     {
+      "source": "/imsop-app-frontend/assets/(.*)",
+      "destination": "/assets/$1"
+    },
+    {
+      "source": "/imsop-app-frontend/(.*)",
+      "destination": "/$1"
+    },
+    {
       "source": "/imsop-app/assets/(.*)",
       "destination": "/assets/$1"
     },
@@ -14,5 +22,4 @@
       "destination": "/index.html"
     }
   ]
-
 }
