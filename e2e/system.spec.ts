@@ -1,5 +1,9 @@
 import { expect, Page, test } from '@playwright/test';
 
+test.beforeEach(async ({ page }) => {
+  await page.route('**/api/auth/me', route => route.fulfill({ status: 401, json: { error: 'Unauthorized' } }));
+});
+
 const accounts = {
   admin: { button: /admin/i, email: 'admin@imsop.io' },
   engineer: { button: /engineer/i, email: 'engineer@imsop.io' },

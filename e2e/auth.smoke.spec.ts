@@ -1,5 +1,9 @@
 import { expect, test } from '@playwright/test';
 
+test.beforeEach(async ({ page }) => {
+  await page.route('**/api/auth/me', route => route.fulfill({ status: 401, json: { error: 'Unauthorized' } }));
+});
+
 test.describe('imsop-app auth smoke', () => {
   test('auth routes are reachable', async ({ page }) => {
     await page.goto('/#/login');

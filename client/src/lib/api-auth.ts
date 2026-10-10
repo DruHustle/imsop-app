@@ -7,12 +7,21 @@ const getStorage = () => safeLocalStorage.getItem('__storage_test__') === null &
 
 export class ApiAuthService implements IAuthService {
   private async fetchApi(path: string, opts: RequestInit = {}) {
-    const storage = getStorage(), token = storage.getItem(TOKEN_KEY);
-    const res = await fetch(`${API_BASE}${path}`, {
-      ...opts, credentials: 'include', headers: { 'Content-Type': 'application/json', ...(token?.startsWith('mock_') && { Authorization: `Bearer ${token}` }), ...opts.headers }
-    });
-    if (!res.ok) throw new Error((await res.json().catch(() => ({}))).error || 'API failed');
-    return res.json();
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 10_000);
+    try {
+      const res = await fetch(`${API_BASE}${path}`, {
+        ...opts, signal: controller.signal, credentials: 'include', headers: { 'Content-Type': 'application/json', ...opts.headers }
+      });
+      if (!res.ok) throw new Error((await res.json().catch(() => ({}))).error || 'API failed');
+      if (res.status === 204) return {};
+      return await res.json();
+    } catch (error) {
+      if (controller.signal.aborted) throw new Error('The server took too long to respond. Please try again.');
+      throw error;
+    } finally {
+      clearTimeout(timeout);
+    }
   }
   async login(email: string, password: string): Promise<AuthResponse> {
     try {

@@ -39,6 +39,9 @@ jobs:
       - name: Run unit tests
         run: pnpm test
 
+      - name: Audit production dependencies
+        run: pnpm audit --prod --audit-level=moderate
+
       - name: Install Playwright Chromium
         run: pnpm exec playwright install --with-deps chromium
 
@@ -49,8 +52,8 @@ jobs:
 
       - name: Build
         env:
-          VITE_API_URL: https://imsop-backend-api.onrender.com
-          VITE_BASE_PATH: /
+          VITE_API_URL: https://imsop-app-backend.onrender.com
+          VITE_BASE_PATH: /imsop-app-frontend/
           VITE_GOOGLE_MAPS_API_KEY: ${{ secrets.VITE_GOOGLE_MAPS_API_KEY }}
         run: pnpm build
 
