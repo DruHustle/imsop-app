@@ -231,7 +231,7 @@ Then configure the following variables:
 VITE_API_URL=http://localhost:3001
 
 # For local development with production backend
-# VITE_API_URL=https://imsop-backend-api.onrender.com
+# VITE_API_URL=https://imsop-app-backend.onrender.com
 
 # Google Maps API (Optional - for map visualization)
 # Get your API key from: https://console.cloud.google.com/google/maps-apis
@@ -265,7 +265,7 @@ LOG_LEVEL=debug
 
 **Important Notes:**
 - The frontend uses `VITE_API_URL` to connect to the backend API
-- In production (Vercel), the API URL is `https://imsop-backend-api.onrender.com`
+- In production (Vercel), the API URL is `https://imsop-app-backend.onrender.com`
 - The Google Maps API key is optional. If not configured, the map component will display a placeholder message
 
 ### Available Scripts
@@ -326,7 +326,7 @@ The application uses a distributed deployment model:
 - Configured to connect to Render backend API
 
 **Backend (Render)**
-- Containerized backend gateway hosted at `https://imsop-backend-api.onrender.com`
+- Containerized backend gateway hosted at `https://imsop-app-backend.onrender.com`
 - Handles authentication, data management, and business logic
 - Connected to Aiven MySQL database
 
