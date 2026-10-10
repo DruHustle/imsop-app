@@ -2,6 +2,10 @@
   "version": 2,
   "rewrites": [
     {
+      "source": "/api/:path*",
+      "destination": "https://imsop-app-backend.onrender.com/api/:path*"
+    },
+    {
       "source": "/imsop-app-frontend/assets/(.*)",
       "destination": "/assets/$1"
     },
@@ -23,6 +27,15 @@
     }
   ],
   "headers": [
+    {
+      "source": "/api/:path*",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "private, no-store"
+        }
+      ]
+    },
     {
       "source": "/(.*)",
       "headers": [

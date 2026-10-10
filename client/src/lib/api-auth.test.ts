@@ -1,7 +1,13 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { ApiAuthService } from './api-auth';
+import { ApiAuthService, resolveAuthOrigin } from './api-auth';
 
 describe('API authentication availability', () => {
+  it('keeps root-hosted production sessions first-party while retaining Pages and development API origins', () => {
+    expect(resolveAuthOrigin('https://backend.example', true, '/')).toBe('');
+    expect(resolveAuthOrigin('=/api', true, '/')).toBe('');
+    expect(resolveAuthOrigin('https://backend.example/', true, '/imsop-app-frontend/')).toBe('https://backend.example');
+    expect(resolveAuthOrigin('http://localhost:3001', false, '/')).toBe('http://localhost:3001');
+  });
   beforeEach(() => {
     localStorage.clear();
     vi.useFakeTimers();
