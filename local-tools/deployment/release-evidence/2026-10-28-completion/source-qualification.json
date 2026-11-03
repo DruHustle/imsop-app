@@ -1,0 +1,23 @@
+{
+  "backendRevision": "d577908528b3a69ce3bba9c02ee0af7f7f82180a",
+  "frontendRevision": "85aa203f182ece15854430cac13656710f6692c5",
+  "pullRequests": [
+    "https://github.com/DruHustle/imsop-app-backend/pull/7",
+    "https://github.com/DruHustle/imsop-app-backend/pull/8",
+    "https://github.com/DruHustle/imsop-app-frontend/pull/12"
+  ],
+  "backendMainRun": 40702622591,
+  "frontendMainRun": 40702676806,
+  "frontendBrowserChecks": 122,
+  "pairedBrowserChecks": 10,
+  "dotnetTests": 12,
+  "nodeTests": 22,
+  "publicationTargets": [
+    "Oracle",
+    "Vercel"
+  ],
+  "productionRuntimeRolesApproved": true,
+  "productionAssignmentsApproved": false,
+  "productionExternalActivationApproved": false,
+  "provisioningManifestExecutable": false
+}

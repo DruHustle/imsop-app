@@ -1,0 +1,178 @@
+{
+  "origin": "https://imsop-api.152-70-22-84.sslip.io",
+  "checkedAt": "2026-10-28T11:28:46.244Z",
+  "checks": [
+    {
+      "path": "/version",
+      "status": 200,
+      "body": {
+        "revision": "def73e5418909341c38c98b54eb8e2c905dd6b35",
+        "apiContract": 2,
+        "capabilities": [
+          "purchase-pagination-v1",
+          "scoped-reviews-v1",
+          "customer-order-search-v1"
+        ],
+        "nodeSchema": "005_provisioning_audit.sql",
+        "supplyChainSchema": "202610270002_PurchaseReceiving"
+      }
+    },
+    {
+      "path": "/ready",
+      "status": 200,
+      "body": {
+        "status": "ready",
+        "dependencies": [
+          {
+            "name": "node-api",
+            "healthy": true
+          },
+          {
+            "name": "operations-service",
+            "healthy": true
+          },
+          {
+            "name": "supply-chain",
+            "healthy": true
+          }
+        ]
+      }
+    },
+    {
+      "path": "/health",
+      "status": 200,
+      "body": {
+        "status": "ok",
+        "release": {
+          "revision": "def73e5418909341c38c98b54eb8e2c905dd6b35",
+          "apiContract": 2,
+          "capabilities": [
+            "purchase-pagination-v1",
+            "scoped-reviews-v1",
+            "customer-order-search-v1"
+          ],
+          "nodeSchema": "005_provisioning_audit.sql",
+          "supplyChainSchema": "202610270002_PurchaseReceiving"
+        },
+        "service": "IMSOP.Gateway"
+      }
+    },
+    {
+      "path": "/api/auth/me",
+      "status": 401,
+      "cacheControl": "private, no-store, private, no-store"
+    },
+    {
+      "path": "/api/auth/session",
+      "status": 401,
+      "cacheControl": "private, no-store, private, no-store"
+    },
+    {
+      "path": "/api/operations/shipments?limit=1",
+      "status": 401,
+      "cacheControl": "private, no-store, private, no-store"
+    },
+    {
+      "path": "/api/operations/orders?limit=1",
+      "status": 401,
+      "cacheControl": "private, no-store, private, no-store"
+    },
+    {
+      "path": "/api/operations/reviews",
+      "status": 401,
+      "cacheControl": "private, no-store, private, no-store"
+    },
+    {
+      "path": "/api/operations/notifications",
+      "status": 401,
+      "cacheControl": "private, no-store, private, no-store"
+    },
+    {
+      "path": "/api/operations/forecasts",
+      "status": 401,
+      "cacheControl": "private, no-store, private, no-store"
+    },
+    {
+      "path": "/api/operations/integrations",
+      "status": 401,
+      "cacheControl": "private, no-store, private, no-store"
+    },
+    {
+      "path": "/api/operations/reports/access",
+      "status": 401,
+      "cacheControl": "private, no-store, private, no-store"
+    },
+    {
+      "path": "/api/operations/shipments/export/report",
+      "status": 401,
+      "cacheControl": "private, no-store, private, no-store"
+    },
+    {
+      "path": "/api/operations/orders/export/report",
+      "status": 401,
+      "cacheControl": "private, no-store, private, no-store"
+    },
+    {
+      "path": "/supply-chain/api/v1/orders?offset=0",
+      "status": 401,
+      "cacheControl": "private, no-store, private, no-store"
+    },
+    {
+      "path": "/supply-chain/api/v1/orders/products",
+      "status": 401,
+      "cacheControl": "private, no-store, private, no-store"
+    },
+    {
+      "path": "/supply-chain/api/v1/orders/suppliers",
+      "status": 401,
+      "cacheControl": "private, no-store, private, no-store"
+    },
+    {
+      "path": "/supply-chain/api/v1/orders/warehouses",
+      "status": 401,
+      "cacheControl": "private, no-store, private, no-store"
+    },
+    {
+      "path": "/api/operations/shipments",
+      "method": "OPTIONS",
+      "origin": "https://imsop-app.vercel.app",
+      "status": 204,
+      "allowedOrigin": "https://imsop-app.vercel.app"
+    },
+    {
+      "path": "/supply-chain/api/v1/orders",
+      "method": "OPTIONS",
+      "origin": "https://imsop-app.vercel.app",
+      "status": 204,
+      "allowedOrigin": "https://imsop-app.vercel.app"
+    },
+    {
+      "path": "/api/operations/shipments",
+      "method": "OPTIONS",
+      "origin": "https://druhustle.github.io",
+      "status": 204,
+      "allowedOrigin": "https://druhustle.github.io"
+    },
+    {
+      "path": "/supply-chain/api/v1/orders",
+      "method": "OPTIONS",
+      "origin": "https://druhustle.github.io",
+      "status": 204,
+      "allowedOrigin": "https://druhustle.github.io"
+    },
+    {
+      "path": "/api/operations/shipments",
+      "method": "OPTIONS",
+      "origin": "https://untrusted.example.invalid",
+      "status": 204,
+      "allowedOrigin": null
+    },
+    {
+      "path": "/supply-chain/api/v1/orders",
+      "method": "OPTIONS",
+      "origin": "https://untrusted.example.invalid",
+      "status": 204,
+      "allowedOrigin": null
+    }
+  ]
+}

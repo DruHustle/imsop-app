@@ -1,0 +1,10 @@
+Loaded image: imsop-app-backend:oracle-8485056
+ Container imsop-app-backend-app-1 Recreate 
+ Container imsop-app-backend-app-1 Recreated 
+ Container imsop-app-backend-app-1 Starting 
+ Container imsop-app-backend-app-1 Started 
+ Container imsop-app-backend-app-1 Waiting 
+ Container imsop-app-backend-app-1 Healthy 
+{"status":"ready","dependencies":[{"name":"node-api","healthy":true},{"name":"operations-service","healthy":true},{"name":"supply-chain","healthy":true}]}
+Private runtime preserved; rollback manifest: compose.pre-8485056.yaml
+imsop-app-backend:oracle-8485056 sha256:78b1b19ab46188e03b307977363472ff682fdd6af0bb4e28636ba3ea13613dcc running healthy

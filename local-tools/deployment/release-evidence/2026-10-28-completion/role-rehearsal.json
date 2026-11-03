@@ -1,0 +1,201 @@
+{
+  "roleBoundaries": {
+    "roles": [
+      {
+        "role": "imsop_node_runtime",
+        "attributes": {
+          "role": "imsop_node_runtime",
+          "rolsuper": false,
+          "rolcreatedb": false,
+          "rolcreaterole": false,
+          "rolreplication": false,
+          "rolbypassrls": false
+        },
+        "persistentDdl": "denied",
+        "provisioning": "denied",
+        "migrationWrites": "denied",
+        "crossSchemaData": "denied",
+        "delete": "denied"
+      },
+      {
+        "role": "imsop_supply_runtime",
+        "attributes": {
+          "role": "imsop_supply_runtime",
+          "rolsuper": false,
+          "rolcreatedb": false,
+          "rolcreaterole": false,
+          "rolreplication": false,
+          "rolbypassrls": false
+        },
+        "persistentDdl": "denied",
+        "provisioning": "denied",
+        "migrationWrites": "denied",
+        "crossSchemaData": "denied",
+        "delete": "denied"
+      }
+    ],
+    "verifiedAt": "2026-10-28T12:25:35.103Z"
+  },
+  "workflows": {
+    "checks": [
+      {
+        "path": "/api/auth/register",
+        "method": "POST",
+        "status": 201
+      },
+      {
+        "path": "/api/operations/shipments?limit=1",
+        "method": "GET",
+        "status": 403
+      },
+      {
+        "path": "/api/auth/me",
+        "method": "GET",
+        "status": 401
+      },
+      {
+        "path": "/api/auth/login",
+        "method": "POST",
+        "status": 200
+      },
+      {
+        "path": "/api/auth/session",
+        "method": "GET",
+        "status": 200
+      },
+      {
+        "path": "/api/auth/profile/1",
+        "method": "PATCH",
+        "status": 200
+      },
+      {
+        "path": "/api/operations/notifications/preferences",
+        "method": "PUT",
+        "status": 200
+      },
+      {
+        "path": "/api/integrations/logistics/isolated/events",
+        "method": "POST",
+        "status": 202
+      },
+      {
+        "path": "/api/operations/shipments?limit=10",
+        "method": "GET",
+        "status": 200
+      },
+      {
+        "path": "/api/operations/shipments/1",
+        "method": "GET",
+        "status": 404
+      },
+      {
+        "path": "/api/operations/reviews",
+        "method": "GET",
+        "status": 200
+      },
+      {
+        "path": "/api/operations/reviews/1/actions",
+        "method": "POST",
+        "status": 200
+      },
+      {
+        "path": "/api/operations/notifications",
+        "method": "GET",
+        "status": 200
+      },
+      {
+        "path": "/api/operations/forecasts",
+        "method": "GET",
+        "status": 200
+      },
+      {
+        "path": "/api/operations/shipments/export/report",
+        "method": "GET",
+        "status": 200
+      },
+      {
+        "path": "/supply-chain/api/v1/orders",
+        "method": "POST",
+        "status": 201
+      },
+      {
+        "path": "/supply-chain/api/v1/orders",
+        "method": "POST",
+        "status": 200
+      },
+      {
+        "path": "/supply-chain/api/v1/orders/e74009f5-7160-41c9-ad7c-74296a320926/items",
+        "method": "GET",
+        "status": 200
+      },
+      {
+        "path": "/supply-chain/api/v1/orders/e74009f5-7160-41c9-ad7c-74296a320926/receipts",
+        "method": "POST",
+        "status": 200
+      },
+      {
+        "path": "/supply-chain/api/v1/orders/e74009f5-7160-41c9-ad7c-74296a320926/receipts",
+        "method": "POST",
+        "status": 200
+      },
+      {
+        "path": "/supply-chain/api/v1/orders/suppliers",
+        "method": "GET",
+        "status": 200
+      },
+      {
+        "path": "/supply-chain/api/v1/orders/products",
+        "method": "GET",
+        "status": 200
+      },
+      {
+        "path": "/supply-chain/api/v1/orders/warehouses",
+        "method": "GET",
+        "status": 200
+      },
+      {
+        "path": "/api/auth/change-password/1",
+        "method": "POST",
+        "status": 200
+      },
+      {
+        "path": "/api/auth/me",
+        "method": "GET",
+        "status": 401
+      },
+      {
+        "path": "/api/auth/login",
+        "method": "POST",
+        "status": 200
+      },
+      {
+        "path": "/api/auth/logout",
+        "method": "POST",
+        "status": 204
+      },
+      {
+        "path": "/api/auth/me",
+        "method": "GET",
+        "status": 401
+      }
+    ],
+    "inventoryAppliedOnce": true,
+    "workspaceBoundary": "enforced",
+    "network": "internal; outbound blocked",
+    "productionMutations": 0,
+    "verifiedAt": "2026-10-28T12:25:43.995Z"
+  },
+  "rollback": {
+    "version": {
+      "revision": "22a956100fed2441a31ded1c18aff131b2b86475",
+      "apiContract": 2,
+      "nodeSchema": "005_provisioning_audit.sql",
+      "supplyChainSchema": "202610270002_PurchaseReceiving"
+    },
+    "ready": true,
+    "anonymousAccess": "rejected",
+    "restrictedRuntimeRoles": true
+  },
+  "backupSha256": "c9c16ec81b291a88ebecde286d94edda0fb3eef614e9b399b23511ad268ddbb6",
+  "productionChanges": false
+}

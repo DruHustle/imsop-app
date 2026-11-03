@@ -1,0 +1,45 @@
+{
+  "nodeRuntimeRole": "imsop_node_runtime",
+  "supplyRuntimeRole": "imsop_supply_runtime",
+  "migrationOwner": "retained only in protected operator configuration",
+  "runtimeAutoMigration": false,
+  "enabledIntegrations": {
+    "FORECAST_ENABLED": "false",
+    "SAP_ENABLED": "false",
+    "ServiceBus__Enabled": "false",
+    "EMAIL_NOTIFICATIONS_ENABLED": "false"
+  },
+  "allowedOrigins": "https://imsop-app.vercel.app",
+  "version": {
+    "revision": "d577908528b3a69ce3bba9c02ee0af7f7f82180a",
+    "apiContract": 2,
+    "capabilities": [
+      "optional-adapters-v1",
+      "purchase-pagination-v1",
+      "scoped-reviews-v1",
+      "customer-order-search-v1"
+    ],
+    "nodeSchema": "005_provisioning_audit.sql",
+    "supplyChainSchema": "202610270002_PurchaseReceiving"
+  },
+  "ready": {
+    "status": "ready",
+    "dependencies": [
+      {
+        "name": "node-api",
+        "healthy": true
+      },
+      {
+        "name": "operations-service",
+        "healthy": true
+      },
+      {
+        "name": "supply-chain",
+        "healthy": true
+      }
+    ]
+  },
+  "productionOwnershipAssignments": 0,
+  "installedAt": "2026-10-28T12:52:01Z",
+  "latestReleaseInstalledAt": "2026-10-28T14:53:10Z"
+}

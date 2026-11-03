@@ -1,0 +1,181 @@
+
+> server@1.0.0 test /private/tmp/imsop-backend-release-20261028/server
+> NODE_ENV=test node --test --import tsx src/app.test.ts src/integrations.test.ts
+
+TAP version 13
+# Subtest: API and authentication limits use independent windows and cover changing paths
+ok 1 - API and authentication limits use independent windows and cover changing paths
+  ---
+  duration_ms: 0.413958
+  ...
+# {"event":"request","correlationId":"e2f688e8-08f7-4b15-861f-f7befd708ae1","method":"GET","route":"unmatched","status":404,"durationMs":3}
+# {"event":"request","correlationId":"7cc604b3-c702-4743-9ad7-de2fd2b05433","method":"POST","route":"unmatched","status":400,"durationMs":6}
+# {"event":"request","correlationId":"aa823c8b-6914-4dba-b0f8-0a07b4eab430","method":"POST","route":"unmatched","status":403,"durationMs":0}
+# {"event":"request","correlationId":"ba019413-d51e-42c6-b50c-c06303875255","method":"POST","route":"unmatched","status":403,"durationMs":0}
+# Subtest: API errors return JSON and unsafe cross-site cookie requests are rejected
+ok 2 - API errors return JSON and unsafe cross-site cookie requests are rejected
+  ---
+  duration_ms: 28.412458
+  ...
+# {"event":"request","correlationId":"5644fb0c-89c3-4a1e-a762-0daf050247d3","method":"POST","route":"unmatched","status":400,"durationMs":1}
+# {"event":"request","correlationId":"4a6de9bb-b184-452d-ac57-c28241c1a726","method":"GET","route":"/health","status":200,"durationMs":0}
+# Subtest: trailing bytes after a compressed request cannot terminate the API process
+ok 3 - trailing bytes after a compressed request cannot terminate the API process
+  ---
+  duration_ms: 5.384584
+  ...
+# Subtest: HTML reports escape stored data
+ok 4 - HTML reports escape stored data
+  ---
+  duration_ms: 0.088667
+  ...
+# Subtest: filters reject normalized impossible dates and reversed ranges
+ok 5 - filters reject normalized impossible dates and reversed ranges
+  ---
+  duration_ms: 0.672416
+  ...
+# Subtest: allowed origins are trimmed and support multiple Vercel domains
+ok 6 - allowed origins are trimmed and support multiple Vercel domains
+  ---
+  duration_ms: 0.09
+  ...
+# Subtest: production configuration rejects invalid Gmail app passwords
+ok 7 - production configuration rejects invalid Gmail app passwords
+  ---
+  duration_ms: 0.408459
+  ...
+# {"event":"request","correlationId":"7a796ce6-fc09-44aa-ba18-ce29a6f2e4a8","method":"GET","route":"/health","status":200,"durationMs":1}
+# Subtest: GET /health returns ok
+ok 8 - GET /health returns ok
+  ---
+  duration_ms: 4.872334
+  ...
+# {"event":"request","correlationId":"8c9e0b16-eecc-4ad4-9972-c2dcfb4b17a8","method":"POST","route":"/register","status":400,"durationMs":2}
+# Subtest: authentication routes validate input before accessing the database
+ok 9 - authentication routes validate input before accessing the database
+  ---
+  duration_ms: 4.978917
+  ...
+# {"event":"request","correlationId":"b63da914-a0ab-4223-b5e2-d394d4187a62","method":"GET","route":"/shipments","status":401,"durationMs":1}
+# {"event":"request","correlationId":"84854f69-b499-4baa-877a-57e9c1196ac5","method":"GET","route":"/integrations/sap/metadata","status":401,"durationMs":0}
+# Subtest: protected operations reject anonymous requests
+ok 10 - protected operations reject anonymous requests
+  ---
+  duration_ms: 4.739625
+  ...
+# {"event":"request","correlationId":"b34ca9a0-5d9d-4e62-b954-eba63cabcf83","method":"GET","route":"/shipments","status":401,"durationMs":1}
+# Subtest: legacy claim-only credentials fail closed before role authorization
+ok 11 - legacy claim-only credentials fail closed before role authorization
+  ---
+  duration_ms: 4.104666
+  ...
+# {"event":"request","correlationId":"51ccb52a-9ee6-4ed0-84fb-27de302a8393","method":"POST","route":"/:provider/events","status":401,"durationMs":1}
+# Subtest: logistics webhooks reject invalid signatures
+ok 12 - logistics webhooks reject invalid signatures
+  ---
+  duration_ms: 3.024125
+  ...
+# {"event":"request","correlationId":"705f818e-17e0-4586-8f65-c768289ac379","method":"POST","route":"/:provider/events","status":400,"durationMs":1}
+# Subtest: signed logistics webhooks validate canonical payloads before database access
+ok 13 - signed logistics webhooks validate canonical payloads before database access
+  ---
+  duration_ms: 3.393167
+  ...
+# {"event":"request","correlationId":"8d3a96b7-6c57-49e2-87d9-9f70c4ea3213","method":"GET","route":"/shipments/:id","status":200,"durationMs":1}
+# {"event":"request","correlationId":"d84a86e4-454d-4a44-ac81-cec85a0bcc51","method":"GET","route":"/shipments","status":200,"durationMs":1}
+# {"event":"request","correlationId":"7f7269ac-2bf3-417e-8525-a9ad09eb4414","method":"GET","route":"/orders","status":200,"durationMs":1}
+# {"event":"request","correlationId":"a24a31e8-0a50-4f93-930e-80a3ccc7fd22","method":"GET","route":"/shipments/:id/events","status":200,"durationMs":1}
+# {"event":"request","correlationId":"0ac65eac-e365-42d7-875c-fb0bbfe58cf2","method":"GET","route":"/orders/:id","status":200,"durationMs":1}
+# {"event":"request","correlationId":"46d64c08-7292-48de-9607-4947e453d4ad","method":"GET","route":"/reports/access","status":200,"durationMs":0}
+# {"event":"request","correlationId":"367127f7-76b4-45c2-9933-521b07f72e25","method":"GET","route":"/shipments/:id","status":200,"durationMs":1}
+# {"event":"request","correlationId":"3908749d-c2de-441d-8914-bdb6b9eda788","method":"GET","route":"/shipments","status":200,"durationMs":1}
+# {"event":"request","correlationId":"133f7320-294e-4ed0-9299-e5c48dc4c7d5","method":"GET","route":"/orders","status":200,"durationMs":1}
+# {"event":"request","correlationId":"a106efe2-82cd-4666-8daa-ed056ad32c23","method":"GET","route":"/shipments/:id/events","status":200,"durationMs":0}
+# {"event":"request","correlationId":"0f1bfa56-f1a8-46a1-bc30-b5939a66bb15","method":"GET","route":"/orders/:id","status":200,"durationMs":1}
+# {"event":"request","correlationId":"4b2620e1-5354-4cab-8f89-4ef9bc5544be","method":"GET","route":"/reports/access","status":403,"durationMs":0}
+# {"event":"request","correlationId":"a0826ed6-9442-454d-aa11-d08cf379c69d","method":"GET","route":"/shipments/export/report","status":403,"durationMs":0}
+# {"event":"request","correlationId":"34a3aa0b-5da7-4003-a667-1d51b5f6956a","method":"GET","route":"/orders/export/report","status":403,"durationMs":0}
+# {"event":"request","correlationId":"494686fa-dd59-40e9-9433-eaa9cf56b510","method":"GET","route":"/shipments/:id","status":200,"durationMs":0}
+# {"event":"request","correlationId":"3b4e07f1-84b8-4c33-91ab-23bbf65c8d9c","method":"GET","route":"/shipments","status":200,"durationMs":1}
+# {"event":"request","correlationId":"b3a14117-676f-4ae6-b8e0-322eff6fa1f0","method":"GET","route":"/orders","status":200,"durationMs":0}
+# {"event":"request","correlationId":"46743260-02a0-4d2c-a6eb-e5461bf85625","method":"GET","route":"/shipments/:id/events","status":200,"durationMs":0}
+# {"event":"request","correlationId":"70671586-4f65-4661-9995-5797835667e6","method":"GET","route":"/orders/:id","status":200,"durationMs":0}
+# {"event":"request","correlationId":"52f89608-b9c0-4bd7-8ae9-8e1d49cb33fc","method":"GET","route":"/reports/access","status":200,"durationMs":0}
+# {"event":"request","correlationId":"0e4873de-ce27-4c9e-82fd-bd13af0deef6","method":"GET","route":"/shipments/:id","status":200,"durationMs":0}
+# {"event":"request","correlationId":"7fb98e04-cacf-44ae-b70c-1d58e893fa14","method":"GET","route":"/shipments","status":200,"durationMs":1}
+# {"event":"request","correlationId":"c4c3f09c-0a9c-4b59-bcf5-75907772e407","method":"GET","route":"/orders","status":403,"durationMs":0}
+# {"event":"request","correlationId":"8de7a91b-c1df-4947-87a7-a4c55aa4743b","method":"GET","route":"/shipments/:id/events","status":200,"durationMs":1}
+# {"event":"request","correlationId":"dece52ef-7519-4063-b2d8-63c2cf137f24","method":"GET","route":"/orders/:id","status":403,"durationMs":0}
+# {"event":"request","correlationId":"57af0a81-1546-4c50-bc82-ce0a860fe05b","method":"GET","route":"/reports/access","status":403,"durationMs":0}
+# {"event":"request","correlationId":"5f0b9ca9-ec41-4946-87a0-428eb1ede83d","method":"GET","route":"/shipments/export/report","status":403,"durationMs":0}
+# {"event":"request","correlationId":"22572376-e2d4-4d69-bb63-a461143d818a","method":"GET","route":"/orders/export/report","status":403,"durationMs":0}
+# {"event":"request","correlationId":"30d2def7-b01e-455c-ae4a-e0e0838bd68b","method":"GET","route":"/shipments","status":401,"durationMs":0}
+# {"event":"request","correlationId":"16e2e913-d4b3-4160-857c-fafc2a0a691d","method":"GET","route":"/orders","status":401,"durationMs":0}
+# {"event":"request","correlationId":"da0b337b-c5d1-4c85-b2f5-095e6ee23ef0","method":"GET","route":"/shipments/:id","status":401,"durationMs":0}
+# {"event":"request","correlationId":"adce11f4-bf12-49d7-971d-4a099f0e0e99","method":"GET","route":"/shipments/:id/events","status":401,"durationMs":0}
+# {"event":"request","correlationId":"3d611c55-813b-45db-b44f-9f7ec1a4fca4","method":"GET","route":"/orders/:id","status":401,"durationMs":0}
+# {"event":"request","correlationId":"cd4cb846-af0c-4ad1-babd-f3e86629d2e7","method":"GET","route":"/reports/access","status":401,"durationMs":0}
+# {"event":"request","correlationId":"3abd16fd-5363-448a-9a19-00aafe77f96e","method":"GET","route":"/shipments/:id","status":400,"durationMs":0}
+# {"event":"request","correlationId":"1d58c6d4-6426-43f6-9d63-a5395b043260","method":"GET","route":"/orders/:id","status":400,"durationMs":0}
+# {"event":"request","correlationId":"b291ad9f-ed17-4ac9-aaf0-d015f440c679","method":"GET","route":"/shipments","status":400,"durationMs":0}
+# {"event":"request","correlationId":"85f8402a-59c2-4ac1-a74f-b491ff34b294","method":"GET","route":"/shipments/:id","status":404,"durationMs":0}
+# {"event":"request","correlationId":"e2a21fb5-e05d-4797-b7c5-1f744b437796","method":"GET","route":"/shipments/:id/events","status":404,"durationMs":0}
+# {"event":"request","correlationId":"7aa4c7ce-031e-4bcd-a12e-8eb80d3ce303","method":"GET","route":"/shipments/:id","status":200,"durationMs":1}
+# {"event":"request","correlationId":"1be623cc-8804-4dea-bdb7-6a72ca55337f","method":"GET","route":"/shipments","status":200,"durationMs":1}
+# {"event":"request","correlationId":"4d40b6f7-5d0f-4699-a075-452f116a887d","method":"GET","route":"/shipments/:id/events","status":200,"durationMs":1}
+# {"event":"request","correlationId":"5646452c-6f82-4c14-b2b9-d278ad938bbc","method":"GET","route":"/shipments","status":200,"durationMs":1}
+# {"event":"request","correlationId":"e259f4f2-a795-4b54-8dff-95979f4bec02","method":"GET","route":"/shipments","status":503,"durationMs":0}
+# Subtest: bounded operational reads preserve permissions, identities and event provenance
+ok 14 - bounded operational reads preserve permissions, identities and event provenance
+  ---
+  duration_ms: 47.341625
+  ...
+# Subtest: legacy UTC timestamp decoder is independent of the process timezone
+ok 15 - legacy UTC timestamp decoder is independent of the process timezone
+  ---
+  duration_ms: 4.663667
+  ...
+# Subtest: new password hashes distinguish 128-character inputs sharing the first 72 bytes
+ok 16 - new password hashes distinguish 128-character inputs sharing the first 72 bytes
+  ---
+  duration_ms: 68.881083
+  ...
+# Subtest: SAP adapter makes only the configured metadata read against an isolated HTTP provider
+ok 17 - SAP adapter makes only the configured metadata read against an isolated HTTP provider
+  ---
+  duration_ms: 23.545208
+  ...
+# Subtest: optional adapters default disabled even when an endpoint happens to exist
+ok 18 - optional adapters default disabled even when an endpoint happens to exist
+  ---
+  duration_ms: 0.401167
+  ...
+# Subtest: explicit activation fails closed on missing, ambiguous or unsafe configuration
+ok 19 - explicit activation fails closed on missing, ambiguous or unsafe configuration
+  ---
+  duration_ms: 0.388375
+  ...
+# Subtest: server credential references are resolved only from operator files and never included in public metadata receipts
+ok 20 - server credential references are resolved only from operator files and never included in public metadata receipts
+  ---
+  duration_ms: 2.254833
+  ...
+# Subtest: SAP rejects HTML fallbacks, XML entities, oversized bodies and provider failures
+ok 21 - SAP rejects HTML fallbacks, XML entities, oversized bodies and provider failures
+  ---
+  duration_ms: 0.909708
+  ...
+# Subtest: forecasting supports server-only file credentials and validates configured limits
+ok 22 - forecasting supports server-only file credentials and validates configured limits
+  ---
+  duration_ms: 0.602
+  ...
+1..22
+# tests 22
+# suites 0
+# pass 22
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 723.905917

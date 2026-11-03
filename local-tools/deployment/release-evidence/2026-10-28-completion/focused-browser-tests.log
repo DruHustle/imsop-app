@@ -1,0 +1,64 @@
+[1A[2K[WebServer] (node:66042) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+[1A[2K[WebServer] (node:66058) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+[1A[2K[WebServer] node_modules/.pnpm/zod@4.6.7/node_modules/zod/v4/core/util.js (400:0): A comment
+[WebServer] 
+[WebServer] "// Wrapped in a `@__PURE__` IIFE: esbuild never tree-shakes a top-level initializer that contains a member access on `Number`, so the bare object literal survived into every bundle."
+[WebServer] 
+[WebServer] in "node_modules/.pnpm/zod@4.6.7/node_modules/zod/v4/core/util.js" contains an annotation that Rollup cannot interpret due to the position of the comment. The comment will be removed to avoid issues.
+
+[1A[2K[WebServer] node_modules/.pnpm/zod@4.6.7/node_modules/zod/v4/core/regexes.js (74:0): A comment
+[WebServer] 
+[WebServer] "/** Anchors a pattern source. The interpolation lives here rather than at the call site because
+[WebServer]  * esbuild will not drop a `@__PURE__` call whose own argument interpolates a variable, but it
+[WebServer]  * will drop `anchor(dateSource)`. Keeping it inline pinned `date` into every bundle. */"
+[WebServer] 
+[WebServer] in "node_modules/.pnpm/zod@4.6.7/node_modules/zod/v4/core/regexes.js" contains an annotation that Rollup cannot interpret due to the position of the comment. The comment will be removed to avoid issues.
+
+[1A[2K[WebServer] 
+[WebServer] (!) Some chunks are larger than 500 kB after minification. Consider:
+[WebServer] - Using dynamic import() to code-split the application
+[WebServer] - Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+[WebServer] - Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+
+[1A[2K[WebServer] (node:66556) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+[1A[2K[WebServer] (node:66587) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+[1A[2K[WebServer] (node:66588) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+[1A[2K[WebServer] (node:66624) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+
+Running 10 tests using 2 workers
+
+[1A[2K[1/10] [chromium] › e2e/graphics.spec.ts:4:1 › graphical overview keeps scopes, chart totals, locations and selected records synchronized
+[1A[2K[2/10] [chromium] › e2e/graphics.spec.ts:114:1 › unique workspace visuals support selecting evidence and filtering records
+[1A[2K[3/10] [chromium] › e2e/graphics.spec.ts:152:1 › historical replay selects explicit event locations and pauses without inventing paths
+[1A[2K[chromium] › e2e/graphics.spec.ts:4:1 › graphical overview keeps scopes, chart totals, locations and selected records synchronized
+Actual WebGL globe rendered, orbited and zoomed in both themes
+
+[1A[2K(node:66642) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+[1A[2K[4/10] [chromium] › e2e/integration-adapters.spec.ts:3:1 › optional integrations report configuration, actual outbox states and unreadable sources truthfully
+[1A[2K[5/10] [chromium] › e2e/integration-adapters.spec.ts:77:1 › SAP metadata receipts are an explicit read-only check, separate from configured state
+[1A[2K[6/10] [mobile-chromium] › e2e/graphics.spec.ts:4:1 › graphical overview keeps scopes, chart totals, locations and selected records synchronized
+[1A[2K[7/10] [mobile-chromium] › e2e/graphics.spec.ts:114:1 › unique workspace visuals support selecting evidence and filtering records
+[1A[2K[mobile-chromium] › e2e/graphics.spec.ts:4:1 › graphical overview keeps scopes, chart totals, locations and selected records synchronized
+Actual WebGL globe rendered, orbited and zoomed in both themes
+
+[1A[2K(node:66786) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+[1A[2K[8/10] [mobile-chromium] › e2e/graphics.spec.ts:152:1 › historical replay selects explicit event locations and pauses without inventing paths
+[1A[2K[9/10] [mobile-chromium] › e2e/integration-adapters.spec.ts:3:1 › optional integrations report configuration, actual outbox states and unreadable sources truthfully
+[1A[2K[10/10] [mobile-chromium] › e2e/integration-adapters.spec.ts:77:1 › SAP metadata receipts are an explicit read-only check, separate from configured state
+[1A[2K  10 passed (22.8s)

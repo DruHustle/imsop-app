@@ -1,0 +1,21 @@
+test_container_reference_protects_platform_manifest_and_default_tag_alias (test_image_retention.RetentionTests.test_container_reference_protects_platform_manifest_and_default_tag_alias) ... ok
+test_current_and_stopped_container_images_are_protected (test_image_retention.RetentionTests.test_current_and_stopped_container_images_are_protected) ... ok
+test_dangling_image_needs_explicit_imsop_title (test_image_retention.RetentionTests.test_dangling_image_needs_explicit_imsop_title) ... ok
+test_disappearing_container_retries_a_complete_snapshot (test_image_retention.RetentionTests.test_disappearing_container_retries_a_complete_snapshot) ... ok
+test_docker_refusal_never_retries_with_force (test_image_retention.RetentionTests.test_docker_refusal_never_retries_with_force) ... ok
+test_dry_run_never_removes_images (test_image_retention.RetentionTests.test_dry_run_never_removes_images) ... ok
+test_failed_readiness_leaves_policy_and_images_unchanged (test_image_retention.RetentionTests.test_failed_readiness_leaves_policy_and_images_unchanged) ... ok
+test_missing_rollback_aborts_before_inventory_or_deletion (test_image_retention.RetentionTests.test_missing_rollback_aborts_before_inventory_or_deletion) ... ok
+test_new_container_reference_between_plan_and_delete_prevents_removal (test_image_retention.RetentionTests.test_new_container_reference_between_plan_and_delete_prevents_removal) ... ok
+test_new_unrelated_alias_between_plan_and_delete_prevents_removal (test_image_retention.RetentionTests.test_new_unrelated_alias_between_plan_and_delete_prevents_removal) ... ok
+test_persistent_snapshot_failure_stops_without_partial_protection (test_image_retention.RetentionTests.test_persistent_snapshot_failure_stops_without_partial_protection) ... ok
+test_previous_service_image_becomes_rollback_only_when_changed (test_image_retention.RetentionTests.test_previous_service_image_becomes_rollback_only_when_changed) ... ok
+test_successful_deployment_records_previous_image_then_cleans_up (test_image_retention.RetentionTests.test_successful_deployment_records_previous_image_then_cleans_up) ... ok
+test_timeout_stops_further_deletions_and_reports_uncertain_result (test_image_retention.RetentionTests.test_timeout_stops_further_deletions_and_reports_uncertain_result) ... ok
+test_unknown_and_other_project_aliases_are_protected (test_image_retention.RetentionTests.test_unknown_and_other_project_aliases_are_protected) ... ok
+test_unused_image_removed_by_immutable_id_without_force_or_parent_prune (test_image_retention.RetentionTests.test_unused_image_removed_by_immutable_id_without_force_or_parent_prune) ... ok
+
+----------------------------------------------------------------------
+Ran 16 tests in 0.015s
+
+OK

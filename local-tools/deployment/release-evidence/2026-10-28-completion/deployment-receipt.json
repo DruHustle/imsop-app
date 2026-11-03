@@ -1,0 +1,30 @@
+{
+  "origin": "https://imsop-app.vercel.app",
+  "frontend": "85aa203f182ece15854430cac13656710f6692c5",
+  "backend": "d577908528b3a69ce3bba9c02ee0af7f7f82180a",
+  "ready": true,
+  "anonymousAccess": "rejected",
+  "verifiedAt": "2026-10-28T14:59:04.277Z",
+  "arm64Image": "sha256:e15bf05050a762b720b1e6016e6a13fbca9b9ee723794dd119a5be6768791839",
+  "multiPlatformIndex": "sha256:26f892efd24ce3263428896b4deef2fde938d195bb4abfd043a768cbb99d1b5f",
+  "vercelDeployment": "https://imsop-m0h343kn1-druhustles-projects.vercel.app",
+  "vercelStatus": "Ready",
+  "frontendWorkflow": 40702676806,
+  "frontendWorkflowAttempt": 3,
+  "backendWorkflow": 40702622591,
+  "ciStatus": "success",
+  "browserChecks": 122,
+  "pairedBrowserChecks": 10,
+  "nativeAuthenticatedChecks": 31,
+  "publishedUiChecks": 32,
+  "productionApiWritesFromSmoke": 0,
+  "productionMembershipAssignments": 0,
+  "productionProvisioning": "pending explicit verified assignments",
+  "externalActivation": "pending approved forecast/Service Bus/SAP targets and credentials",
+  "pages": "unpublished; HTTP 404",
+  "restrictedRuntimeRoles": [
+    "imsop_node_runtime",
+    "imsop_supply_runtime"
+  ],
+  "rollbackCompose": "/opt/imsop-app-backend/release-d577908-20261028/installed-before-compose.yaml"
+}

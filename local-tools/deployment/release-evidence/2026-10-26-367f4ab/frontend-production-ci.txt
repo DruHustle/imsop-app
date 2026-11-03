@@ -1,0 +1,892 @@
+Build and Test	Set up job	﻿2026-10-26T19:39:11.4561999Z Current runner version: '2.338.0'
+Build and Test	Set up job	2026-10-26T19:39:11.4583042Z ##[group]Runner Image Provisioner
+Build and Test	Set up job	2026-10-26T19:39:11.4583834Z Hosted Compute Agent
+Build and Test	Set up job	2026-10-26T19:39:11.4584365Z Version: 20261021.618
+Build and Test	Set up job	2026-10-26T19:39:11.4584925Z Commit: 21505ad2541d5be6135ed84fc33697146cf75b8e
+Build and Test	Set up job	2026-10-26T19:39:11.4585594Z Build Date: 2026-10-21T00:45:21Z
+Build and Test	Set up job	2026-10-26T19:39:11.4586157Z Worker ID: {414d8d11-095c-414c-a37e-21baaaa2ee91}
+Build and Test	Set up job	2026-10-26T19:39:11.4586778Z Region: centralus
+Build and Test	Set up job	2026-10-26T19:39:11.4587293Z Cloud: Azure
+Build and Test	Set up job	2026-10-26T19:39:11.4587749Z ##[endgroup]
+Build and Test	Set up job	2026-10-26T19:39:11.4588810Z ##[group]Operating System
+Build and Test	Set up job	2026-10-26T19:39:11.4589321Z Ubuntu
+Build and Test	Set up job	2026-10-26T19:39:11.4589730Z 24.04.5
+Build and Test	Set up job	2026-10-26T19:39:11.4590491Z LTS
+Build and Test	Set up job	2026-10-26T19:39:11.4590918Z ##[endgroup]
+Build and Test	Set up job	2026-10-26T19:39:11.4591400Z ##[group]Runner Image
+Build and Test	Set up job	2026-10-26T19:39:11.4591949Z Image: ubuntu-24.04
+Build and Test	Set up job	2026-10-26T19:39:11.4592409Z Version: 20261012.334.1
+Build and Test	Set up job	2026-10-26T19:39:11.4593355Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261012.334/images/ubuntu/Ubuntu2404-Readme.md
+Build and Test	Set up job	2026-10-26T19:39:11.4594802Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261012.334
+Build and Test	Set up job	2026-10-26T19:39:11.4595580Z ##[endgroup]
+Build and Test	Set up job	2026-10-26T19:39:11.4596464Z ##[group]GITHUB_TOKEN Permissions
+Build and Test	Set up job	2026-10-26T19:39:11.4598027Z Contents: read
+Build and Test	Set up job	2026-10-26T19:39:11.4598514Z Metadata: read
+Build and Test	Set up job	2026-10-26T19:39:11.4599054Z ##[endgroup]
+Build and Test	Set up job	2026-10-26T19:39:11.4600946Z Secret source: Actions
+Build and Test	Set up job	2026-10-26T19:39:11.4601856Z Cache mode: write
+Build and Test	Set up job	2026-10-26T19:39:11.4602468Z Prepare workflow directory
+Build and Test	Set up job	2026-10-26T19:39:11.4931034Z Prepare all required actions
+Build and Test	Set up job	2026-10-26T19:39:11.4969136Z Getting action download info
+Build and Test	Set up job	2026-10-26T19:39:11.7590459Z Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+Build and Test	Set up job	2026-10-26T19:39:11.9134491Z Download action repository 'pnpm/action-setup@v3' (SHA:a3252b78c470c02df07e9d59298aecedc3ccdd6d)
+Build and Test	Set up job	2026-10-26T19:39:12.4580874Z Download action repository 'actions/setup-node@v4' (SHA:49933ea5288caeca8642d1e84afbd3f7d6820020)
+Build and Test	Set up job	2026-10-26T19:39:12.6633226Z Complete job name: Build and Test
+Build and Test	Initialize containers	﻿2026-10-26T19:39:12.7141614Z ##[group]Checking docker version
+Build and Test	Initialize containers	2026-10-26T19:39:12.7152284Z ##[command]/usr/bin/docker version --format '{{.Server.APIVersion}}'
+Build and Test	Initialize containers	2026-10-26T19:39:12.9346060Z '1.48'
+Build and Test	Initialize containers	2026-10-26T19:39:12.9357412Z Docker daemon API version: '1.48'
+Build and Test	Initialize containers	2026-10-26T19:39:12.9358196Z ##[command]/usr/bin/docker version --format '{{.Client.APIVersion}}'
+Build and Test	Initialize containers	2026-10-26T19:39:12.9497344Z '1.48'
+Build and Test	Initialize containers	2026-10-26T19:39:12.9509090Z Docker client API version: '1.48'
+Build and Test	Initialize containers	2026-10-26T19:39:12.9514003Z ##[endgroup]
+Build and Test	Initialize containers	2026-10-26T19:39:12.9516042Z ##[group]Clean up resources from previous jobs
+Build and Test	Initialize containers	2026-10-26T19:39:12.9520787Z ##[command]/usr/bin/docker ps --all --quiet --no-trunc --filter "label=5e0c54"
+Build and Test	Initialize containers	2026-10-26T19:39:12.9637149Z ##[command]/usr/bin/docker network prune --force --filter "label=5e0c54"
+Build and Test	Initialize containers	2026-10-26T19:39:12.9902754Z ##[endgroup]
+Build and Test	Initialize containers	2026-10-26T19:39:12.9903262Z ##[group]Create local container network
+Build and Test	Initialize containers	2026-10-26T19:39:12.9911686Z ##[command]/usr/bin/docker network create --label 5e0c54 github_network_ad46318bf0f944fda5c291726dc088cb
+Build and Test	Initialize containers	2026-10-26T19:39:13.0690186Z 36f14bed9000fa7fb970fc01224d0090036e693b8ec8d14279fa138d3bb7551d
+Build and Test	Initialize containers	2026-10-26T19:39:13.0706237Z ##[endgroup]
+Build and Test	Initialize containers	2026-10-26T19:39:13.0725750Z ##[group]Starting job container
+Build and Test	Initialize containers	2026-10-26T19:39:13.0743343Z ##[command]/usr/bin/docker pull mcr.microsoft.com/playwright:v1.57.0-noble
+Build and Test	Initialize containers	2026-10-26T19:39:13.2260170Z v1.57.0-noble: Pulling from playwright
+Build and Test	Initialize containers	2026-10-26T19:39:13.2738258Z 02de03a7213b: Pulling fs layer
+Build and Test	Initialize containers	2026-10-26T19:39:13.2739582Z 24f36c9a3b12: Pulling fs layer
+Build and Test	Initialize containers	2026-10-26T19:39:13.2742168Z cbd08ed6b2dc: Pulling fs layer
+Build and Test	Initialize containers	2026-10-26T19:39:13.2743304Z de372fe83d1b: Pulling fs layer
+Build and Test	Initialize containers	2026-10-26T19:39:13.2744174Z de372fe83d1b: Waiting
+Build and Test	Initialize containers	2026-10-26T19:39:13.3232799Z cbd08ed6b2dc: Verifying Checksum
+Build and Test	Initialize containers	2026-10-26T19:39:13.3234196Z cbd08ed6b2dc: Download complete
+Build and Test	Initialize containers	2026-10-26T19:39:13.4429598Z 02de03a7213b: Verifying Checksum
+Build and Test	Initialize containers	2026-10-26T19:39:13.4431260Z 02de03a7213b: Download complete
+Build and Test	Initialize containers	2026-10-26T19:39:13.7493568Z 24f36c9a3b12: Verifying Checksum
+Build and Test	Initialize containers	2026-10-26T19:39:14.7557458Z 24f36c9a3b12: Download complete
+Build and Test	Initialize containers	2026-10-26T19:39:14.7559257Z 02de03a7213b: Pull complete
+Build and Test	Initialize containers	2026-10-26T19:39:17.6358262Z de372fe83d1b: Verifying Checksum
+Build and Test	Initialize containers	2026-10-26T19:39:17.6359527Z de372fe83d1b: Download complete
+Build and Test	Initialize containers	2026-10-26T19:39:27.4757702Z 24f36c9a3b12: Pull complete
+Build and Test	Initialize containers	2026-10-26T19:39:27.4945734Z cbd08ed6b2dc: Pull complete
+Build and Test	Initialize containers	2026-10-26T19:39:45.3229707Z de372fe83d1b: Pull complete
+Build and Test	Initialize containers	2026-10-26T19:39:45.3370713Z Digest: sha256:3bed4b1a12f2338642f3d8cba28e291deef3c66bd4a964bbeb3e57bbff511dbd
+Build and Test	Initialize containers	2026-10-26T19:39:45.3411301Z Status: Downloaded newer image for mcr.microsoft.com/playwright:v1.57.0-noble
+Build and Test	Initialize containers	2026-10-26T19:39:45.3417503Z mcr.microsoft.com/playwright:v1.57.0-noble
+Build and Test	Initialize containers	2026-10-26T19:39:45.3486301Z ##[command]/usr/bin/docker create --name 1652560b336c406c9f5ce54d5cf03f3f_mcrmicrosoftcomplaywrightv1570noble_01f346 --label 5e0c54 --workdir /__w/imsop-app-frontend/imsop-app-frontend --network github_network_ad46318bf0f944fda5c291726dc088cb --ipc=host -e "HOME=/github/home" -e GITHUB_ACTIONS=true -e CI=true -v "/var/run/docker.sock":"/var/run/docker.sock" -v "/home/runner/work":"/__w" -v "/home/runner/actions-runner/cached/2.338.0/externals":"/__e":ro -v "/home/runner/work/_temp":"/__w/_temp" -v "/home/runner/work/_actions":"/__w/_actions" -v "/opt/hostedtoolcache":"/__t" -v "/home/runner/work/_temp/_github_home":"/github/home" -v "/home/runner/work/_temp/_github_workflow":"/github/workflow" --entrypoint "tail" mcr.microsoft.com/playwright:v1.57.0-noble "-f" "/dev/null"
+Build and Test	Initialize containers	2026-10-26T19:39:45.3725861Z 7140655a4eeb6cdb0b33465b699e09ecd5fdfe9d772c554df8eb09406e11bf4b
+Build and Test	Initialize containers	2026-10-26T19:39:45.3748056Z ##[command]/usr/bin/docker start 7140655a4eeb6cdb0b33465b699e09ecd5fdfe9d772c554df8eb09406e11bf4b
+Build and Test	Initialize containers	2026-10-26T19:39:45.6004906Z 7140655a4eeb6cdb0b33465b699e09ecd5fdfe9d772c554df8eb09406e11bf4b
+Build and Test	Initialize containers	2026-10-26T19:39:45.6022272Z ##[command]/usr/bin/docker ps --all --filter id=7140655a4eeb6cdb0b33465b699e09ecd5fdfe9d772c554df8eb09406e11bf4b --filter status=running --no-trunc --format "{{.ID}} {{.Status}}"
+Build and Test	Initialize containers	2026-10-26T19:39:45.6133387Z 7140655a4eeb6cdb0b33465b699e09ecd5fdfe9d772c554df8eb09406e11bf4b Up Less than a second
+Build and Test	Initialize containers	2026-10-26T19:39:45.6141943Z ##[command]/usr/bin/docker inspect --format "{{range .Config.Env}}{{println .}}{{end}}" 7140655a4eeb6cdb0b33465b699e09ecd5fdfe9d772c554df8eb09406e11bf4b
+Build and Test	Initialize containers	2026-10-26T19:39:45.6242769Z CI=true
+Build and Test	Initialize containers	2026-10-26T19:39:45.6243185Z HOME=/github/home
+Build and Test	Initialize containers	2026-10-26T19:39:45.6243486Z GITHUB_ACTIONS=true
+Build and Test	Initialize containers	2026-10-26T19:39:45.6243876Z PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+Build and Test	Initialize containers	2026-10-26T19:39:45.6244329Z LANG=C.UTF-8
+Build and Test	Initialize containers	2026-10-26T19:39:45.6244589Z LC_ALL=C.UTF-8
+Build and Test	Initialize containers	2026-10-26T19:39:45.6244873Z PLAYWRIGHT_BROWSERS_PATH=/ms-playwright
+Build and Test	Initialize containers	2026-10-26T19:39:45.6262875Z ##[endgroup]
+Build and Test	Initialize containers	2026-10-26T19:39:45.6270672Z ##[group]Waiting for all services to be ready
+Build and Test	Initialize containers	2026-10-26T19:39:45.6272122Z ##[endgroup]
+Build and Test	Checkout Code	﻿2026-10-26T19:39:45.6575714Z ##[group]Run actions/checkout@v4
+Build and Test	Checkout Code	2026-10-26T19:39:45.6576171Z with:
+Build and Test	Checkout Code	2026-10-26T19:39:45.6576397Z   repository: DruHustle/imsop-app-frontend
+Build and Test	Checkout Code	2026-10-26T19:39:45.6578447Z   token: ***
+Build and Test	Checkout Code	2026-10-26T19:39:45.6578621Z   ssh-strict: true
+Build and Test	Checkout Code	2026-10-26T19:39:45.6578797Z   ssh-user: git
+Build and Test	Checkout Code	2026-10-26T19:39:45.6578973Z   persist-credentials: true
+Build and Test	Checkout Code	2026-10-26T19:39:45.6579178Z   clean: true
+Build and Test	Checkout Code	2026-10-26T19:39:45.6579360Z   sparse-checkout-cone-mode: true
+Build and Test	Checkout Code	2026-10-26T19:39:45.6579569Z   fetch-depth: 1
+Build and Test	Checkout Code	2026-10-26T19:39:45.6579734Z   fetch-tags: false
+Build and Test	Checkout Code	2026-10-26T19:39:45.6580210Z   show-progress: true
+Build and Test	Checkout Code	2026-10-26T19:39:45.6580380Z   lfs: false
+Build and Test	Checkout Code	2026-10-26T19:39:45.6580531Z   submodules: false
+Build and Test	Checkout Code	2026-10-26T19:39:45.6580699Z   set-safe-directory: true
+Build and Test	Checkout Code	2026-10-26T19:39:45.6580891Z   allow-unsafe-pr-checkout: false
+Build and Test	Checkout Code	2026-10-26T19:39:45.6581275Z ##[endgroup]
+Build and Test	Checkout Code	2026-10-26T19:39:45.6632190Z ##[command]/usr/bin/docker exec  7140655a4eeb6cdb0b33465b699e09ecd5fdfe9d772c554df8eb09406e11bf4b sh -c "cat /etc/*release | grep ^ID"
+Build and Test	Checkout Code	2026-10-26T19:39:45.8529705Z Syncing repository: DruHustle/imsop-app-frontend
+Build and Test	Checkout Code	2026-10-26T19:39:45.8532238Z ##[group]Getting Git version info
+Build and Test	Checkout Code	2026-10-26T19:39:45.8533246Z Working directory is '/__w/imsop-app-frontend/imsop-app-frontend'
+Build and Test	Checkout Code	2026-10-26T19:39:45.8533996Z [command]/usr/bin/git version
+Build and Test	Checkout Code	2026-10-26T19:39:45.8534322Z git version 2.43.0
+Build and Test	Checkout Code	2026-10-26T19:39:45.8535382Z ##[endgroup]
+Build and Test	Checkout Code	2026-10-26T19:39:45.8540034Z Temporarily overriding HOME='/__w/_temp/04c70616-2eee-42db-a1c1-b0c6d24a96b2' before making global git config changes
+Build and Test	Checkout Code	2026-10-26T19:39:45.8540970Z Adding repository directory to the temporary git global config as a safe directory
+Build and Test	Checkout Code	2026-10-26T19:39:45.8541822Z [command]/usr/bin/git config --global --add safe.directory /__w/imsop-app-frontend/imsop-app-frontend
+Build and Test	Checkout Code	2026-10-26T19:39:45.8569543Z Deleting the contents of '/__w/imsop-app-frontend/imsop-app-frontend'
+Build and Test	Checkout Code	2026-10-26T19:39:45.8572095Z ##[group]Initializing the repository
+Build and Test	Checkout Code	2026-10-26T19:39:45.8572684Z [command]/usr/bin/git init /__w/imsop-app-frontend/imsop-app-frontend
+Build and Test	Checkout Code	2026-10-26T19:39:45.8608214Z hint: Using 'master' as the name for the initial branch. This default branch name
+Build and Test	Checkout Code	2026-10-26T19:39:45.8608905Z hint: is subject to change. To configure the initial branch name to use in all
+Build and Test	Checkout Code	2026-10-26T19:39:45.8609666Z hint: of your new repositories, which will suppress this warning, call:
+Build and Test	Checkout Code	2026-10-26T19:39:45.8610276Z hint: 
+Build and Test	Checkout Code	2026-10-26T19:39:45.8610627Z hint: 	git config --global init.defaultBranch <name>
+Build and Test	Checkout Code	2026-10-26T19:39:45.8611043Z hint: 
+Build and Test	Checkout Code	2026-10-26T19:39:45.8611479Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+Build and Test	Checkout Code	2026-10-26T19:39:45.8612121Z hint: 'development'. The just-created branch can be renamed via this command:
+Build and Test	Checkout Code	2026-10-26T19:39:45.8612620Z hint: 
+Build and Test	Checkout Code	2026-10-26T19:39:45.8612888Z hint: 	git branch -m <name>
+Build and Test	Checkout Code	2026-10-26T19:39:45.8616730Z Initialized empty Git repository in /__w/imsop-app-frontend/imsop-app-frontend/.git/
+Build and Test	Checkout Code	2026-10-26T19:39:45.8626465Z [command]/usr/bin/git remote add origin https://github.com/DruHustle/imsop-app-frontend
+Build and Test	Checkout Code	2026-10-26T19:39:45.8993544Z ##[endgroup]
+Build and Test	Checkout Code	2026-10-26T19:39:45.8994229Z ##[group]Disabling automatic garbage collection
+Build and Test	Checkout Code	2026-10-26T19:39:45.8996302Z [command]/usr/bin/git config --local gc.auto 0
+Build and Test	Checkout Code	2026-10-26T19:39:45.9030448Z ##[endgroup]
+Build and Test	Checkout Code	2026-10-26T19:39:45.9030930Z ##[group]Setting up auth
+Build and Test	Checkout Code	2026-10-26T19:39:45.9044243Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+Build and Test	Checkout Code	2026-10-26T19:39:45.9095076Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+Build and Test	Checkout Code	2026-10-26T19:39:45.9303446Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+Build and Test	Checkout Code	2026-10-26T19:39:45.9333889Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+Build and Test	Checkout Code	2026-10-26T19:39:45.9550882Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+Build and Test	Checkout Code	2026-10-26T19:39:45.9581551Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+Build and Test	Checkout Code	2026-10-26T19:39:45.9791913Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+Build and Test	Checkout Code	2026-10-26T19:39:45.9832933Z ##[endgroup]
+Build and Test	Checkout Code	2026-10-26T19:39:45.9833468Z ##[group]Fetching the repository
+Build and Test	Checkout Code	2026-10-26T19:39:45.9842311Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +367f4abfc10d681d60c38244865a831d78be7588:refs/remotes/origin/main
+Build and Test	Checkout Code	2026-10-26T19:39:46.9258888Z From https://github.com/DruHustle/imsop-app-frontend
+Build and Test	Checkout Code	2026-10-26T19:39:46.9259488Z  * [new ref]         367f4abfc10d681d60c38244865a831d78be7588 -> origin/main
+Build and Test	Checkout Code	2026-10-26T19:39:46.9275557Z ##[endgroup]
+Build and Test	Checkout Code	2026-10-26T19:39:46.9275890Z ##[group]Determining the checkout info
+Build and Test	Checkout Code	2026-10-26T19:39:46.9277990Z ##[endgroup]
+Build and Test	Checkout Code	2026-10-26T19:39:46.9283006Z [command]/usr/bin/git sparse-checkout disable
+Build and Test	Checkout Code	2026-10-26T19:39:46.9319460Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+Build and Test	Checkout Code	2026-10-26T19:39:46.9345899Z ##[group]Checking out the ref
+Build and Test	Checkout Code	2026-10-26T19:39:46.9348990Z [command]/usr/bin/git checkout --progress --force -B main refs/remotes/origin/main
+Build and Test	Checkout Code	2026-10-26T19:39:47.0170435Z Switched to a new branch 'main'
+Build and Test	Checkout Code	2026-10-26T19:39:47.0170854Z branch 'main' set up to track 'origin/main'.
+Build and Test	Checkout Code	2026-10-26T19:39:47.0180401Z ##[endgroup]
+Build and Test	Checkout Code	2026-10-26T19:39:47.0219318Z [command]/usr/bin/git log -1 --format=%H
+Build and Test	Checkout Code	2026-10-26T19:39:47.0244951Z 367f4abfc10d681d60c38244865a831d78be7588
+Build and Test	Setup PNPM	﻿2026-10-26T19:39:47.0456266Z ##[group]Run pnpm/action-setup@v3
+Build and Test	Setup PNPM	2026-10-26T19:39:47.0456503Z with:
+Build and Test	Setup PNPM	2026-10-26T19:39:47.0456670Z   version: 10
+Build and Test	Setup PNPM	2026-10-26T19:39:47.0456836Z   dest: ~/setup-pnpm
+Build and Test	Setup PNPM	2026-10-26T19:39:47.0457011Z   run_install: null
+Build and Test	Setup PNPM	2026-10-26T19:39:47.0457192Z   package_json_file: package.json
+Build and Test	Setup PNPM	2026-10-26T19:39:47.0457391Z   standalone: false
+Build and Test	Setup PNPM	2026-10-26T19:39:47.0457565Z ##[endgroup]
+Build and Test	Setup PNPM	2026-10-26T19:39:47.0460961Z ##[command]/usr/bin/docker exec  7140655a4eeb6cdb0b33465b699e09ecd5fdfe9d772c554df8eb09406e11bf4b sh -c "cat /etc/*release | grep ^ID"
+Build and Test	Setup PNPM	2026-10-26T19:39:47.1982283Z ##[group]Running self-installer...
+Build and Test	Setup PNPM	2026-10-26T19:39:47.5014791Z (node:163) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+Build and Test	Setup PNPM	2026-10-26T19:39:47.5015972Z (Use `node --trace-deprecation ...` to show where the warning was created)
+Build and Test	Setup PNPM	2026-10-26T19:39:47.8112216Z Progress: resolved 1, reused 0, downloaded 0, added 0
+Build and Test	Setup PNPM	2026-10-26T19:39:47.8171104Z Packages: +1
+Build and Test	Setup PNPM	2026-10-26T19:39:47.8171441Z +
+Build and Test	Setup PNPM	2026-10-26T19:39:48.2679615Z Progress: resolved 1, reused 0, downloaded 1, added 1, done
+Build and Test	Setup PNPM	2026-10-26T19:39:48.2946031Z 
+Build and Test	Setup PNPM	2026-10-26T19:39:48.2946564Z dependencies:
+Build and Test	Setup PNPM	2026-10-26T19:39:48.2946915Z + pnpm 10.34.9 (12.15.0 is available)
+Build and Test	Setup PNPM	2026-10-26T19:39:48.2947153Z 
+Build and Test	Setup PNPM	2026-10-26T19:39:48.2968355Z Done in 967ms
+Build and Test	Setup PNPM	2026-10-26T19:39:48.3130762Z ##[endgroup]
+Build and Test	Setup PNPM	2026-10-26T19:39:48.3131151Z Installation Completed!
+Build and Test	Setup Node.js	﻿2026-10-26T19:39:48.3302538Z ##[group]Run actions/setup-node@v4
+Build and Test	Setup Node.js	2026-10-26T19:39:48.3302774Z with:
+Build and Test	Setup Node.js	2026-10-26T19:39:48.3302935Z   node-version: 22
+Build and Test	Setup Node.js	2026-10-26T19:39:48.3303102Z   cache: pnpm
+Build and Test	Setup Node.js	2026-10-26T19:39:48.3303260Z   always-auth: false
+Build and Test	Setup Node.js	2026-10-26T19:39:48.3303434Z   check-latest: false
+Build and Test	Setup Node.js	2026-10-26T19:39:48.3305273Z   token: ***
+Build and Test	Setup Node.js	2026-10-26T19:39:48.3305440Z env:
+Build and Test	Setup Node.js	2026-10-26T19:39:48.3305638Z   PNPM_HOME: /github/home/setup-pnpm/node_modules/.bin
+Build and Test	Setup Node.js	2026-10-26T19:39:48.3305892Z ##[endgroup]
+Build and Test	Setup Node.js	2026-10-26T19:39:48.3312217Z ##[command]/usr/bin/docker exec  7140655a4eeb6cdb0b33465b699e09ecd5fdfe9d772c554df8eb09406e11bf4b sh -c "cat /etc/*release | grep ^ID"
+Build and Test	Setup Node.js	2026-10-26T19:39:48.5274227Z Found in cache @ /__t/node/22.23.3/x64
+Build and Test	Setup Node.js	2026-10-26T19:39:48.5277917Z (node:185) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+Build and Test	Setup Node.js	2026-10-26T19:39:48.5278969Z (Use `node --trace-deprecation ...` to show where the warning was created)
+Build and Test	Setup Node.js	2026-10-26T19:39:48.5280664Z ##[group]Environment details
+Build and Test	Setup Node.js	2026-10-26T19:39:49.0727676Z node: v22.23.3
+Build and Test	Setup Node.js	2026-10-26T19:39:49.0728039Z npm: 10.9.9
+Build and Test	Setup Node.js	2026-10-26T19:39:49.0728266Z yarn: 1.22.22
+Build and Test	Setup Node.js	2026-10-26T19:39:49.0729062Z ##[endgroup]
+Build and Test	Setup Node.js	2026-10-26T19:39:49.0742546Z [command]/github/home/setup-pnpm/node_modules/.bin/pnpm store path --silent
+Build and Test	Setup Node.js	2026-10-26T19:39:50.8502467Z /__w/.pnpm-store/v10
+Build and Test	Setup Node.js	2026-10-26T19:39:51.0101897Z pnpm cache is not found
+Build and Test	Restore Dependencies	﻿2026-10-26T19:39:51.0241986Z ##[group]Run pnpm install --frozen-lockfile
+Build and Test	Restore Dependencies	2026-10-26T19:39:51.0242349Z pnpm install --frozen-lockfile
+Build and Test	Restore Dependencies	2026-10-26T19:39:51.0244638Z shell: sh -e {0}
+Build and Test	Restore Dependencies	2026-10-26T19:39:51.0244820Z env:
+Build and Test	Restore Dependencies	2026-10-26T19:39:51.0245039Z   PNPM_HOME: /github/home/setup-pnpm/node_modules/.bin
+Build and Test	Restore Dependencies	2026-10-26T19:39:51.0245296Z ##[endgroup]
+Build and Test	Restore Dependencies	2026-10-26T19:39:51.5896245Z Lockfile is up to date, resolution step is skipped
+Build and Test	Restore Dependencies	2026-10-26T19:39:51.6359471Z Progress: resolved 1, reused 0, downloaded 0, added 0
+Build and Test	Restore Dependencies	2026-10-26T19:39:51.7103260Z Packages: +632
+Build and Test	Restore Dependencies	2026-10-26T19:39:51.7104066Z ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Build and Test	Restore Dependencies	2026-10-26T19:39:52.6364568Z Progress: resolved 632, reused 0, downloaded 121, added 113
+Build and Test	Restore Dependencies	2026-10-26T19:39:53.6383761Z Progress: resolved 632, reused 0, downloaded 215, added 211
+Build and Test	Restore Dependencies	2026-10-26T19:39:54.6368737Z Progress: resolved 632, reused 0, downloaded 396, added 393
+Build and Test	Restore Dependencies	2026-10-26T19:39:55.5825350Z Progress: resolved 632, reused 0, downloaded 632, added 632, done
+Build and Test	Restore Dependencies	2026-10-26T19:39:56.0822783Z 
+Build and Test	Restore Dependencies	2026-10-26T19:39:56.0823473Z dependencies:
+Build and Test	Restore Dependencies	2026-10-26T19:39:56.0823821Z + @hookform/resolvers 5.2.2
+Build and Test	Restore Dependencies	2026-10-26T19:39:56.0824195Z + @radix-ui/react-accordion 1.2.12
+Build and Test	Restore Dependencies	2026-10-26T19:39:56.0824603Z + @radix-ui/react-alert-dialog 1.1.15
+Build and Test	Restore Dependencies	2026-10-26T19:39:56.0825034Z + @radix-ui/react-aspect-ratio 1.1.7
+Build and Test	Restore Dependencies	2026-10-26T19:39:56.0825407Z + @radix-ui/react-avatar 1.1.10
+Build and Test	Restore Dependencies	2026-10-26T19:39:56.0825772Z + @radix-ui/react-checkbox 1.3.3
+Build and Test	Restore Dependencies	2026-10-26T19:39:56.0826168Z + @radix-ui/react-collapsible 1.1.12
+Build and Test	Restore Dependencies	2026-10-26T19:39:56.0826568Z + @radix-ui/react-context-menu 2.2.16
+Build and Test	Restore Dependencies	2026-10-26T19:39:56.0826956Z + @radix-ui/react-dialog 1.1.15
+Build and Test	Restore Dependencies	2026-10-26T19:39:56.0827364Z + @radix-ui/react-dropdown-menu 2.1.16
+Build and Test	Restore Dependencies	2026-10-26T19:39:56.0827758Z + @radix-ui/react-hover-card 1.1.15
+Build and Test	Restore Dependencies	2026-10-26T19:39:56.0828186Z + @radix-ui/react-label 2.1.7
+Build and Test	Restore Dependencies	2026-10-26T19:39:56.0828562Z + @radix-ui/react-menubar 1.1.16
+Build and Test	Restore Dependencies	2026-10-26T19:39:56.0828955Z + @radix-ui/react-navigation-menu 1.2.14
+Build and Test	Restore Dependencies	2026-10-26T19:39:56.0829346Z + @radix-ui/react-popover 1.1.15
+Build and Test	Restore Dependencies	2026-10-26T19:39:56.0829730Z + @radix-ui/react-progress 1.1.7
+Build and Test	Restore Dependencies	2026-10-26T19:39:56.0830298Z + @radix-ui/react-radio-group 1.3.8
+Build and Test	Restore Dependencies	2026-10-26T19:39:56.0830679Z + @radix-ui/react-scroll-area 1.2.10
+Build and Test	Restore Dependencies	2026-10-26T19:39:56.0831049Z + @radix-ui/react-select 2.2.6
+Build and Test	Restore Dependencies	2026-10-26T19:39:56.0831292Z + @radix-ui/react-separator 1.1.7
+Build and Test	Restore Dependencies	2026-10-26T19:39:56.0831542Z + @radix-ui/react-slider 1.3.6
+Build and Test	Restore Dependencies	2026-10-26T19:39:56.0831765Z + @radix-ui/react-slot 1.2.3
+Build and Test	Restore Dependencies	2026-10-26T19:39:56.0831990Z + @radix-ui/react-switch 1.2.6
+Build and Test	Restore Dependencies	2026-10-26T19:39:56.0832205Z + @radix-ui/react-tabs 1.1.13
+Build and Test	Restore Dependencies	2026-10-26T19:39:56.0832500Z + @radix-ui/react-toggle 1.1.10
+Build and Test	Restore Dependencies	2026-10-26T19:39:56.0832743Z + @radix-ui/react-toggle-group 1.1.11
+Build and Test	Restore Dependencies	2026-10-26T19:39:56.0833046Z + @radix-ui/react-tooltip 1.2.8
+Build and Test	Restore Dependencies	2026-10-26T19:39:56.0833373Z + @vercel/analytics 1.6.1
+Build and Test	Restore Dependencies	2026-10-26T19:39:56.0833650Z + axios 1.20.0
+Build and Test	Restore Dependencies	2026-10-26T19:39:56.0833860Z + class-variance-authority 0.7.1
+Build and Test	Restore Dependencies	2026-10-26T19:39:56.0834073Z + clsx 2.1.1
+Build and Test	Restore Dependencies	2026-10-26T19:39:56.0834257Z + cmdk 1.1.1
+Build and Test	Restore Dependencies	2026-10-26T19:39:56.0834414Z + date-fns 4.1.0
+Build and Test	Restore Dependencies	2026-10-26T19:39:56.0834615Z + embla-carousel-react 8.6.0
+Build and Test	Restore Dependencies	2026-10-26T19:39:56.0834825Z + framer-motion 12.23.22
+Build and Test	Restore Dependencies	2026-10-26T19:39:56.0835024Z + input-otp 1.4.2
+Build and Test	Restore Dependencies	2026-10-26T19:39:56.0835214Z + lucide-react 0.453.0
+Build and Test	Restore Dependencies	2026-10-26T19:39:56.0835397Z + nanoid 5.1.16
+Build and Test	Restore Dependencies	2026-10-26T19:39:56.0835574Z + next-themes 0.4.6
+Build and Test	Restore Dependencies	2026-10-26T19:39:56.0835746Z + react 19.2.1
+Build and Test	Restore Dependencies	2026-10-26T19:39:56.0835927Z + react-day-picker 9.11.1
+Build and Test	Restore Dependencies	2026-10-26T19:39:56.0836123Z + react-dom 19.2.1
+Build and Test	Restore Dependencies	2026-10-26T19:39:56.0836307Z + react-hook-form 7.64.0
+Build and Test	Restore Dependencies	2026-10-26T19:39:56.0836536Z + react-resizable-panels 3.0.6
+Build and Test	Restore Dependencies	2026-10-26T19:39:56.0836750Z + recharts 2.15.4
+Build and Test	Restore Dependencies	2026-10-26T19:39:56.0836927Z + sonner 2.0.7
+Build and Test	Restore Dependencies	2026-10-26T19:39:56.0837099Z + streamdown 1.4.0
+Build and Test	Restore Dependencies	2026-10-26T19:39:56.0837287Z + tailwind-merge 3.3.1
+Build and Test	Restore Dependencies	2026-10-26T19:39:56.0837487Z + tailwindcss-animate 1.0.7
+Build and Test	Restore Dependencies	2026-10-26T19:39:56.0837689Z + vaul 1.1.2
+Build and Test	Restore Dependencies	2026-10-26T19:39:56.0837851Z + wouter 3.7.1
+Build and Test	Restore Dependencies	2026-10-26T19:39:56.0838017Z + zod 4.6.7
+Build and Test	Restore Dependencies	2026-10-26T19:39:56.0838107Z 
+Build and Test	Restore Dependencies	2026-10-26T19:39:56.0838193Z devDependencies:
+Build and Test	Restore Dependencies	2026-10-26T19:39:56.0838694Z + @playwright/test 1.57.0
+Build and Test	Restore Dependencies	2026-10-26T19:39:56.0838932Z + @tailwindcss/typography 0.5.19
+Build and Test	Restore Dependencies	2026-10-26T19:39:56.0839159Z + @tailwindcss/vite 4.1.14
+Build and Test	Restore Dependencies	2026-10-26T19:39:56.0839370Z + @testing-library/dom 10.4.1
+Build and Test	Restore Dependencies	2026-10-26T19:39:56.0839597Z + @testing-library/react 16.3.1
+Build and Test	Restore Dependencies	2026-10-26T19:39:56.0840147Z + @types/google.maps 3.58.1
+Build and Test	Restore Dependencies	2026-10-26T19:39:56.0840450Z + @types/node 24.7.0
+Build and Test	Restore Dependencies	2026-10-26T19:39:56.0840734Z + @types/react 19.2.1
+Build and Test	Restore Dependencies	2026-10-26T19:39:56.0841029Z + @types/react-dom 19.2.1
+Build and Test	Restore Dependencies	2026-10-26T19:39:56.0841357Z + @vitejs/plugin-react 5.0.4
+Build and Test	Restore Dependencies	2026-10-26T19:39:56.0841597Z + autoprefixer 10.4.21
+Build and Test	Restore Dependencies	2026-10-26T19:39:56.0841961Z + gh-pages 6.3.0
+Build and Test	Restore Dependencies	2026-10-26T19:39:56.0842147Z + jsdom 27.4.0
+Build and Test	Restore Dependencies	2026-10-26T19:39:56.0842313Z + pnpm 10.18.1
+Build and Test	Restore Dependencies	2026-10-26T19:39:56.0842480Z + postcss 8.5.6
+Build and Test	Restore Dependencies	2026-10-26T19:39:56.0842649Z + prettier 3.6.2
+Build and Test	Restore Dependencies	2026-10-26T19:39:56.0842828Z + tailwindcss 4.1.14
+Build and Test	Restore Dependencies	2026-10-26T19:39:56.0843029Z + tw-animate-css 1.4.0
+Build and Test	Restore Dependencies	2026-10-26T19:39:56.0843216Z + typescript 5.9.3
+Build and Test	Restore Dependencies	2026-10-26T19:39:56.0843382Z + vite 7.1.9
+Build and Test	Restore Dependencies	2026-10-26T19:39:56.0843564Z + vitest 2.1.9
+Build and Test	Restore Dependencies	2026-10-26T19:39:56.0843652Z 
+Build and Test	Restore Dependencies	2026-10-26T19:39:56.0845501Z ╭ Warning ─────────────────────────────────────────────────────────────────────╮│                                                                              ││   Ignored build scripts: @tailwindcss/oxide, esbuild.                        ││   Run "pnpm approve-builds" to pick which dependencies should be allowed     ││   to run scripts.                                                            ││                                                                              │╰──────────────────────────────────────────────────────────────────────────────╯
+Build and Test	Restore Dependencies	2026-10-26T19:39:56.0846478Z 
+Build and Test	Restore Dependencies	2026-10-26T19:39:56.1029750Z Done in 4.7s using pnpm v10.4.1
+Build and Test	Build Solution	﻿2026-10-26T19:39:56.1685208Z ##[group]Run pnpm build
+Build and Test	Build Solution	2026-10-26T19:39:56.1685476Z pnpm build
+Build and Test	Build Solution	2026-10-26T19:39:56.1685819Z shell: sh -e {0}
+Build and Test	Build Solution	2026-10-26T19:39:56.1685991Z env:
+Build and Test	Build Solution	2026-10-26T19:39:56.1686190Z   PNPM_HOME: /github/home/setup-pnpm/node_modules/.bin
+Build and Test	Build Solution	2026-10-26T19:39:56.1686437Z   VITE_BASE_PATH: /
+Build and Test	Build Solution	2026-10-26T19:39:56.1686618Z ##[endgroup]
+Build and Test	Build Solution	2026-10-26T19:39:56.6745436Z 
+Build and Test	Build Solution	2026-10-26T19:39:56.6746297Z > imsop-app@1.0.0 build /__w/imsop-app-frontend/imsop-app-frontend
+Build and Test	Build Solution	2026-10-26T19:39:56.6746939Z > vite build && pnpm verify:deployment
+Build and Test	Build Solution	2026-10-26T19:39:56.6747182Z 
+Build and Test	Build Solution	2026-10-26T19:39:57.3962045Z vite v7.1.9 building for production...
+Build and Test	Build Solution	2026-10-26T19:39:57.4549154Z transforming...
+Build and Test	Build Solution	2026-10-26T19:39:59.5468423Z ✓ 1714 modules transformed.
+Build and Test	Build Solution	2026-10-26T19:40:00.4110538Z rendering chunks...
+Build and Test	Build Solution	2026-10-26T19:40:00.5233962Z computing gzip size...
+Build and Test	Build Solution	2026-10-26T19:40:00.5349617Z ../dist/index.html                             2.77 kB │ gzip:   0.87 kB
+Build and Test	Build Solution	2026-10-26T19:40:00.5351088Z ../dist/assets/index-C0LQSZZS.css            125.72 kB │ gzip:  20.64 kB
+Build and Test	Build Solution	2026-10-26T19:40:00.5352766Z ../dist/assets/circle-check-big-DUYm0y0U.js    0.36 kB │ gzip:   0.28 kB
+Build and Test	Build Solution	2026-10-26T19:40:00.5354341Z ../dist/assets/user-DTJjRqwY.js                0.37 kB │ gzip:   0.29 kB
+Build and Test	Build Solution	2026-10-26T19:40:00.5355807Z ../dist/assets/lock-C9LMF_eq.js                0.38 kB │ gzip:   0.30 kB
+Build and Test	Build Solution	2026-10-26T19:40:00.5357053Z ../dist/assets/mail-SIW3wHOa.js                0.38 kB │ gzip:   0.31 kB
+Build and Test	Build Solution	2026-10-26T19:40:00.5358595Z ../dist/assets/NotFound-dg5jZ-Tu.js            0.47 kB │ gzip:   0.33 kB
+Build and Test	Build Solution	2026-10-26T19:40:00.5359743Z ../dist/assets/charts-BuC_iVWv.js              0.88 kB │ gzip:   0.51 kB
+Build and Test	Build Solution	2026-10-26T19:40:00.5360918Z ../dist/assets/brain-circuit-Dztvwm6r.js       0.97 kB │ gzip:   0.51 kB
+Build and Test	Build Solution	2026-10-26T19:40:00.5361946Z ../dist/assets/eye-DaJmpB5Q.js                 0.97 kB │ gzip:   0.45 kB
+Build and Test	Build Solution	2026-10-26T19:40:00.5363152Z ../dist/assets/Forbidden-nnoHeu6p.js           1.07 kB │ gzip:   0.66 kB
+Build and Test	Build Solution	2026-10-26T19:40:00.5364391Z ../dist/assets/Intelligence-BRRI7KRP.js        1.89 kB │ gzip:   0.97 kB
+Build and Test	Build Solution	2026-10-26T19:40:00.5365664Z ../dist/assets/dialog-BKHvYLi1.js              2.78 kB │ gzip:   1.13 kB
+Build and Test	Build Solution	2026-10-26T19:40:00.5367263Z ../dist/assets/input-L48buiCY.js               3.39 kB │ gzip:   1.33 kB
+Build and Test	Build Solution	2026-10-26T19:40:00.5368537Z ../dist/assets/ForgotPassword-Cykw6DQs.js      3.74 kB │ gzip:   1.49 kB
+Build and Test	Build Solution	2026-10-26T19:40:00.5369993Z ../dist/assets/Map-DjRi4MGP.js                 3.78 kB │ gzip:   1.69 kB
+Build and Test	Build Solution	2026-10-26T19:40:00.5371251Z ../dist/assets/Register-TqSAeSLX.js            3.83 kB │ gzip:   1.41 kB
+Build and Test	Build Solution	2026-10-26T19:40:00.5372580Z ../dist/assets/ExportActions-CtDCGCm-.js       4.07 kB │ gzip:   2.06 kB
+Build and Test	Build Solution	2026-10-26T19:40:00.5373898Z ../dist/assets/Dashboard-B8Z8xpSD.js           4.35 kB │ gzip:   1.95 kB
+Build and Test	Build Solution	2026-10-26T19:40:00.5375013Z ../dist/assets/Login-CZx1PEg4.js               4.45 kB │ gzip:   1.58 kB
+Build and Test	Build Solution	2026-10-26T19:40:00.5376158Z ../dist/assets/AnalyticsPage-D6TKCoo0.js       4.45 kB │ gzip:   1.81 kB
+Build and Test	Build Solution	2026-10-26T19:40:00.5377555Z ../dist/assets/Orders-FBWkRlhn.js              4.74 kB │ gzip:   1.86 kB
+Build and Test	Build Solution	2026-10-26T19:40:00.5378281Z ../dist/assets/ResetPassword-D9D34xTl.js       4.74 kB │ gzip:   1.52 kB
+Build and Test	Build Solution	2026-10-26T19:40:00.5379015Z ../dist/assets/Infrastructure-DTAgMBu8.js      4.77 kB │ gzip:   2.05 kB
+Build and Test	Build Solution	2026-10-26T19:40:00.5379742Z ../dist/assets/RecordDetail-B66wx1YR.js        5.81 kB │ gzip:   2.27 kB
+Build and Test	Build Solution	2026-10-26T19:40:00.5380839Z ../dist/assets/Settings-CuxoYWUw.js            5.99 kB │ gzip:   2.30 kB
+Build and Test	Build Solution	2026-10-26T19:40:00.5381588Z ../dist/assets/Assistant-DA3i_ZG9.js           6.47 kB │ gzip:   2.70 kB
+Build and Test	Build Solution	2026-10-26T19:40:00.5382326Z ../dist/assets/Operations-CkwRSjjO.js          9.73 kB │ gzip:   3.37 kB
+Build and Test	Build Solution	2026-10-26T19:40:00.5383041Z ../dist/assets/Profile-Dy_-W-U7.js            10.80 kB │ gzip:   3.65 kB
+Build and Test	Build Solution	2026-10-26T19:40:00.5383723Z ../dist/assets/vendor-COd4auuD.js             11.79 kB │ gzip:   4.21 kB
+Build and Test	Build Solution	2026-10-26T19:40:00.5384418Z ../dist/assets/index-KDPYAVO3.js             392.57 kB │ gzip: 123.86 kB
+Build and Test	Build Solution	2026-10-26T19:40:00.5384874Z ✓ built in 3.11s
+Build and Test	Build Solution	2026-10-26T19:40:01.0677804Z 
+Build and Test	Build Solution	2026-10-26T19:40:01.0678840Z > imsop-app@1.0.0 verify:deployment /__w/imsop-app-frontend/imsop-app-frontend
+Build and Test	Build Solution	2026-10-26T19:40:01.0679511Z > node scripts/verify-deployment.mjs
+Build and Test	Build Solution	2026-10-26T19:40:01.0679892Z 
+Build and Test	Build Solution	2026-10-26T19:40:01.1035270Z Verified 29 browser chunks use no retired backend
+Build and Test	Audit production dependencies	﻿2026-10-26T19:40:01.1428358Z ##[group]Run pnpm audit --prod --audit-level=moderate
+Build and Test	Audit production dependencies	2026-10-26T19:40:01.1428888Z pnpm audit --prod --audit-level=moderate
+Build and Test	Audit production dependencies	2026-10-26T19:40:01.1429595Z shell: sh -e {0}
+Build and Test	Audit production dependencies	2026-10-26T19:40:01.1430353Z env:
+Build and Test	Audit production dependencies	2026-10-26T19:40:01.1430747Z   PNPM_HOME: /github/home/setup-pnpm/node_modules/.bin
+Build and Test	Audit production dependencies	2026-10-26T19:40:01.1431120Z ##[endgroup]
+Build and Test	Audit production dependencies	2026-10-26T19:40:02.2031600Z 2 vulnerabilities found
+Build and Test	Audit production dependencies	2026-10-26T19:40:02.2032034Z Severity: 2 low
+Build and Test	Run Tests	﻿2026-10-26T19:40:02.4011539Z ##[group]Run pnpm test
+Build and Test	Run Tests	2026-10-26T19:40:02.4011793Z pnpm test
+Build and Test	Run Tests	2026-10-26T19:40:02.4012134Z shell: sh -e {0}
+Build and Test	Run Tests	2026-10-26T19:40:02.4012299Z env:
+Build and Test	Run Tests	2026-10-26T19:40:02.4012498Z   PNPM_HOME: /github/home/setup-pnpm/node_modules/.bin
+Build and Test	Run Tests	2026-10-26T19:40:02.4012748Z ##[endgroup]
+Build and Test	Run Tests	2026-10-26T19:40:02.9035554Z 
+Build and Test	Run Tests	2026-10-26T19:40:02.9036804Z > imsop-app@1.0.0 test /__w/imsop-app-frontend/imsop-app-frontend
+Build and Test	Run Tests	2026-10-26T19:40:02.9037530Z > vitest run && node --test scripts/verify-deployment.test.mjs
+Build and Test	Run Tests	2026-10-26T19:40:02.9037884Z 
+Build and Test	Run Tests	2026-10-26T19:40:03.1418611Z 
+Build and Test	Run Tests	2026-10-26T19:40:03.1419957Z  RUN  v2.1.9 /__w/imsop-app-frontend/imsop-app-frontend
+Build and Test	Run Tests	2026-10-26T19:40:03.1420732Z 
+Build and Test	Run Tests	2026-10-26T19:40:04.1451038Z  ✓ client/src/lib/api-auth.test.ts (4 tests) 12ms
+Build and Test	Run Tests	2026-10-26T19:40:04.5819566Z  ✓ client/src/__tests__/components.test.tsx (13 tests) 178ms
+Build and Test	Run Tests	2026-10-26T19:40:04.8571640Z  ✓ client/src/lib/api-origin.test.ts (3 tests) 2ms
+Build and Test	Run Tests	2026-10-26T19:40:05.6413749Z  ✓ client/src/lib/auth.test.ts (6 tests) 1513ms
+Build and Test	Run Tests	2026-10-26T19:40:05.6415345Z    ✓ Auth Service > MockAuthService > should login with valid demo credentials 502ms
+Build and Test	Run Tests	2026-10-26T19:40:05.6416358Z    ✓ Auth Service > MockAuthService > should fail with invalid credentials 501ms
+Build and Test	Run Tests	2026-10-26T19:40:05.6417662Z    ✓ Auth Service > MockAuthService > should logout and clear session 502ms
+Build and Test	Run Tests	2026-10-26T19:40:05.6561913Z 
+Build and Test	Run Tests	2026-10-26T19:40:05.6569663Z  Test Files  4 passed (4)
+Build and Test	Run Tests	2026-10-26T19:40:05.6574153Z       Tests  26 passed (26)
+Build and Test	Run Tests	2026-10-26T19:40:05.6575062Z    Start at  19:40:03
+Build and Test	Run Tests	2026-10-26T19:40:05.6576309Z    Duration  2.51s (transform 287ms, setup 0ms, collect 757ms, tests 1.70s, environment 2.19s, prepare 354ms)
+Build and Test	Run Tests	2026-10-26T19:40:05.6576903Z 
+Build and Test	Run Tests	2026-10-26T19:40:05.7056452Z TAP version 13
+Build and Test	Run Tests	2026-10-26T19:40:05.7416714Z # Subtest: rejects stale lazy Operations chunks even when the entry bundle is clean
+Build and Test	Run Tests	2026-10-26T19:40:05.7421192Z ok 1 - rejects stale lazy Operations chunks even when the entry bundle is clean
+Build and Test	Run Tests	2026-10-26T19:40:05.7421871Z   ---
+Build and Test	Run Tests	2026-10-26T19:40:05.7422159Z   duration_ms: 6.453907
+Build and Test	Run Tests	2026-10-26T19:40:05.7422633Z   type: 'test'
+Build and Test	Run Tests	2026-10-26T19:40:05.7423184Z   ...
+Build and Test	Run Tests	2026-10-26T19:40:05.7448445Z # Subtest: accepts same-origin and Oracle bundles
+Build and Test	Run Tests	2026-10-26T19:40:05.7450762Z ok 2 - accepts same-origin and Oracle bundles
+Build and Test	Run Tests	2026-10-26T19:40:05.7451430Z   ---
+Build and Test	Run Tests	2026-10-26T19:40:05.7451683Z   duration_ms: 3.560321
+Build and Test	Run Tests	2026-10-26T19:40:05.7451973Z   type: 'test'
+Build and Test	Run Tests	2026-10-26T19:40:05.7452261Z   ...
+Build and Test	Run Tests	2026-10-26T19:40:05.7463011Z # Subtest: does not pass an absent build
+Build and Test	Run Tests	2026-10-26T19:40:05.7466025Z ok 3 - does not pass an absent build
+Build and Test	Run Tests	2026-10-26T19:40:05.7466851Z   ---
+Build and Test	Run Tests	2026-10-26T19:40:05.7467246Z   duration_ms: 1.501212
+Build and Test	Run Tests	2026-10-26T19:40:05.7467619Z   type: 'test'
+Build and Test	Run Tests	2026-10-26T19:40:05.7467940Z   ...
+Build and Test	Run Tests	2026-10-26T19:40:05.7534997Z 1..3
+Build and Test	Run Tests	2026-10-26T19:40:05.7535412Z # tests 3
+Build and Test	Run Tests	2026-10-26T19:40:05.7536927Z # suites 0
+Build and Test	Run Tests	2026-10-26T19:40:05.7537381Z # pass 3
+Build and Test	Run Tests	2026-10-26T19:40:05.7537627Z # fail 0
+Build and Test	Run Tests	2026-10-26T19:40:05.7538038Z # cancelled 0
+Build and Test	Run Tests	2026-10-26T19:40:05.7538657Z # skipped 0
+Build and Test	Run Tests	2026-10-26T19:40:05.7539296Z # todo 0
+Build and Test	Run Tests	2026-10-26T19:40:05.7539980Z # duration_ms 56.785873
+Build and Test	Verify Playwright Chromium	﻿2026-10-26T19:40:05.7778066Z ##[group]Run pnpm exec playwright install chromium
+Build and Test	Verify Playwright Chromium	2026-10-26T19:40:05.7778403Z pnpm exec playwright install chromium
+Build and Test	Verify Playwright Chromium	2026-10-26T19:40:05.7778711Z shell: sh -e {0}
+Build and Test	Verify Playwright Chromium	2026-10-26T19:40:05.7778880Z env:
+Build and Test	Verify Playwright Chromium	2026-10-26T19:40:05.7779079Z   PNPM_HOME: /github/home/setup-pnpm/node_modules/.bin
+Build and Test	Verify Playwright Chromium	2026-10-26T19:40:05.7779328Z ##[endgroup]
+Build and Test	Run End-to-End Tests	﻿2026-10-26T19:40:06.7543032Z ##[group]Run pnpm e2e
+Build and Test	Run End-to-End Tests	2026-10-26T19:40:06.7543265Z pnpm e2e
+Build and Test	Run End-to-End Tests	2026-10-26T19:40:06.7543506Z shell: sh -e {0}
+Build and Test	Run End-to-End Tests	2026-10-26T19:40:06.7543674Z env:
+Build and Test	Run End-to-End Tests	2026-10-26T19:40:06.7543874Z   PNPM_HOME: /github/home/setup-pnpm/node_modules/.bin
+Build and Test	Run End-to-End Tests	2026-10-26T19:40:06.7544128Z   VITE_BASE_PATH: /
+Build and Test	Run End-to-End Tests	2026-10-26T19:40:06.7544294Z ##[endgroup]
+Build and Test	Run End-to-End Tests	2026-10-26T19:40:07.2503691Z 
+Build and Test	Run End-to-End Tests	2026-10-26T19:40:07.2504963Z > imsop-app@1.0.0 e2e /__w/imsop-app-frontend/imsop-app-frontend
+Build and Test	Run End-to-End Tests	2026-10-26T19:40:07.2505515Z > playwright test
+Build and Test	Run End-to-End Tests	2026-10-26T19:40:07.2505705Z 
+Build and Test	Run End-to-End Tests	2026-10-26T19:40:14.1090625Z 
+Build and Test	Run End-to-End Tests	2026-10-26T19:40:14.1091361Z Running 74 tests using 1 worker
+Build and Test	Run End-to-End Tests	2026-10-26T19:43:10.3131171Z ··········································································
+Build and Test	Run End-to-End Tests	2026-10-26T19:43:10.3133956Z   74 passed (3.0m)
+Build and Test	Run End-to-End Tests	2026-10-26T19:43:10.3163107Z ##[notice]  74 passed (3.0m)
+Build and Test	Post Setup Node.js	﻿2026-10-26T19:43:10.3935453Z Post job cleanup.
+Build and Test	Post Setup Node.js	2026-10-26T19:43:10.3940670Z ##[command]/usr/bin/docker exec  7140655a4eeb6cdb0b33465b699e09ecd5fdfe9d772c554df8eb09406e11bf4b sh -c "cat /etc/*release | grep ^ID"
+Build and Test	Post Setup Node.js	2026-10-26T19:43:10.5700377Z (node:1834) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+Build and Test	Post Setup Node.js	2026-10-26T19:43:10.5701391Z (Use `node --trace-deprecation ...` to show where the warning was created)
+Build and Test	Post Setup Node.js	2026-10-26T19:43:10.5815766Z [command]/usr/bin/tar --posix -cf cache.tgz --exclude cache.tgz -P -C /__w/imsop-app-frontend/imsop-app-frontend --files-from manifest.txt -z
+Build and Test	Post Setup Node.js	2026-10-26T19:43:23.9854639Z (node:1834) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+Build and Test	Post Setup Node.js	2026-10-26T19:43:24.9791291Z Sent 53805056 of 120703211 (44.6%), 51.3 MBs/sec
+Build and Test	Post Setup Node.js	2026-10-26T19:43:25.9789422Z Sent 113377280 of 120703211 (93.9%), 54.1 MBs/sec
+Build and Test	Post Setup Node.js	2026-10-26T19:43:26.3745444Z Sent 120703211 of 120703211 (100.0%), 48.0 MBs/sec
+Build and Test	Post Setup Node.js	2026-10-26T19:43:26.5804558Z Cache saved with the key: node-cache-Linux-x64-pnpm-bdae289cdc4783c5fc2038db7d839cdb6f91f61cdd8811cd45bb1c02042a1290
+Build and Test	Post Setup PNPM	﻿2026-10-26T19:43:26.5940823Z Post job cleanup.
+Build and Test	Post Setup PNPM	2026-10-26T19:43:26.5943624Z ##[command]/usr/bin/docker exec  7140655a4eeb6cdb0b33465b699e09ecd5fdfe9d772c554df8eb09406e11bf4b sh -c "cat /etc/*release | grep ^ID"
+Build and Test	Post Setup PNPM	2026-10-26T19:43:26.7451349Z Pruning is unnecessary.
+Build and Test	Post Checkout Code	﻿2026-10-26T19:43:26.7628848Z Post job cleanup.
+Build and Test	Post Checkout Code	2026-10-26T19:43:26.7638776Z ##[command]/usr/bin/docker exec  7140655a4eeb6cdb0b33465b699e09ecd5fdfe9d772c554df8eb09406e11bf4b sh -c "cat /etc/*release | grep ^ID"
+Build and Test	Post Checkout Code	2026-10-26T19:43:26.9188273Z [command]/usr/bin/git version
+Build and Test	Post Checkout Code	2026-10-26T19:43:26.9223672Z git version 2.43.0
+Build and Test	Post Checkout Code	2026-10-26T19:43:26.9260075Z Temporarily overriding HOME='/__w/_temp/7c6eb627-2473-456f-8576-33acabb700e5' before making global git config changes
+Build and Test	Post Checkout Code	2026-10-26T19:43:26.9263081Z Adding repository directory to the temporary git global config as a safe directory
+Build and Test	Post Checkout Code	2026-10-26T19:43:26.9266083Z [command]/usr/bin/git config --global --add safe.directory /__w/imsop-app-frontend/imsop-app-frontend
+Build and Test	Post Checkout Code	2026-10-26T19:43:26.9295935Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+Build and Test	Post Checkout Code	2026-10-26T19:43:26.9325481Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+Build and Test	Post Checkout Code	2026-10-26T19:43:26.9604544Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+Build and Test	Post Checkout Code	2026-10-26T19:43:26.9628108Z http.https://github.com/.extraheader
+Build and Test	Post Checkout Code	2026-10-26T19:43:26.9638517Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+Build and Test	Post Checkout Code	2026-10-26T19:43:26.9677956Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+Build and Test	Post Checkout Code	2026-10-26T19:43:26.9907834Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+Build and Test	Post Checkout Code	2026-10-26T19:43:26.9940457Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+Build and Test	Stop containers	﻿2026-10-26T19:43:27.0288139Z Stop and remove container: 1652560b336c406c9f5ce54d5cf03f3f_mcrmicrosoftcomplaywrightv1570noble_01f346
+Build and Test	Stop containers	2026-10-26T19:43:27.0292156Z ##[command]/usr/bin/docker rm --force 7140655a4eeb6cdb0b33465b699e09ecd5fdfe9d772c554df8eb09406e11bf4b
+Build and Test	Stop containers	2026-10-26T19:43:27.2400767Z 7140655a4eeb6cdb0b33465b699e09ecd5fdfe9d772c554df8eb09406e11bf4b
+Build and Test	Stop containers	2026-10-26T19:43:27.2424520Z Remove container network: github_network_ad46318bf0f944fda5c291726dc088cb
+Build and Test	Stop containers	2026-10-26T19:43:27.2427872Z ##[command]/usr/bin/docker network rm github_network_ad46318bf0f944fda5c291726dc088cb
+Build and Test	Stop containers	2026-10-26T19:43:27.3318898Z github_network_ad46318bf0f944fda5c291726dc088cb
+Build and Test	Complete job	﻿2026-10-26T19:43:27.3378110Z Cleaning up orphan processes
+Build and Test	Complete job	2026-10-26T19:43:27.3684052Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4, pnpm/action-setup@v3. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+Vercel Deploy	Set up job	﻿2026-10-26T19:43:32.5864298Z Current runner version: '2.338.0'
+Vercel Deploy	Set up job	2026-10-26T19:43:32.5881469Z ##[group]Runner Image Provisioner
+Vercel Deploy	Set up job	2026-10-26T19:43:32.5882098Z Hosted Compute Agent
+Vercel Deploy	Set up job	2026-10-26T19:43:32.5882584Z Version: 20261021.618
+Vercel Deploy	Set up job	2026-10-26T19:43:32.5883050Z Commit: 21505ad2541d5be6135ed84fc33697146cf75b8e
+Vercel Deploy	Set up job	2026-10-26T19:43:32.5883478Z Build Date: 2026-10-21T00:45:21Z
+Vercel Deploy	Set up job	2026-10-26T19:43:32.5883889Z Worker ID: {1fa8b839-ec58-4df7-9f8d-a3d6d643d9a2}
+Vercel Deploy	Set up job	2026-10-26T19:43:32.5884392Z Region: southcentralus
+Vercel Deploy	Set up job	2026-10-26T19:43:32.5884776Z Cloud: Azure
+Vercel Deploy	Set up job	2026-10-26T19:43:32.5885139Z ##[endgroup]
+Vercel Deploy	Set up job	2026-10-26T19:43:32.5886105Z ##[group]Operating System
+Vercel Deploy	Set up job	2026-10-26T19:43:32.5886508Z Ubuntu
+Vercel Deploy	Set up job	2026-10-26T19:43:32.5886839Z 24.04.5
+Vercel Deploy	Set up job	2026-10-26T19:43:32.5887180Z LTS
+Vercel Deploy	Set up job	2026-10-26T19:43:32.5887553Z ##[endgroup]
+Vercel Deploy	Set up job	2026-10-26T19:43:32.5887887Z ##[group]Runner Image
+Vercel Deploy	Set up job	2026-10-26T19:43:32.5888265Z Image: ubuntu-24.04
+Vercel Deploy	Set up job	2026-10-26T19:43:32.5888680Z Version: 20261012.334.1
+Vercel Deploy	Set up job	2026-10-26T19:43:32.5889283Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261012.334/images/ubuntu/Ubuntu2404-Readme.md
+Vercel Deploy	Set up job	2026-10-26T19:43:32.5890327Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261012.334
+Vercel Deploy	Set up job	2026-10-26T19:43:32.5890925Z ##[endgroup]
+Vercel Deploy	Set up job	2026-10-26T19:43:32.5891612Z ##[group]GITHUB_TOKEN Permissions
+Vercel Deploy	Set up job	2026-10-26T19:43:32.5892877Z Contents: read
+Vercel Deploy	Set up job	2026-10-26T19:43:32.5893219Z Metadata: read
+Vercel Deploy	Set up job	2026-10-26T19:43:32.5893586Z ##[endgroup]
+Vercel Deploy	Set up job	2026-10-26T19:43:32.5894894Z Secret source: Actions
+Vercel Deploy	Set up job	2026-10-26T19:43:32.5895475Z Cache mode: write
+Vercel Deploy	Set up job	2026-10-26T19:43:32.5895927Z Prepare workflow directory
+Vercel Deploy	Set up job	2026-10-26T19:43:32.6089460Z Prepare all required actions
+Vercel Deploy	Set up job	2026-10-26T19:43:32.6119284Z Getting action download info
+Vercel Deploy	Set up job	2026-10-26T19:43:32.8782089Z Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+Vercel Deploy	Set up job	2026-10-26T19:43:32.9483978Z Download action repository 'pnpm/action-setup@v3' (SHA:a3252b78c470c02df07e9d59298aecedc3ccdd6d)
+Vercel Deploy	Set up job	2026-10-26T19:43:33.5057453Z Download action repository 'actions/setup-node@v4' (SHA:49933ea5288caeca8642d1e84afbd3f7d6820020)
+Vercel Deploy	Set up job	2026-10-26T19:43:33.6627849Z Complete job name: Vercel Deploy
+Vercel Deploy	Checkout Code	﻿2026-10-26T19:43:33.7135048Z ##[group]Run actions/checkout@v4
+Vercel Deploy	Checkout Code	2026-10-26T19:43:33.7135551Z with:
+Vercel Deploy	Checkout Code	2026-10-26T19:43:33.7135868Z   repository: DruHustle/imsop-app-frontend
+Vercel Deploy	Checkout Code	2026-10-26T19:43:33.7138149Z   token: ***
+Vercel Deploy	Checkout Code	2026-10-26T19:43:33.7138449Z   ssh-strict: true
+Vercel Deploy	Checkout Code	2026-10-26T19:43:33.7138749Z   ssh-user: git
+Vercel Deploy	Checkout Code	2026-10-26T19:43:33.7139053Z   persist-credentials: true
+Vercel Deploy	Checkout Code	2026-10-26T19:43:33.7139377Z   clean: true
+Vercel Deploy	Checkout Code	2026-10-26T19:43:33.7139679Z   sparse-checkout-cone-mode: true
+Vercel Deploy	Checkout Code	2026-10-26T19:43:33.7140024Z   fetch-depth: 1
+Vercel Deploy	Checkout Code	2026-10-26T19:43:33.7140317Z   fetch-tags: false
+Vercel Deploy	Checkout Code	2026-10-26T19:43:33.7140618Z   show-progress: true
+Vercel Deploy	Checkout Code	2026-10-26T19:43:33.7140922Z   lfs: false
+Vercel Deploy	Checkout Code	2026-10-26T19:43:33.7141221Z   submodules: false
+Vercel Deploy	Checkout Code	2026-10-26T19:43:33.7141531Z   set-safe-directory: true
+Vercel Deploy	Checkout Code	2026-10-26T19:43:33.7141900Z   allow-unsafe-pr-checkout: false
+Vercel Deploy	Checkout Code	2026-10-26T19:43:33.7142431Z ##[endgroup]
+Vercel Deploy	Checkout Code	2026-10-26T19:43:33.7744961Z Syncing repository: DruHustle/imsop-app-frontend
+Vercel Deploy	Checkout Code	2026-10-26T19:43:33.7746704Z ##[group]Getting Git version info
+Vercel Deploy	Checkout Code	2026-10-26T19:43:33.7747536Z Working directory is '/home/runner/work/imsop-app-frontend/imsop-app-frontend'
+Vercel Deploy	Checkout Code	2026-10-26T19:43:33.7748731Z [command]/usr/bin/git version
+Vercel Deploy	Checkout Code	2026-10-26T19:43:33.7825228Z git version 2.55.0
+Vercel Deploy	Checkout Code	2026-10-26T19:43:33.7837327Z ##[endgroup]
+Vercel Deploy	Checkout Code	2026-10-26T19:43:33.7846636Z Temporarily overriding HOME='/home/runner/work/_temp/bba9f58f-f7d7-4f72-8135-d286ee84e2f2' before making global git config changes
+Vercel Deploy	Checkout Code	2026-10-26T19:43:33.7848101Z Adding repository directory to the temporary git global config as a safe directory
+Vercel Deploy	Checkout Code	2026-10-26T19:43:33.7850078Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/imsop-app-frontend/imsop-app-frontend
+Vercel Deploy	Checkout Code	2026-10-26T19:43:33.7888700Z Deleting the contents of '/home/runner/work/imsop-app-frontend/imsop-app-frontend'
+Vercel Deploy	Checkout Code	2026-10-26T19:43:33.7894512Z ##[group]Initializing the repository
+Vercel Deploy	Checkout Code	2026-10-26T19:43:33.7895434Z [command]/usr/bin/git init /home/runner/work/imsop-app-frontend/imsop-app-frontend
+Vercel Deploy	Checkout Code	2026-10-26T19:43:33.7971835Z hint: Using 'master' as the name for the initial branch. This default branch name
+Vercel Deploy	Checkout Code	2026-10-26T19:43:33.7973119Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+Vercel Deploy	Checkout Code	2026-10-26T19:43:33.7974387Z hint: to use in all of your new repositories, which will suppress this warning,
+Vercel Deploy	Checkout Code	2026-10-26T19:43:33.7975547Z hint: call:
+Vercel Deploy	Checkout Code	2026-10-26T19:43:33.7976257Z hint:
+Vercel Deploy	Checkout Code	2026-10-26T19:43:33.7976925Z hint: 	git config --global init.defaultBranch <name>
+Vercel Deploy	Checkout Code	2026-10-26T19:43:33.7977711Z hint:
+Vercel Deploy	Checkout Code	2026-10-26T19:43:33.7978420Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+Vercel Deploy	Checkout Code	2026-10-26T19:43:33.7979496Z hint: 'development'. The just-created branch can be renamed via this command:
+Vercel Deploy	Checkout Code	2026-10-26T19:43:33.7980435Z hint:
+Vercel Deploy	Checkout Code	2026-10-26T19:43:33.7981536Z hint: 	git branch -m <name>
+Vercel Deploy	Checkout Code	2026-10-26T19:43:33.7982313Z hint:
+Vercel Deploy	Checkout Code	2026-10-26T19:43:33.7983149Z hint: Disable this message with "git config set advice.defaultBranchName false"
+Vercel Deploy	Checkout Code	2026-10-26T19:43:33.7984096Z Initialized empty Git repository in /home/runner/work/imsop-app-frontend/imsop-app-frontend/.git/
+Vercel Deploy	Checkout Code	2026-10-26T19:43:33.7986011Z [command]/usr/bin/git remote add origin https://github.com/DruHustle/imsop-app-frontend
+Vercel Deploy	Checkout Code	2026-10-26T19:43:33.8028303Z ##[endgroup]
+Vercel Deploy	Checkout Code	2026-10-26T19:43:33.8029292Z ##[group]Disabling automatic garbage collection
+Vercel Deploy	Checkout Code	2026-10-26T19:43:33.8030231Z [command]/usr/bin/git config --local gc.auto 0
+Vercel Deploy	Checkout Code	2026-10-26T19:43:33.8063823Z ##[endgroup]
+Vercel Deploy	Checkout Code	2026-10-26T19:43:33.8064565Z ##[group]Setting up auth
+Vercel Deploy	Checkout Code	2026-10-26T19:43:33.8065283Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+Vercel Deploy	Checkout Code	2026-10-26T19:43:33.8104576Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+Vercel Deploy	Checkout Code	2026-10-26T19:43:33.8349153Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+Vercel Deploy	Checkout Code	2026-10-26T19:43:33.8377117Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+Vercel Deploy	Checkout Code	2026-10-26T19:43:33.8536144Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+Vercel Deploy	Checkout Code	2026-10-26T19:43:33.8563083Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+Vercel Deploy	Checkout Code	2026-10-26T19:43:33.8721169Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+Vercel Deploy	Checkout Code	2026-10-26T19:43:33.8752601Z ##[endgroup]
+Vercel Deploy	Checkout Code	2026-10-26T19:43:33.8753358Z ##[group]Fetching the repository
+Vercel Deploy	Checkout Code	2026-10-26T19:43:33.8759124Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +367f4abfc10d681d60c38244865a831d78be7588:refs/remotes/origin/main
+Vercel Deploy	Checkout Code	2026-10-26T19:43:34.8768427Z From https://github.com/DruHustle/imsop-app-frontend
+Vercel Deploy	Checkout Code	2026-10-26T19:43:34.8768867Z  * [new ref]         367f4abfc10d681d60c38244865a831d78be7588 -> origin/main
+Vercel Deploy	Checkout Code	2026-10-26T19:43:34.8772614Z ##[endgroup]
+Vercel Deploy	Checkout Code	2026-10-26T19:43:34.8773211Z ##[group]Determining the checkout info
+Vercel Deploy	Checkout Code	2026-10-26T19:43:34.8774806Z ##[endgroup]
+Vercel Deploy	Checkout Code	2026-10-26T19:43:34.8780016Z [command]/usr/bin/git sparse-checkout disable
+Vercel Deploy	Checkout Code	2026-10-26T19:43:34.8819049Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+Vercel Deploy	Checkout Code	2026-10-26T19:43:34.8842994Z ##[group]Checking out the ref
+Vercel Deploy	Checkout Code	2026-10-26T19:43:34.8845483Z [command]/usr/bin/git checkout --progress --force -B main refs/remotes/origin/main
+Vercel Deploy	Checkout Code	2026-10-26T19:43:34.9474276Z Switched to a new branch 'main'
+Vercel Deploy	Checkout Code	2026-10-26T19:43:34.9481877Z branch 'main' set up to track 'origin/main'.
+Vercel Deploy	Checkout Code	2026-10-26T19:43:34.9484911Z ##[endgroup]
+Vercel Deploy	Checkout Code	2026-10-26T19:43:34.9518834Z [command]/usr/bin/git log -1 --format=%H
+Vercel Deploy	Checkout Code	2026-10-26T19:43:34.9539157Z 367f4abfc10d681d60c38244865a831d78be7588
+Vercel Deploy	Setup PNPM	﻿2026-10-26T19:43:34.9757839Z ##[group]Run pnpm/action-setup@v3
+Vercel Deploy	Setup PNPM	2026-10-26T19:43:34.9758089Z with:
+Vercel Deploy	Setup PNPM	2026-10-26T19:43:34.9758247Z   version: 10
+Vercel Deploy	Setup PNPM	2026-10-26T19:43:34.9758403Z   dest: ~/setup-pnpm
+Vercel Deploy	Setup PNPM	2026-10-26T19:43:34.9758722Z   run_install: null
+Vercel Deploy	Setup PNPM	2026-10-26T19:43:34.9758899Z   package_json_file: package.json
+Vercel Deploy	Setup PNPM	2026-10-26T19:43:34.9759089Z   standalone: false
+Vercel Deploy	Setup PNPM	2026-10-26T19:43:34.9759243Z ##[endgroup]
+Vercel Deploy	Setup PNPM	2026-10-26T19:43:35.0294605Z ##[group]Running self-installer...
+Vercel Deploy	Setup PNPM	2026-10-26T19:43:35.2463821Z (node:2076) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+Vercel Deploy	Setup PNPM	2026-10-26T19:43:35.2464601Z (Use `node --trace-deprecation ...` to show where the warning was created)
+Vercel Deploy	Setup PNPM	2026-10-26T19:43:35.4582681Z Progress: resolved 1, reused 0, downloaded 0, added 0
+Vercel Deploy	Setup PNPM	2026-10-26T19:43:35.4637500Z Packages: +1
+Vercel Deploy	Setup PNPM	2026-10-26T19:43:35.4637966Z +
+Vercel Deploy	Setup PNPM	2026-10-26T19:43:35.7755816Z Progress: resolved 1, reused 0, downloaded 1, added 1, done
+Vercel Deploy	Setup PNPM	2026-10-26T19:43:35.7964068Z 
+Vercel Deploy	Setup PNPM	2026-10-26T19:43:35.7964466Z dependencies:
+Vercel Deploy	Setup PNPM	2026-10-26T19:43:35.7964765Z + pnpm 10.34.9 (12.15.0 is available)
+Vercel Deploy	Setup PNPM	2026-10-26T19:43:35.7964975Z 
+Vercel Deploy	Setup PNPM	2026-10-26T19:43:35.7980527Z Done in 668ms
+Vercel Deploy	Setup PNPM	2026-10-26T19:43:35.8153444Z ##[endgroup]
+Vercel Deploy	Setup PNPM	2026-10-26T19:43:35.8153756Z Installation Completed!
+Vercel Deploy	Setup Node.js	﻿2026-10-26T19:43:35.8287424Z ##[group]Run actions/setup-node@v4
+Vercel Deploy	Setup Node.js	2026-10-26T19:43:35.8287587Z with:
+Vercel Deploy	Setup Node.js	2026-10-26T19:43:35.8287699Z   node-version: 22
+Vercel Deploy	Setup Node.js	2026-10-26T19:43:35.8287812Z   cache: pnpm
+Vercel Deploy	Setup Node.js	2026-10-26T19:43:35.8287922Z   always-auth: false
+Vercel Deploy	Setup Node.js	2026-10-26T19:43:35.8288044Z   check-latest: false
+Vercel Deploy	Setup Node.js	2026-10-26T19:43:35.8289358Z   token: ***
+Vercel Deploy	Setup Node.js	2026-10-26T19:43:35.8289469Z env:
+Vercel Deploy	Setup Node.js	2026-10-26T19:43:35.8289604Z   PNPM_HOME: /home/runner/setup-pnpm/node_modules/.bin
+Vercel Deploy	Setup Node.js	2026-10-26T19:43:35.8289776Z ##[endgroup]
+Vercel Deploy	Setup Node.js	2026-10-26T19:43:35.9102399Z Found in cache @ /opt/hostedtoolcache/node/22.23.3/x64
+Vercel Deploy	Setup Node.js	2026-10-26T19:43:35.9105573Z (node:2090) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+Vercel Deploy	Setup Node.js	2026-10-26T19:43:35.9106127Z (Use `node --trace-deprecation ...` to show where the warning was created)
+Vercel Deploy	Setup Node.js	2026-10-26T19:43:35.9107097Z ##[group]Environment details
+Vercel Deploy	Setup Node.js	2026-10-26T19:43:36.1423027Z node: v22.23.3
+Vercel Deploy	Setup Node.js	2026-10-26T19:43:36.1423319Z npm: 10.9.9
+Vercel Deploy	Setup Node.js	2026-10-26T19:43:36.1423463Z yarn: 1.22.22
+Vercel Deploy	Setup Node.js	2026-10-26T19:43:36.1423876Z ##[endgroup]
+Vercel Deploy	Setup Node.js	2026-10-26T19:43:36.1448788Z [command]/home/runner/setup-pnpm/node_modules/.bin/pnpm store path --silent
+Vercel Deploy	Setup Node.js	2026-10-26T19:43:37.5236442Z /home/runner/setup-pnpm/node_modules/.bin/store/v10
+Vercel Deploy	Setup Node.js	2026-10-26T19:43:37.7026527Z pnpm cache is not found
+Vercel Deploy	Install Dependencies	﻿2026-10-26T19:43:37.7126378Z ##[group]Run pnpm install --frozen-lockfile
+Vercel Deploy	Install Dependencies	2026-10-26T19:43:37.7126627Z pnpm install --frozen-lockfile
+Vercel Deploy	Install Dependencies	2026-10-26T19:43:37.7313814Z shell: /usr/bin/bash -e {0}
+Vercel Deploy	Install Dependencies	2026-10-26T19:43:37.7313968Z env:
+Vercel Deploy	Install Dependencies	2026-10-26T19:43:37.7314117Z   PNPM_HOME: /home/runner/setup-pnpm/node_modules/.bin
+Vercel Deploy	Install Dependencies	2026-10-26T19:43:37.7314290Z ##[endgroup]
+Vercel Deploy	Install Dependencies	2026-10-26T19:43:38.0739260Z Lockfile is up to date, resolution step is skipped
+Vercel Deploy	Install Dependencies	2026-10-26T19:43:38.1045716Z Progress: resolved 1, reused 0, downloaded 0, added 0
+Vercel Deploy	Install Dependencies	2026-10-26T19:43:38.1613293Z Packages: +632
+Vercel Deploy	Install Dependencies	2026-10-26T19:43:38.1614117Z ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Vercel Deploy	Install Dependencies	2026-10-26T19:43:39.1047691Z Progress: resolved 632, reused 0, downloaded 154, added 138
+Vercel Deploy	Install Dependencies	2026-10-26T19:43:40.1063653Z Progress: resolved 632, reused 0, downloaded 367, added 364
+Vercel Deploy	Install Dependencies	2026-10-26T19:43:41.1090485Z Progress: resolved 632, reused 0, downloaded 619, added 618
+Vercel Deploy	Install Dependencies	2026-10-26T19:43:41.3384461Z Progress: resolved 632, reused 0, downloaded 632, added 632, done
+Vercel Deploy	Install Dependencies	2026-10-26T19:43:41.7274124Z 
+Vercel Deploy	Install Dependencies	2026-10-26T19:43:41.7275064Z dependencies:
+Vercel Deploy	Install Dependencies	2026-10-26T19:43:41.7275391Z + @hookform/resolvers 5.2.2
+Vercel Deploy	Install Dependencies	2026-10-26T19:43:41.7275721Z + @radix-ui/react-accordion 1.2.12
+Vercel Deploy	Install Dependencies	2026-10-26T19:43:41.7276000Z + @radix-ui/react-alert-dialog 1.1.15
+Vercel Deploy	Install Dependencies	2026-10-26T19:43:41.7276345Z + @radix-ui/react-aspect-ratio 1.1.7
+Vercel Deploy	Install Dependencies	2026-10-26T19:43:41.7276621Z + @radix-ui/react-avatar 1.1.10
+Vercel Deploy	Install Dependencies	2026-10-26T19:43:41.7276887Z + @radix-ui/react-checkbox 1.3.3
+Vercel Deploy	Install Dependencies	2026-10-26T19:43:41.7277173Z + @radix-ui/react-collapsible 1.1.12
+Vercel Deploy	Install Dependencies	2026-10-26T19:43:41.7277454Z + @radix-ui/react-context-menu 2.2.16
+Vercel Deploy	Install Dependencies	2026-10-26T19:43:41.7278033Z + @radix-ui/react-dialog 1.1.15
+Vercel Deploy	Install Dependencies	2026-10-26T19:43:41.7278299Z + @radix-ui/react-dropdown-menu 2.1.16
+Vercel Deploy	Install Dependencies	2026-10-26T19:43:41.7278521Z + @radix-ui/react-hover-card 1.1.15
+Vercel Deploy	Install Dependencies	2026-10-26T19:43:41.7278683Z + @radix-ui/react-label 2.1.7
+Vercel Deploy	Install Dependencies	2026-10-26T19:43:41.7278848Z + @radix-ui/react-menubar 1.1.16
+Vercel Deploy	Install Dependencies	2026-10-26T19:43:41.7295701Z + @radix-ui/react-navigation-menu 1.2.14
+Vercel Deploy	Install Dependencies	2026-10-26T19:43:41.7296071Z + @radix-ui/react-popover 1.1.15
+Vercel Deploy	Install Dependencies	2026-10-26T19:43:41.7296374Z + @radix-ui/react-progress 1.1.7
+Vercel Deploy	Install Dependencies	2026-10-26T19:43:41.7296735Z + @radix-ui/react-radio-group 1.3.8
+Vercel Deploy	Install Dependencies	2026-10-26T19:43:41.7297082Z + @radix-ui/react-scroll-area 1.2.10
+Vercel Deploy	Install Dependencies	2026-10-26T19:43:41.7297340Z + @radix-ui/react-select 2.2.6
+Vercel Deploy	Install Dependencies	2026-10-26T19:43:41.7297603Z + @radix-ui/react-separator 1.1.7
+Vercel Deploy	Install Dependencies	2026-10-26T19:43:41.7297874Z + @radix-ui/react-slider 1.3.6
+Vercel Deploy	Install Dependencies	2026-10-26T19:43:41.7298120Z + @radix-ui/react-slot 1.2.3
+Vercel Deploy	Install Dependencies	2026-10-26T19:43:41.7298381Z + @radix-ui/react-switch 1.2.6
+Vercel Deploy	Install Dependencies	2026-10-26T19:43:41.7298623Z + @radix-ui/react-tabs 1.1.13
+Vercel Deploy	Install Dependencies	2026-10-26T19:43:41.7298951Z + @radix-ui/react-toggle 1.1.10
+Vercel Deploy	Install Dependencies	2026-10-26T19:43:41.7299234Z + @radix-ui/react-toggle-group 1.1.11
+Vercel Deploy	Install Dependencies	2026-10-26T19:43:41.7299522Z + @radix-ui/react-tooltip 1.2.8
+Vercel Deploy	Install Dependencies	2026-10-26T19:43:41.7299803Z + @vercel/analytics 1.6.1
+Vercel Deploy	Install Dependencies	2026-10-26T19:43:41.7300014Z + axios 1.20.0
+Vercel Deploy	Install Dependencies	2026-10-26T19:43:41.7300248Z + class-variance-authority 0.7.1
+Vercel Deploy	Install Dependencies	2026-10-26T19:43:41.7300481Z + clsx 2.1.1
+Vercel Deploy	Install Dependencies	2026-10-26T19:43:41.7300656Z + cmdk 1.1.1
+Vercel Deploy	Install Dependencies	2026-10-26T19:43:41.7300832Z + date-fns 4.1.0
+Vercel Deploy	Install Dependencies	2026-10-26T19:43:41.7301056Z + embla-carousel-react 8.6.0
+Vercel Deploy	Install Dependencies	2026-10-26T19:43:41.7301297Z + framer-motion 12.23.22
+Vercel Deploy	Install Dependencies	2026-10-26T19:43:41.7301511Z + input-otp 1.4.2
+Vercel Deploy	Install Dependencies	2026-10-26T19:43:41.7301715Z + lucide-react 0.453.0
+Vercel Deploy	Install Dependencies	2026-10-26T19:43:41.7301906Z + nanoid 5.1.16
+Vercel Deploy	Install Dependencies	2026-10-26T19:43:41.7302104Z + next-themes 0.4.6
+Vercel Deploy	Install Dependencies	2026-10-26T19:43:41.7303685Z + react 19.2.1
+Vercel Deploy	Install Dependencies	2026-10-26T19:43:41.7303885Z + react-day-picker 9.11.1
+Vercel Deploy	Install Dependencies	2026-10-26T19:43:41.7304222Z + react-dom 19.2.1
+Vercel Deploy	Install Dependencies	2026-10-26T19:43:41.7304717Z + react-hook-form 7.64.0
+Vercel Deploy	Install Dependencies	2026-10-26T19:43:41.7305092Z + react-resizable-panels 3.0.6
+Vercel Deploy	Install Dependencies	2026-10-26T19:43:41.7305393Z + recharts 2.15.4
+Vercel Deploy	Install Dependencies	2026-10-26T19:43:41.7305944Z + sonner 2.0.7
+Vercel Deploy	Install Dependencies	2026-10-26T19:43:41.7306114Z + streamdown 1.4.0
+Vercel Deploy	Install Dependencies	2026-10-26T19:43:41.7306307Z + tailwind-merge 3.3.1
+Vercel Deploy	Install Dependencies	2026-10-26T19:43:41.7306522Z + tailwindcss-animate 1.0.7
+Vercel Deploy	Install Dependencies	2026-10-26T19:43:41.7306725Z + vaul 1.1.2
+Vercel Deploy	Install Dependencies	2026-10-26T19:43:41.7306967Z + wouter 3.7.1
+Vercel Deploy	Install Dependencies	2026-10-26T19:43:41.7307216Z + zod 4.6.7
+Vercel Deploy	Install Dependencies	2026-10-26T19:43:41.7307378Z 
+Vercel Deploy	Install Dependencies	2026-10-26T19:43:41.7307468Z devDependencies:
+Vercel Deploy	Install Dependencies	2026-10-26T19:43:41.7308116Z + @playwright/test 1.57.0
+Vercel Deploy	Install Dependencies	2026-10-26T19:43:41.7308518Z + @tailwindcss/typography 0.5.19
+Vercel Deploy	Install Dependencies	2026-10-26T19:43:41.7308830Z + @tailwindcss/vite 4.1.14
+Vercel Deploy	Install Dependencies	2026-10-26T19:43:41.7309196Z + @testing-library/dom 10.4.1
+Vercel Deploy	Install Dependencies	2026-10-26T19:43:41.7309518Z + @testing-library/react 16.3.1
+Vercel Deploy	Install Dependencies	2026-10-26T19:43:41.7309896Z + @types/google.maps 3.58.1
+Vercel Deploy	Install Dependencies	2026-10-26T19:43:41.7310179Z + @types/node 24.7.0
+Vercel Deploy	Install Dependencies	2026-10-26T19:43:41.7310451Z + @types/react 19.2.1
+Vercel Deploy	Install Dependencies	2026-10-26T19:43:41.7310785Z + @types/react-dom 19.2.1
+Vercel Deploy	Install Dependencies	2026-10-26T19:43:41.7311434Z + @vitejs/plugin-react 5.0.4
+Vercel Deploy	Install Dependencies	2026-10-26T19:43:41.7311652Z + autoprefixer 10.4.21
+Vercel Deploy	Install Dependencies	2026-10-26T19:43:41.7311914Z + gh-pages 6.3.0
+Vercel Deploy	Install Dependencies	2026-10-26T19:43:41.7312121Z + jsdom 27.4.0
+Vercel Deploy	Install Dependencies	2026-10-26T19:43:41.7312416Z + pnpm 10.18.1
+Vercel Deploy	Install Dependencies	2026-10-26T19:43:41.7312584Z + postcss 8.5.6
+Vercel Deploy	Install Dependencies	2026-10-26T19:43:41.7312756Z + prettier 3.6.2
+Vercel Deploy	Install Dependencies	2026-10-26T19:43:41.7312939Z + tailwindcss 4.1.14
+Vercel Deploy	Install Dependencies	2026-10-26T19:43:41.7313133Z + tw-animate-css 1.4.0
+Vercel Deploy	Install Dependencies	2026-10-26T19:43:41.7313334Z + typescript 5.9.3
+Vercel Deploy	Install Dependencies	2026-10-26T19:43:41.7313508Z + vite 7.1.9
+Vercel Deploy	Install Dependencies	2026-10-26T19:43:41.7313676Z + vitest 2.1.9
+Vercel Deploy	Install Dependencies	2026-10-26T19:43:41.7313776Z 
+Vercel Deploy	Install Dependencies	2026-10-26T19:43:41.7315856Z ╭ Warning ─────────────────────────────────────────────────────────────────────╮│                                                                              ││   Ignored build scripts: @tailwindcss/oxide, esbuild.                        ││   Run "pnpm approve-builds" to pick which dependencies should be allowed     ││   to run scripts.                                                            ││                                                                              │╰──────────────────────────────────────────────────────────────────────────────╯
+Vercel Deploy	Install Dependencies	2026-10-26T19:43:41.7316634Z 
+Vercel Deploy	Install Dependencies	2026-10-26T19:43:41.7427352Z Done in 3.8s using pnpm v10.4.1
+Vercel Deploy	Check Vercel credentials	﻿2026-10-26T19:43:41.7958522Z ##[group]Run if [ -n "***" ] && [ -n "***" ] && [ -n "***" ]; then
+Vercel Deploy	Check Vercel credentials	2026-10-26T19:43:41.7959014Z if [ -n "***" ] && [ -n "***" ] && [ -n "***" ]; then
+Vercel Deploy	Check Vercel credentials	2026-10-26T19:43:41.7959207Z   echo "enabled=true" >> "$GITHUB_OUTPUT"
+Vercel Deploy	Check Vercel credentials	2026-10-26T19:43:41.7959378Z else
+Vercel Deploy	Check Vercel credentials	2026-10-26T19:43:41.7959513Z   echo "enabled=false" >> "$GITHUB_OUTPUT"
+Vercel Deploy	Check Vercel credentials	2026-10-26T19:43:41.7959720Z   echo "Vercel credentials are missing. Skipping deployment."
+Vercel Deploy	Check Vercel credentials	2026-10-26T19:43:41.7959902Z fi
+Vercel Deploy	Check Vercel credentials	2026-10-26T19:43:41.8010712Z shell: /usr/bin/bash -e {0}
+Vercel Deploy	Check Vercel credentials	2026-10-26T19:43:41.8010858Z env:
+Vercel Deploy	Check Vercel credentials	2026-10-26T19:43:41.8011000Z   PNPM_HOME: /home/runner/setup-pnpm/node_modules/.bin
+Vercel Deploy	Check Vercel credentials	2026-10-26T19:43:41.8011174Z ##[endgroup]
+Vercel Deploy	Pull Vercel Environment Information	﻿2026-10-26T19:43:41.8111776Z ##[group]Run pnpm dlx vercel@latest pull --yes --environment=production --token="$VERCEL_TOKEN"
+Vercel Deploy	Pull Vercel Environment Information	2026-10-26T19:43:41.8112133Z pnpm dlx vercel@latest pull --yes --environment=production --token="$VERCEL_TOKEN"
+Vercel Deploy	Pull Vercel Environment Information	2026-10-26T19:43:41.8155457Z shell: /usr/bin/bash -e {0}
+Vercel Deploy	Pull Vercel Environment Information	2026-10-26T19:43:41.8155589Z env:
+Vercel Deploy	Pull Vercel Environment Information	2026-10-26T19:43:41.8155727Z   PNPM_HOME: /home/runner/setup-pnpm/node_modules/.bin
+Vercel Deploy	Pull Vercel Environment Information	2026-10-26T19:43:41.8156026Z   VERCEL_TOKEN: ***
+Vercel Deploy	Pull Vercel Environment Information	2026-10-26T19:43:41.8156171Z   VERCEL_ORG_ID: ***
+Vercel Deploy	Pull Vercel Environment Information	2026-10-26T19:43:41.8156321Z   VERCEL_PROJECT_ID: ***
+Vercel Deploy	Pull Vercel Environment Information	2026-10-26T19:43:41.8156448Z ##[endgroup]
+Vercel Deploy	Pull Vercel Environment Information	2026-10-26T19:43:42.2213716Z Progress: resolved 1, reused 0, downloaded 0, added 0
+Vercel Deploy	Pull Vercel Environment Information	2026-10-26T19:43:43.2211618Z Progress: resolved 98, reused 2, downloaded 57, added 0
+Vercel Deploy	Pull Vercel Environment Information	2026-10-26T19:43:44.2205291Z Progress: resolved 295, reused 15, downloaded 180, added 0
+Vercel Deploy	Pull Vercel Environment Information	2026-10-26T19:43:44.6647567Z Packages: +279
+Vercel Deploy	Pull Vercel Environment Information	2026-10-26T19:43:44.6647896Z ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Vercel Deploy	Pull Vercel Environment Information	2026-10-26T19:43:44.7713633Z Progress: resolved 377, reused 39, downloaded 243, added 279, done
+Vercel Deploy	Pull Vercel Environment Information	2026-10-26T19:43:45.0824284Z ╭ Warning ─────────────────────────────────────────────────────────────────────╮
+Vercel Deploy	Pull Vercel Environment Information	2026-10-26T19:43:45.0824889Z │                                                                              │
+Vercel Deploy	Pull Vercel Environment Information	2026-10-26T19:43:45.0833879Z │   Ignored build scripts: esbuild@0.27.0.                                     │
+Vercel Deploy	Pull Vercel Environment Information	2026-10-26T19:43:45.0834291Z │   Run "pnpm approve-builds" to pick which dependencies should be allowed     │
+Vercel Deploy	Pull Vercel Environment Information	2026-10-26T19:43:45.0834620Z │   to run scripts.                                                            │
+Vercel Deploy	Pull Vercel Environment Information	2026-10-26T19:43:45.0834895Z │                                                                              │
+Vercel Deploy	Pull Vercel Environment Information	2026-10-26T19:43:45.0835192Z ╰──────────────────────────────────────────────────────────────────────────────╯
+Vercel Deploy	Pull Vercel Environment Information	2026-10-26T19:43:45.2328701Z Vercel CLI 65.3.1 (Node.js 22.23.3)
+Vercel Deploy	Pull Vercel Environment Information	2026-10-26T19:43:45.2390110Z > NOTE: The Vercel CLI now collects telemetry regarding usage of the CLI.
+Vercel Deploy	Pull Vercel Environment Information	2026-10-26T19:43:45.2393020Z > This information is used to shape the CLI roadmap and prioritize features.
+Vercel Deploy	Pull Vercel Environment Information	2026-10-26T19:43:45.2393770Z > You can learn more, including how to opt-out if you'd not like to participate in this program, by visiting the following URL:
+Vercel Deploy	Pull Vercel Environment Information	2026-10-26T19:43:45.2394354Z > https://vercel.com/docs/cli/about-telemetry
+Vercel Deploy	Pull Vercel Environment Information	2026-10-26T19:43:45.3158744Z Retrieving project…
+Vercel Deploy	Pull Vercel Environment Information	2026-10-26T19:43:45.5908903Z > Downloading `production` environment variables for imsop-app
+Vercel Deploy	Pull Vercel Environment Information	2026-10-26T19:43:45.5909306Z Downloading
+Vercel Deploy	Pull Vercel Environment Information	2026-10-26T19:43:45.8998686Z 
+Vercel Deploy	Pull Vercel Environment Information	2026-10-26T19:43:45.9000471Z ✓ Created         .vercel/.env.production.local file
+Vercel Deploy	Pull Vercel Environment Information	2026-10-26T19:43:45.9000723Z 
+Vercel Deploy	Pull Vercel Environment Information	2026-10-26T19:43:45.9000869Z > Downloading project settings
+Vercel Deploy	Pull Vercel Environment Information	2026-10-26T19:43:45.9004607Z Downloaded project settings to ~/work/imsop-app-frontend/imsop-app-frontend/.vercel/project.json [0ms]
+Vercel Deploy	Build Project Artifacts	﻿2026-10-26T19:43:45.9873863Z ##[group]Run pnpm dlx vercel@latest build --prod --token="$VERCEL_TOKEN"
+Vercel Deploy	Build Project Artifacts	2026-10-26T19:43:45.9874336Z pnpm dlx vercel@latest build --prod --token="$VERCEL_TOKEN"
+Vercel Deploy	Build Project Artifacts	2026-10-26T19:43:45.9941925Z shell: /usr/bin/bash -e {0}
+Vercel Deploy	Build Project Artifacts	2026-10-26T19:43:45.9942398Z env:
+Vercel Deploy	Build Project Artifacts	2026-10-26T19:43:45.9942626Z   PNPM_HOME: /home/runner/setup-pnpm/node_modules/.bin
+Vercel Deploy	Build Project Artifacts	2026-10-26T19:43:45.9943273Z   VERCEL_TOKEN: ***
+Vercel Deploy	Build Project Artifacts	2026-10-26T19:43:45.9943501Z   VERCEL_ORG_ID: ***
+Vercel Deploy	Build Project Artifacts	2026-10-26T19:43:45.9943739Z   VERCEL_PROJECT_ID: ***
+Vercel Deploy	Build Project Artifacts	2026-10-26T19:43:45.9943938Z   VITE_BASE_PATH: /
+Vercel Deploy	Build Project Artifacts	2026-10-26T19:43:45.9944117Z ##[endgroup]
+Vercel Deploy	Build Project Artifacts	2026-10-26T19:43:46.5057070Z Vercel CLI 65.3.1 (Node.js 22.23.3)
+Vercel Deploy	Build Project Artifacts	2026-10-26T19:43:46.6964896Z WARNING! Build not running on Vercel. System environment variables will not be available.
+Vercel Deploy	Build Project Artifacts	2026-10-26T19:43:46.9716876Z Detected `pnpm-lock.yaml` version 9 generated by pnpm@10.x from package.json#packageManager pnpm@10.4.1+sha512.c753b6c3ad7afa13af388fa6d808035a008e30ea9993f58c6663e2bc5ff21679aa834db094987129aa4d488b86df57f7b634981b2f827cdcacc698cc0cfb88af
+Vercel Deploy	Build Project Artifacts	2026-10-26T19:43:46.9815950Z Installing dependencies...
+Vercel Deploy	Build Project Artifacts	2026-10-26T19:43:47.3431071Z Lockfile is up to date, resolution step is skipped
+Vercel Deploy	Build Project Artifacts	2026-10-26T19:43:47.3843381Z Already up to date
+Vercel Deploy	Build Project Artifacts	2026-10-26T19:43:47.6168255Z 
+Vercel Deploy	Build Project Artifacts	2026-10-26T19:43:47.6170263Z ╭ Warning ─────────────────────────────────────────────────────────────────────╮│                                                                              ││   Ignored build scripts: @tailwindcss/oxide, esbuild.                        ││   Run "pnpm approve-builds" to pick which dependencies should be allowed     ││   to run scripts.                                                            ││                                                                              │╰──────────────────────────────────────────────────────────────────────────────╯
+Vercel Deploy	Build Project Artifacts	2026-10-26T19:43:47.6170927Z 
+Vercel Deploy	Build Project Artifacts	2026-10-26T19:43:47.6273622Z Done in 472ms using pnpm v10.4.1
+Vercel Deploy	Build Project Artifacts	2026-10-26T19:43:47.9973194Z 
+Vercel Deploy	Build Project Artifacts	2026-10-26T19:43:47.9974001Z > imsop-app@1.0.0 build /home/runner/work/imsop-app-frontend/imsop-app-frontend
+Vercel Deploy	Build Project Artifacts	2026-10-26T19:43:47.9974555Z > vite build && pnpm verify:deployment
+Vercel Deploy	Build Project Artifacts	2026-10-26T19:43:47.9974724Z 
+Vercel Deploy	Build Project Artifacts	2026-10-26T19:43:48.2040184Z vite v7.1.9 building for production...
+Vercel Deploy	Build Project Artifacts	2026-10-26T19:43:48.2465405Z transforming...
+Vercel Deploy	Build Project Artifacts	2026-10-26T19:43:49.7029835Z ✓ 1714 modules transformed.
+Vercel Deploy	Build Project Artifacts	2026-10-26T19:43:50.3404068Z rendering chunks...
+Vercel Deploy	Build Project Artifacts	2026-10-26T19:43:50.4254632Z computing gzip size...
+Vercel Deploy	Build Project Artifacts	2026-10-26T19:43:50.4342810Z ../dist/index.html                             2.77 kB │ gzip:   0.87 kB
+Vercel Deploy	Build Project Artifacts	2026-10-26T19:43:50.4343627Z ../dist/assets/index-C0LQSZZS.css            125.72 kB │ gzip:  20.64 kB
+Vercel Deploy	Build Project Artifacts	2026-10-26T19:43:50.4344476Z ../dist/assets/circle-check-big-DUYm0y0U.js    0.36 kB │ gzip:   0.28 kB
+Vercel Deploy	Build Project Artifacts	2026-10-26T19:43:50.4345267Z ../dist/assets/user-DTJjRqwY.js                0.37 kB │ gzip:   0.29 kB
+Vercel Deploy	Build Project Artifacts	2026-10-26T19:43:50.4346086Z ../dist/assets/lock-C9LMF_eq.js                0.38 kB │ gzip:   0.30 kB
+Vercel Deploy	Build Project Artifacts	2026-10-26T19:43:50.4346874Z ../dist/assets/mail-SIW3wHOa.js                0.38 kB │ gzip:   0.31 kB
+Vercel Deploy	Build Project Artifacts	2026-10-26T19:43:50.4347538Z ../dist/assets/NotFound-dg5jZ-Tu.js            0.47 kB │ gzip:   0.33 kB
+Vercel Deploy	Build Project Artifacts	2026-10-26T19:43:50.4348011Z ../dist/assets/charts-BuC_iVWv.js              0.88 kB │ gzip:   0.51 kB
+Vercel Deploy	Build Project Artifacts	2026-10-26T19:43:50.4348831Z ../dist/assets/brain-circuit-Dztvwm6r.js       0.97 kB │ gzip:   0.51 kB
+Vercel Deploy	Build Project Artifacts	2026-10-26T19:43:50.4349448Z ../dist/assets/eye-DaJmpB5Q.js                 0.97 kB │ gzip:   0.45 kB
+Vercel Deploy	Build Project Artifacts	2026-10-26T19:43:50.4350435Z ../dist/assets/Forbidden-nnoHeu6p.js           1.07 kB │ gzip:   0.66 kB
+Vercel Deploy	Build Project Artifacts	2026-10-26T19:43:50.4351196Z ../dist/assets/Intelligence-BRRI7KRP.js        1.89 kB │ gzip:   0.97 kB
+Vercel Deploy	Build Project Artifacts	2026-10-26T19:43:50.4352141Z ../dist/assets/dialog-BKHvYLi1.js              2.78 kB │ gzip:   1.13 kB
+Vercel Deploy	Build Project Artifacts	2026-10-26T19:43:50.4353067Z ../dist/assets/input-L48buiCY.js               3.39 kB │ gzip:   1.33 kB
+Vercel Deploy	Build Project Artifacts	2026-10-26T19:43:50.4353912Z ../dist/assets/ForgotPassword-Cykw6DQs.js      3.74 kB │ gzip:   1.49 kB
+Vercel Deploy	Build Project Artifacts	2026-10-26T19:43:50.4354733Z ../dist/assets/Map-DjRi4MGP.js                 3.78 kB │ gzip:   1.69 kB
+Vercel Deploy	Build Project Artifacts	2026-10-26T19:43:50.4355556Z ../dist/assets/Register-TqSAeSLX.js            3.83 kB │ gzip:   1.41 kB
+Vercel Deploy	Build Project Artifacts	2026-10-26T19:43:50.4356422Z ../dist/assets/ExportActions-CtDCGCm-.js       4.07 kB │ gzip:   2.06 kB
+Vercel Deploy	Build Project Artifacts	2026-10-26T19:43:50.4357277Z ../dist/assets/Dashboard-B8Z8xpSD.js           4.35 kB │ gzip:   1.95 kB
+Vercel Deploy	Build Project Artifacts	2026-10-26T19:43:50.4358127Z ../dist/assets/Login-CZx1PEg4.js               4.45 kB │ gzip:   1.58 kB
+Vercel Deploy	Build Project Artifacts	2026-10-26T19:43:50.4359016Z ../dist/assets/AnalyticsPage-D6TKCoo0.js       4.45 kB │ gzip:   1.81 kB
+Vercel Deploy	Build Project Artifacts	2026-10-26T19:43:50.4359877Z ../dist/assets/Orders-FBWkRlhn.js              4.74 kB │ gzip:   1.86 kB
+Vercel Deploy	Build Project Artifacts	2026-10-26T19:43:50.4360733Z ../dist/assets/ResetPassword-D9D34xTl.js       4.74 kB │ gzip:   1.52 kB
+Vercel Deploy	Build Project Artifacts	2026-10-26T19:43:50.4361676Z ../dist/assets/Infrastructure-DTAgMBu8.js      4.77 kB │ gzip:   2.05 kB
+Vercel Deploy	Build Project Artifacts	2026-10-26T19:43:50.4362739Z ../dist/assets/RecordDetail-B66wx1YR.js        5.81 kB │ gzip:   2.27 kB
+Vercel Deploy	Build Project Artifacts	2026-10-26T19:43:50.4363541Z ../dist/assets/Settings-CuxoYWUw.js            5.99 kB │ gzip:   2.30 kB
+Vercel Deploy	Build Project Artifacts	2026-10-26T19:43:50.4364363Z ../dist/assets/Assistant-DA3i_ZG9.js           6.47 kB │ gzip:   2.70 kB
+Vercel Deploy	Build Project Artifacts	2026-10-26T19:43:50.4365159Z ../dist/assets/Operations-CkwRSjjO.js          9.73 kB │ gzip:   3.37 kB
+Vercel Deploy	Build Project Artifacts	2026-10-26T19:43:50.4366045Z ../dist/assets/Profile-Dy_-W-U7.js            10.80 kB │ gzip:   3.65 kB
+Vercel Deploy	Build Project Artifacts	2026-10-26T19:43:50.4366546Z ../dist/assets/vendor-COd4auuD.js             11.79 kB │ gzip:   4.21 kB
+Vercel Deploy	Build Project Artifacts	2026-10-26T19:43:50.4367028Z ../dist/assets/index-KDPYAVO3.js             392.57 kB │ gzip: 123.86 kB
+Vercel Deploy	Build Project Artifacts	2026-10-26T19:43:50.4367459Z ✓ built in 2.21s
+Vercel Deploy	Build Project Artifacts	2026-10-26T19:43:50.8161132Z 
+Vercel Deploy	Build Project Artifacts	2026-10-26T19:43:50.8161877Z > imsop-app@1.0.0 verify:deployment /home/runner/work/imsop-app-frontend/imsop-app-frontend
+Vercel Deploy	Build Project Artifacts	2026-10-26T19:43:50.8162363Z > node scripts/verify-deployment.mjs
+Vercel Deploy	Build Project Artifacts	2026-10-26T19:43:50.8162483Z 
+Vercel Deploy	Build Project Artifacts	2026-10-26T19:43:50.8455879Z Verified 29 browser chunks use no retired backend
+Vercel Deploy	Build Project Artifacts	2026-10-26T19:43:50.9133872Z Build Completed in .vercel/output [4s]
+Vercel Deploy	Deploy Project Artifacts to Vercel	﻿2026-10-26T19:43:50.9736714Z ##[group]Run pnpm dlx vercel@latest deploy --prebuilt --prod --token="$VERCEL_TOKEN"
+Vercel Deploy	Deploy Project Artifacts to Vercel	2026-10-26T19:43:50.9737260Z pnpm dlx vercel@latest deploy --prebuilt --prod --token="$VERCEL_TOKEN"
+Vercel Deploy	Deploy Project Artifacts to Vercel	2026-10-26T19:43:50.9805336Z shell: /usr/bin/bash -e {0}
+Vercel Deploy	Deploy Project Artifacts to Vercel	2026-10-26T19:43:50.9805580Z env:
+Vercel Deploy	Deploy Project Artifacts to Vercel	2026-10-26T19:43:50.9805811Z   PNPM_HOME: /home/runner/setup-pnpm/node_modules/.bin
+Vercel Deploy	Deploy Project Artifacts to Vercel	2026-10-26T19:43:50.9806353Z   VERCEL_TOKEN: ***
+Vercel Deploy	Deploy Project Artifacts to Vercel	2026-10-26T19:43:50.9806602Z   VERCEL_ORG_ID: ***
+Vercel Deploy	Deploy Project Artifacts to Vercel	2026-10-26T19:43:50.9806835Z   VERCEL_PROJECT_ID: ***
+Vercel Deploy	Deploy Project Artifacts to Vercel	2026-10-26T19:43:50.9807036Z ##[endgroup]
+Vercel Deploy	Deploy Project Artifacts to Vercel	2026-10-26T19:43:51.4724991Z Vercel CLI 65.3.1 (Node.js 22.23.3)
+Vercel Deploy	Deploy Project Artifacts to Vercel	2026-10-26T19:43:51.6058439Z Retrieving project…
+Vercel Deploy	Deploy Project Artifacts to Vercel	2026-10-26T19:43:51.8773532Z Deploying ***/imsop-app
+Vercel Deploy	Deploy Project Artifacts to Vercel	2026-10-26T19:43:52.2456339Z Uploading [--------------------] (0.0B/1.7MB)
+Vercel Deploy	Deploy Project Artifacts to Vercel	2026-10-26T19:43:52.2658707Z Uploading [=====---------------] (438.6KB/1.7MB)
+Vercel Deploy	Deploy Project Artifacts to Vercel	2026-10-26T19:43:52.3805211Z Uploading [==========----------] (877.8KB/1.7MB)
+Vercel Deploy	Deploy Project Artifacts to Vercel	2026-10-26T19:43:52.4181102Z Uploading [===============-----] (1.3MB/1.7MB)
+Vercel Deploy	Deploy Project Artifacts to Vercel	2026-10-26T19:43:52.4793845Z Uploading [====================] (1.7MB/1.7MB)
+Vercel Deploy	Deploy Project Artifacts to Vercel	2026-10-26T19:43:56.7518022Z   Inspect         https://vercel.com/druhustles-projects/imsop-app/CxFCb44bfgqmT9K1FUh3ShKDB7ZA
+Vercel Deploy	Deploy Project Artifacts to Vercel	2026-10-26T19:43:56.7518622Z   Production      https://imsop-fiinv7x3z-druhustles-projects.vercel.app
+Vercel Deploy	Deploy Project Artifacts to Vercel	2026-10-26T19:43:56.7539429Z Building…
+Vercel Deploy	Deploy Project Artifacts to Vercel	2026-10-26T19:43:56.9023258Z   Production      https://imsop-fiinv7x3z-druhustles-projects.vercel.app
+Vercel Deploy	Deploy Project Artifacts to Vercel	2026-10-26T19:43:56.9023677Z Completing…
+Vercel Deploy	Deploy Project Artifacts to Vercel	2026-10-26T19:43:56.9034074Z ▲ Aliased         https://imsop-app.vercel.app
+Vercel Deploy	Deploy Project Artifacts to Vercel	2026-10-26T19:43:57.1297496Z 
+Vercel Deploy	Deploy Project Artifacts to Vercel	2026-10-26T19:43:57.1297773Z ✓ Ready in 5s
+Vercel Deploy	Deploy Project Artifacts to Vercel	2026-10-26T19:43:57.1297901Z 
+Vercel Deploy	Deploy Project Artifacts to Vercel	2026-10-26T19:43:57.1299886Z Next steps:
+Vercel Deploy	Deploy Project Artifacts to Vercel	2026-10-26T19:43:57.1300126Z - Check the production response:
+Vercel Deploy	Deploy Project Artifacts to Vercel	2026-10-26T19:43:57.1300426Z   vercel curl https://imsop-app.vercel.app
+Vercel Deploy	Deploy Project Artifacts to Vercel	2026-10-26T19:43:57.1300694Z - View build logs:
+Vercel Deploy	Deploy Project Artifacts to Vercel	2026-10-26T19:43:57.1301019Z   vercel inspect imsop-fiinv7x3z-druhustles-projects.vercel.app --logs
+Vercel Deploy	Deploy Project Artifacts to Vercel	2026-10-26T19:43:57.1301450Z - Create a new deployment from the same source:
+Vercel Deploy	Deploy Project Artifacts to Vercel	2026-10-26T19:43:57.1301825Z   vercel redeploy imsop-fiinv7x3z-druhustles-projects.vercel.app
+Vercel Deploy	Deploy Project Artifacts to Vercel	2026-10-26T19:43:57.1928241Z https://imsop-fiinv7x3z-druhustles-projects.vercel.app
+Vercel Deploy	Post Setup Node.js	﻿2026-10-26T19:43:57.2038163Z Post job cleanup.
+Vercel Deploy	Post Setup Node.js	2026-10-26T19:43:57.3121156Z (node:2545) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+Vercel Deploy	Post Setup Node.js	2026-10-26T19:43:57.3121870Z (Use `node --trace-deprecation ...` to show where the warning was created)
+Vercel Deploy	Post Setup Node.js	2026-10-26T19:43:57.3380200Z [command]/usr/bin/tar --posix -cf cache.tzst --exclude cache.tzst -P -C /home/runner/work/imsop-app-frontend/imsop-app-frontend --files-from manifest.txt --use-compress-program zstdmt
+Vercel Deploy	Post Setup Node.js	2026-10-26T19:43:59.2207002Z (node:2545) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+Vercel Deploy	Post Setup Node.js	2026-10-26T19:44:00.2131441Z Sent 82764527 of 216982255 (38.1%), 78.9 MBs/sec
+Vercel Deploy	Post Setup Node.js	2026-10-26T19:44:00.6306591Z Sent 216982255 of 216982255 (100.0%), 145.9 MBs/sec
+Vercel Deploy	Post Setup Node.js	2026-10-26T19:44:00.8350615Z Cache saved with the key: node-cache-Linux-x64-pnpm-bdae289cdc4783c5fc2038db7d839cdb6f91f61cdd8811cd45bb1c02042a1290
+Vercel Deploy	Post Setup PNPM	﻿2026-10-26T19:44:00.8634862Z Post job cleanup.
+Vercel Deploy	Post Setup PNPM	2026-10-26T19:44:00.9170437Z Pruning is unnecessary.
+Vercel Deploy	Post Checkout Code	﻿2026-10-26T19:44:00.9349426Z Post job cleanup.
+Vercel Deploy	Post Checkout Code	2026-10-26T19:44:00.9867624Z [command]/usr/bin/git version
+Vercel Deploy	Post Checkout Code	2026-10-26T19:44:00.9896526Z git version 2.55.0
+Vercel Deploy	Post Checkout Code	2026-10-26T19:44:00.9919881Z Temporarily overriding HOME='/home/runner/work/_temp/207cebcd-aa0a-40f2-8f8b-35c199bc1835' before making global git config changes
+Vercel Deploy	Post Checkout Code	2026-10-26T19:44:00.9920727Z Adding repository directory to the temporary git global config as a safe directory
+Vercel Deploy	Post Checkout Code	2026-10-26T19:44:00.9922049Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/imsop-app-frontend/imsop-app-frontend
+Vercel Deploy	Post Checkout Code	2026-10-26T19:44:01.0264508Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+Vercel Deploy	Post Checkout Code	2026-10-26T19:44:01.0307471Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+Vercel Deploy	Post Checkout Code	2026-10-26T19:44:01.0486070Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+Vercel Deploy	Post Checkout Code	2026-10-26T19:44:01.0510824Z http.https://github.com/.extraheader
+Vercel Deploy	Post Checkout Code	2026-10-26T19:44:01.0533118Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+Vercel Deploy	Post Checkout Code	2026-10-26T19:44:01.0553113Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+Vercel Deploy	Post Checkout Code	2026-10-26T19:44:01.0740888Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+Vercel Deploy	Post Checkout Code	2026-10-26T19:44:01.0768583Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+Vercel Deploy	Complete job	﻿2026-10-26T19:44:01.1051383Z Cleaning up orphan processes
+Vercel Deploy	Complete job	2026-10-26T19:44:01.1282071Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4, pnpm/action-setup@v3. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/

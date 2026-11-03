@@ -1,0 +1,25 @@
+.git
+.github
+.vscode
+**/bin/
+**/obj/
+**/TestResults/
+**/*.user
+**/*.suo
+**/*.nupkg
+*.md
+docs/
+infrastructure/terraform/
+
+# Never transmit local credentials or build artifacts to the image builder.
+.env*
+**/.env*
+private
+**/private
+node_modules
+**/node_modules
+dist
+**/dist
+.vercel
+
+verification/

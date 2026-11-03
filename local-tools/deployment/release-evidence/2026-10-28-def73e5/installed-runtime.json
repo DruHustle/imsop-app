@@ -1,0 +1,40 @@
+{
+  "container": "/imsop-app-backend-app-1",
+  "state": "running",
+  "health": "healthy",
+  "restartCount": 0,
+  "architecture": "arm64",
+  "imageId": "sha256:68a33836b22888a4ec214d5ac57cf1deedf958b16244cdae61b5b3c104f8ee48",
+  "imageReference": "ghcr.io/druhustle/imsop-backend@sha256:68a33836b22888a4ec214d5ac57cf1deedf958b16244cdae61b5b3c104f8ee48",
+  "revisionLabel": "def73e5418909341c38c98b54eb8e2c905dd6b35",
+  "runtimeRevision": "def73e5418909341c38c98b54eb8e2c905dd6b35",
+  "nodeAutoMigration": "false",
+  "dotnetAutoMigration": "false",
+  "recoveryEncryptionKeyPresent": true,
+  "runtimeFileMode": "0o600",
+  "providerConfig": {
+    "GMAIL_APP_PASSWORD": true,
+    "RESEND_API_KEY": false,
+    "FORECAST_PROVIDER_URL": false,
+    "FORECAST_PROVIDER_NAME": false,
+    "FORECAST_PROVIDER_TOKEN": false,
+    "ORDER_WEBHOOK_URL": false,
+    "ServiceBus__ConnectionString": false
+  },
+  "providerModes": {
+    "EMAIL_PROVIDER": "gmail",
+    "EMAIL_NOTIFICATIONS_ENABLED": null,
+    "ServiceBus__Enabled": "false"
+  },
+  "ports": {
+    "10000/tcp": [
+      {
+        "HostIp": "127.0.0.1",
+        "HostPort": "11001"
+      }
+    ]
+  },
+  "ingressNetworks": [
+    "imsop-app-backend-ingress"
+  ]
+}

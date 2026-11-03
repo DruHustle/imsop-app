@@ -1,0 +1,14 @@
+{
+  "imsop-app-backend": {
+    "revision": "d577908528b3a69ce3bba9c02ee0af7f7f82180a",
+    "branch": "main",
+    "workingTree": "clean",
+    "history": "fast-forward only"
+  },
+  "imsop-app-frontend": {
+    "revision": "85aa203f182ece15854430cac13656710f6692c5",
+    "branch": "main",
+    "workingTree": "clean",
+    "history": "fast-forward only"
+  }
+}

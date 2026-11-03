@@ -1,0 +1,495 @@
+build-and-test	Set up job	﻿2026-10-30T23:39:09.3095979Z Current runner version: '2.338.2'
+build-and-test	Set up job	2026-10-30T23:39:09.3116284Z ##[group]Runner Image Provisioner
+build-and-test	Set up job	2026-10-30T23:39:09.3117327Z Hosted Compute Agent
+build-and-test	Set up job	2026-10-30T23:39:09.3117834Z Version: 20261021.618
+build-and-test	Set up job	2026-10-30T23:39:09.3118395Z Commit: 21505ad2541d5be6135ed84fc33697146cf75b8e
+build-and-test	Set up job	2026-10-30T23:39:09.3119023Z Build Date: 2026-10-21T00:45:21Z
+build-and-test	Set up job	2026-10-30T23:39:09.3119581Z Worker ID: {dab8145c-45cb-43be-afc1-1046a9bd635d}
+build-and-test	Set up job	2026-10-30T23:39:09.3120225Z Region: westus3
+build-and-test	Set up job	2026-10-30T23:39:09.3120678Z Cloud: Azure
+build-and-test	Set up job	2026-10-30T23:39:09.3121145Z ##[endgroup]
+build-and-test	Set up job	2026-10-30T23:39:09.3122556Z ##[group]Operating System
+build-and-test	Set up job	2026-10-30T23:39:09.3123079Z Ubuntu
+build-and-test	Set up job	2026-10-30T23:39:09.3123573Z 26.04.1
+build-and-test	Set up job	2026-10-30T23:39:09.3123998Z LTS
+build-and-test	Set up job	2026-10-30T23:39:09.3124413Z ##[endgroup]
+build-and-test	Set up job	2026-10-30T23:39:09.3124946Z ##[group]Runner Image
+build-and-test	Set up job	2026-10-30T23:39:09.3125468Z Image: ubuntu-26.04
+build-and-test	Set up job	2026-10-30T23:39:09.3125963Z Version: 20261025.179.1
+build-and-test	Set up job	2026-10-30T23:39:09.3126823Z Included Software: https://github.com/actions/runner-images/blob/ubuntu26/20261025.179/images/ubuntu/Ubuntu2604-Readme.md
+build-and-test	Set up job	2026-10-30T23:39:09.3128492Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu26%2F20261025.179
+build-and-test	Set up job	2026-10-30T23:39:09.3129375Z ##[endgroup]
+build-and-test	Set up job	2026-10-30T23:39:09.3130349Z ##[group]GITHUB_TOKEN Permissions
+build-and-test	Set up job	2026-10-30T23:39:09.3131882Z Contents: read
+build-and-test	Set up job	2026-10-30T23:39:09.3132468Z Metadata: read
+build-and-test	Set up job	2026-10-30T23:39:09.3132932Z Packages: read
+build-and-test	Set up job	2026-10-30T23:39:09.3133374Z ##[endgroup]
+build-and-test	Set up job	2026-10-30T23:39:09.3135005Z Secret source: Actions
+build-and-test	Set up job	2026-10-30T23:39:09.3135788Z Cache mode: write
+build-and-test	Set up job	2026-10-30T23:39:09.3136409Z Prepare workflow directory
+build-and-test	Set up job	2026-10-30T23:39:09.3406547Z Prepare all required actions
+build-and-test	Set up job	2026-10-30T23:39:09.3460710Z Getting action download info
+build-and-test	Set up job	2026-10-30T23:39:09.6381138Z Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+build-and-test	Set up job	2026-10-30T23:39:09.7224111Z Download action repository 'pnpm/action-setup@v3' (SHA:a3252b78c470c02df07e9d59298aecedc3ccdd6d)
+build-and-test	Set up job	2026-10-30T23:39:10.3986044Z Download action repository 'actions/setup-node@v4' (SHA:49933ea5288caeca8642d1e84afbd3f7d6820020)
+build-and-test	Set up job	2026-10-30T23:39:10.5863041Z Complete job name: build-and-test
+build-and-test	Checkout Repository	﻿2026-10-30T23:39:10.6576613Z ##[group]Run actions/checkout@v4
+build-and-test	Checkout Repository	2026-10-30T23:39:10.6577523Z with:
+build-and-test	Checkout Repository	2026-10-30T23:39:10.6577943Z   repository: DruHustle/imsop-app-backend
+build-and-test	Checkout Repository	2026-10-30T23:39:10.6581318Z   token: ***
+build-and-test	Checkout Repository	2026-10-30T23:39:10.6581704Z   ssh-strict: true
+build-and-test	Checkout Repository	2026-10-30T23:39:10.6582097Z   ssh-user: git
+build-and-test	Checkout Repository	2026-10-30T23:39:10.6582489Z   persist-credentials: true
+build-and-test	Checkout Repository	2026-10-30T23:39:10.6582928Z   clean: true
+build-and-test	Checkout Repository	2026-10-30T23:39:10.6583327Z   sparse-checkout-cone-mode: true
+build-and-test	Checkout Repository	2026-10-30T23:39:10.6583785Z   fetch-depth: 1
+build-and-test	Checkout Repository	2026-10-30T23:39:10.6584171Z   fetch-tags: false
+build-and-test	Checkout Repository	2026-10-30T23:39:10.6584573Z   show-progress: true
+build-and-test	Checkout Repository	2026-10-30T23:39:10.6584969Z   lfs: false
+build-and-test	Checkout Repository	2026-10-30T23:39:10.6585352Z   submodules: false
+build-and-test	Checkout Repository	2026-10-30T23:39:10.6585757Z   set-safe-directory: true
+build-and-test	Checkout Repository	2026-10-30T23:39:10.6586214Z   allow-unsafe-pr-checkout: false
+build-and-test	Checkout Repository	2026-10-30T23:39:10.6586818Z ##[endgroup]
+build-and-test	Checkout Repository	2026-10-30T23:39:10.8953094Z Syncing repository: DruHustle/imsop-app-backend
+build-and-test	Checkout Repository	2026-10-30T23:39:10.8955493Z ##[group]Getting Git version info
+build-and-test	Checkout Repository	2026-10-30T23:39:10.8956388Z Working directory is '/home/runner/work/imsop-app-backend/imsop-app-backend'
+build-and-test	Checkout Repository	2026-10-30T23:39:10.8958330Z [command]/usr/bin/git version
+build-and-test	Checkout Repository	2026-10-30T23:39:10.8961963Z git version 2.56.0
+build-and-test	Checkout Repository	2026-10-30T23:39:10.8979319Z ##[endgroup]
+build-and-test	Checkout Repository	2026-10-30T23:39:10.8990497Z Temporarily overriding HOME='/home/runner/work/_temp/5eeb7eaf-12cf-4547-a96f-f7a7847d47c4' before making global git config changes
+build-and-test	Checkout Repository	2026-10-30T23:39:10.8992636Z Adding repository directory to the temporary git global config as a safe directory
+build-and-test	Checkout Repository	2026-10-30T23:39:10.8994820Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/imsop-app-backend/imsop-app-backend
+build-and-test	Checkout Repository	2026-10-30T23:39:10.9047750Z Deleting the contents of '/home/runner/work/imsop-app-backend/imsop-app-backend'
+build-and-test	Checkout Repository	2026-10-30T23:39:10.9050331Z ##[group]Initializing the repository
+build-and-test	Checkout Repository	2026-10-30T23:39:10.9053902Z [command]/usr/bin/git init /home/runner/work/imsop-app-backend/imsop-app-backend
+build-and-test	Checkout Repository	2026-10-30T23:39:10.9133363Z hint: Using 'master' as the name for the initial branch. This default branch name
+build-and-test	Checkout Repository	2026-10-30T23:39:10.9135201Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+build-and-test	Checkout Repository	2026-10-30T23:39:10.9137279Z hint: to use in all of your new repositories, which will suppress this warning,
+build-and-test	Checkout Repository	2026-10-30T23:39:10.9138674Z hint: call:
+build-and-test	Checkout Repository	2026-10-30T23:39:10.9139608Z hint:
+build-and-test	Checkout Repository	2026-10-30T23:39:10.9140615Z hint: 	git config --global init.defaultBranch <name>
+build-and-test	Checkout Repository	2026-10-30T23:39:10.9141788Z hint:
+build-and-test	Checkout Repository	2026-10-30T23:39:10.9143219Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+build-and-test	Checkout Repository	2026-10-30T23:39:10.9144858Z hint: 'development'. The just-created branch can be renamed via this command:
+build-and-test	Checkout Repository	2026-10-30T23:39:10.9146308Z hint:
+build-and-test	Checkout Repository	2026-10-30T23:39:10.9147490Z hint: 	git branch -m <name>
+build-and-test	Checkout Repository	2026-10-30T23:39:10.9148453Z hint:
+build-and-test	Checkout Repository	2026-10-30T23:39:10.9149796Z hint: Disable this message with "git config set advice.defaultBranchName false"
+build-and-test	Checkout Repository	2026-10-30T23:39:10.9151678Z Initialized empty Git repository in /home/runner/work/imsop-app-backend/imsop-app-backend/.git/
+build-and-test	Checkout Repository	2026-10-30T23:39:10.9157076Z [command]/usr/bin/git remote add origin https://github.com/DruHustle/imsop-app-backend
+build-and-test	Checkout Repository	2026-10-30T23:39:10.9197534Z ##[endgroup]
+build-and-test	Checkout Repository	2026-10-30T23:39:10.9199125Z ##[group]Disabling automatic garbage collection
+build-and-test	Checkout Repository	2026-10-30T23:39:10.9200514Z [command]/usr/bin/git config --local gc.auto 0
+build-and-test	Checkout Repository	2026-10-30T23:39:10.9233643Z ##[endgroup]
+build-and-test	Checkout Repository	2026-10-30T23:39:10.9234935Z ##[group]Setting up auth
+build-and-test	Checkout Repository	2026-10-30T23:39:10.9236078Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+build-and-test	Checkout Repository	2026-10-30T23:39:10.9267543Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+build-and-test	Checkout Repository	2026-10-30T23:39:10.9686527Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+build-and-test	Checkout Repository	2026-10-30T23:39:10.9716436Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+build-and-test	Checkout Repository	2026-10-30T23:39:10.9947440Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+build-and-test	Checkout Repository	2026-10-30T23:39:10.9978120Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+build-and-test	Checkout Repository	2026-10-30T23:39:11.0204740Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+build-and-test	Checkout Repository	2026-10-30T23:39:11.0237318Z ##[endgroup]
+build-and-test	Checkout Repository	2026-10-30T23:39:11.0244537Z ##[group]Fetching the repository
+build-and-test	Checkout Repository	2026-10-30T23:39:11.0246796Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +d346de9c854cce3c94e5508f39b469531553f000:refs/remotes/pull/9/merge
+build-and-test	Checkout Repository	2026-10-30T23:39:11.7229858Z From https://github.com/DruHustle/imsop-app-backend
+build-and-test	Checkout Repository	2026-10-30T23:39:11.7231306Z  * [new ref]         d346de9c854cce3c94e5508f39b469531553f000 -> pull/9/merge
+build-and-test	Checkout Repository	2026-10-30T23:39:11.7235089Z ##[endgroup]
+build-and-test	Checkout Repository	2026-10-30T23:39:11.7235923Z ##[group]Determining the checkout info
+build-and-test	Checkout Repository	2026-10-30T23:39:11.7237399Z ##[endgroup]
+build-and-test	Checkout Repository	2026-10-30T23:39:11.7242087Z [command]/usr/bin/git sparse-checkout disable
+build-and-test	Checkout Repository	2026-10-30T23:39:11.7381859Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+build-and-test	Checkout Repository	2026-10-30T23:39:11.7409145Z ##[group]Checking out the ref
+build-and-test	Checkout Repository	2026-10-30T23:39:11.7411946Z [command]/usr/bin/git checkout --progress --force refs/remotes/pull/9/merge
+build-and-test	Checkout Repository	2026-10-30T23:39:11.7578635Z Note: switching to 'refs/remotes/pull/9/merge'.
+build-and-test	Checkout Repository	2026-10-30T23:39:11.7579382Z 
+build-and-test	Checkout Repository	2026-10-30T23:39:11.7579893Z You are in 'detached HEAD' state. You can look around, make experimental
+build-and-test	Checkout Repository	2026-10-30T23:39:11.7580908Z changes and commit them, and you can discard any commits you make in this
+build-and-test	Checkout Repository	2026-10-30T23:39:11.7581704Z state without impacting any branches by switching back to a branch.
+build-and-test	Checkout Repository	2026-10-30T23:39:11.7582167Z 
+build-and-test	Checkout Repository	2026-10-30T23:39:11.7582521Z If you want to create a new branch to retain commits you create, you may
+build-and-test	Checkout Repository	2026-10-30T23:39:11.7583515Z do so (now or later) by using -c with the switch command. Example:
+build-and-test	Checkout Repository	2026-10-30T23:39:11.7584066Z 
+build-and-test	Checkout Repository	2026-10-30T23:39:11.7584366Z   git switch -c <new-branch-name>
+build-and-test	Checkout Repository	2026-10-30T23:39:11.7584998Z 
+build-and-test	Checkout Repository	2026-10-30T23:39:11.7585371Z Or undo this operation with:
+build-and-test	Checkout Repository	2026-10-30T23:39:11.7585804Z 
+build-and-test	Checkout Repository	2026-10-30T23:39:11.7586130Z   git switch -
+build-and-test	Checkout Repository	2026-10-30T23:39:11.7586492Z 
+build-and-test	Checkout Repository	2026-10-30T23:39:11.7587313Z Turn off this advice by setting config variable advice.detachedHead to false
+build-and-test	Checkout Repository	2026-10-30T23:39:11.7588102Z 
+build-and-test	Checkout Repository	2026-10-30T23:39:11.7589026Z HEAD is now at d346de9 Merge fc451a7b36b2c87dd38f1b62bfada24f2965fc19 into d577908528b3a69ce3bba9c02ee0af7f7f82180a
+build-and-test	Checkout Repository	2026-10-30T23:39:11.7591839Z ##[endgroup]
+build-and-test	Checkout Repository	2026-10-30T23:39:11.7624990Z [command]/usr/bin/git log -1 --format=%H
+build-and-test	Checkout Repository	2026-10-30T23:39:11.7645566Z d346de9c854cce3c94e5508f39b469531553f000
+build-and-test	Setup PNPM	﻿2026-10-30T23:39:11.7925873Z ##[group]Run pnpm/action-setup@v3
+build-and-test	Setup PNPM	2026-10-30T23:39:11.7926367Z with:
+build-and-test	Setup PNPM	2026-10-30T23:39:11.7926742Z   version: 10
+build-and-test	Setup PNPM	2026-10-30T23:39:11.7927344Z   dest: ~/setup-pnpm
+build-and-test	Setup PNPM	2026-10-30T23:39:11.7927746Z   run_install: null
+build-and-test	Setup PNPM	2026-10-30T23:39:11.7928149Z   package_json_file: package.json
+build-and-test	Setup PNPM	2026-10-30T23:39:11.7928606Z   standalone: false
+build-and-test	Setup PNPM	2026-10-30T23:39:11.7928992Z ##[endgroup]
+build-and-test	Setup PNPM	2026-10-30T23:39:11.8681391Z ##[group]Running self-installer...
+build-and-test	Setup PNPM	2026-10-30T23:39:12.1885340Z (node:2164) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+build-and-test	Setup PNPM	2026-10-30T23:39:12.1888274Z (Use `node --trace-deprecation ...` to show where the warning was created)
+build-and-test	Setup PNPM	2026-10-30T23:39:12.3634044Z Progress: resolved 1, reused 0, downloaded 0, added 0
+build-and-test	Setup PNPM	2026-10-30T23:39:12.3700857Z Packages: +1
+build-and-test	Setup PNPM	2026-10-30T23:39:12.3701793Z +
+build-and-test	Setup PNPM	2026-10-30T23:39:12.7346637Z Progress: resolved 1, reused 0, downloaded 1, added 1, done
+build-and-test	Setup PNPM	2026-10-30T23:39:12.7593516Z 
+build-and-test	Setup PNPM	2026-10-30T23:39:12.7594347Z dependencies:
+build-and-test	Setup PNPM	2026-10-30T23:39:12.7595390Z + pnpm 10.34.9 (12.16.1 is available)
+build-and-test	Setup PNPM	2026-10-30T23:39:12.7596257Z 
+build-and-test	Setup PNPM	2026-10-30T23:39:12.7614570Z Done in 752ms
+build-and-test	Setup PNPM	2026-10-30T23:39:12.7805057Z ##[endgroup]
+build-and-test	Setup PNPM	2026-10-30T23:39:12.7806487Z Installation Completed!
+build-and-test	Setup Node.js	﻿2026-10-30T23:39:12.8056106Z ##[group]Run actions/setup-node@v4
+build-and-test	Setup Node.js	2026-10-30T23:39:12.8057267Z with:
+build-and-test	Setup Node.js	2026-10-30T23:39:12.8057987Z   node-version: 22
+build-and-test	Setup Node.js	2026-10-30T23:39:12.8058752Z   cache: pnpm
+build-and-test	Setup Node.js	2026-10-30T23:39:12.8059585Z   cache-dependency-path: server/pnpm-lock.yaml
+build-and-test	Setup Node.js	2026-10-30T23:39:12.8060658Z   always-auth: false
+build-and-test	Setup Node.js	2026-10-30T23:39:12.8061451Z   check-latest: false
+build-and-test	Setup Node.js	2026-10-30T23:39:12.8068990Z   token: ***
+build-and-test	Setup Node.js	2026-10-30T23:39:12.8069723Z env:
+build-and-test	Setup Node.js	2026-10-30T23:39:12.8070570Z   PNPM_HOME: /home/runner/setup-pnpm/node_modules/.bin
+build-and-test	Setup Node.js	2026-10-30T23:39:12.8071678Z ##[endgroup]
+build-and-test	Setup Node.js	2026-10-30T23:39:12.9250375Z (node:2179) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+build-and-test	Setup Node.js	2026-10-30T23:39:12.9252883Z (Use `node --trace-deprecation ...` to show where the warning was created)
+build-and-test	Setup Node.js	2026-10-30T23:39:12.9255259Z Found in cache @ /opt/hostedtoolcache/node/22.23.4/x64
+build-and-test	Setup Node.js	2026-10-30T23:39:12.9257648Z ##[group]Environment details
+build-and-test	Setup Node.js	2026-10-30T23:39:13.3108529Z node: v22.23.4
+build-and-test	Setup Node.js	2026-10-30T23:39:13.3109194Z npm: 10.9.9
+build-and-test	Setup Node.js	2026-10-30T23:39:13.3109546Z yarn: 1.22.22
+build-and-test	Setup Node.js	2026-10-30T23:39:13.3110309Z ##[endgroup]
+build-and-test	Setup Node.js	2026-10-30T23:39:13.3125549Z [command]/home/runner/setup-pnpm/node_modules/.bin/pnpm store path --silent
+build-and-test	Setup Node.js	2026-10-30T23:39:13.6527585Z /home/runner/setup-pnpm/node_modules/.bin/store/v10
+build-and-test	Setup Node.js	2026-10-30T23:39:13.8596805Z Cache hit for: node-cache-Linux-x64-pnpm-f86fcef2d52306e2f0c9227c85f30d75c3b3c119d24198be4f1c19f5b51acbb2
+build-and-test	Setup Node.js	2026-10-30T23:39:13.8678478Z (node:2179) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+build-and-test	Setup Node.js	2026-10-30T23:39:14.9159468Z Received 31106361 of 31106361 (100.0%), 34.9 MBs/sec
+build-and-test	Setup Node.js	2026-10-30T23:39:14.9160494Z Cache Size: ~30 MB (31106361 B)
+build-and-test	Setup Node.js	2026-10-30T23:39:14.9178731Z [command]/usr/bin/tar -xf /home/runner/work/_temp/c51d5481-479b-4202-8fbb-b2cf5b1ff1a5/cache.tzst -P -C /home/runner/work/imsop-app-backend/imsop-app-backend --use-compress-program unzstd
+build-and-test	Setup Node.js	2026-10-30T23:39:15.1920772Z Cache restored successfully
+build-and-test	Setup Node.js	2026-10-30T23:39:15.1936109Z Cache restored from key: node-cache-Linux-x64-pnpm-f86fcef2d52306e2f0c9227c85f30d75c3b3c119d24198be4f1c19f5b51acbb2
+build-and-test	Install dependencies	﻿2026-10-30T23:39:15.2119764Z ##[group]Run cd server
+build-and-test	Install dependencies	2026-10-30T23:39:15.2120027Z [36;1mcd server[0m
+build-and-test	Install dependencies	2026-10-30T23:39:15.2120250Z [36;1mpnpm install --frozen-lockfile[0m
+build-and-test	Install dependencies	2026-10-30T23:39:15.2155782Z shell: /usr/bin/bash -e {0}
+build-and-test	Install dependencies	2026-10-30T23:39:15.2156018Z env:
+build-and-test	Install dependencies	2026-10-30T23:39:15.2156235Z   PNPM_HOME: /home/runner/setup-pnpm/node_modules/.bin
+build-and-test	Install dependencies	2026-10-30T23:39:15.2156510Z ##[endgroup]
+build-and-test	Install dependencies	2026-10-30T23:39:16.7307880Z Lockfile is up to date, resolution step is skipped
+build-and-test	Install dependencies	2026-10-30T23:39:16.7531301Z Progress: resolved 1, reused 0, downloaded 0, added 0
+build-and-test	Install dependencies	2026-10-30T23:39:16.7838682Z Packages: +138
+build-and-test	Install dependencies	2026-10-30T23:39:16.7858079Z ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+build-and-test	Install dependencies	2026-10-30T23:39:16.9838897Z Progress: resolved 138, reused 138, downloaded 0, added 138, done
+build-and-test	Install dependencies	2026-10-30T23:39:17.1374328Z 
+build-and-test	Install dependencies	2026-10-30T23:39:17.1374959Z dependencies:
+build-and-test	Install dependencies	2026-10-30T23:39:17.1375438Z + bcryptjs 3.0.3
+build-and-test	Install dependencies	2026-10-30T23:39:17.1375743Z + cors 2.8.6
+build-and-test	Install dependencies	2026-10-30T23:39:17.1376024Z + dotenv 17.2.3
+build-and-test	Install dependencies	2026-10-30T23:39:17.1376338Z + drizzle-orm 0.45.4
+build-and-test	Install dependencies	2026-10-30T23:39:17.1376737Z + express 5.3.0
+build-and-test	Install dependencies	2026-10-30T23:39:17.1377221Z + jsonwebtoken 9.0.3
+build-and-test	Install dependencies	2026-10-30T23:39:17.1377554Z + nodemailer 10.2.1
+build-and-test	Install dependencies	2026-10-30T23:39:17.1377844Z + pg 8.23.1
+build-and-test	Install dependencies	2026-10-30T23:39:17.1378114Z + resend 6.32.1
+build-and-test	Install dependencies	2026-10-30T23:39:17.1378368Z + zod 4.6.7
+build-and-test	Install dependencies	2026-10-30T23:39:17.1378519Z 
+build-and-test	Install dependencies	2026-10-30T23:39:17.1378649Z devDependencies:
+build-and-test	Install dependencies	2026-10-30T23:39:17.1378946Z + @types/cors 2.8.19
+build-and-test	Install dependencies	2026-10-30T23:39:17.1379248Z + @types/express 5.0.6
+build-and-test	Install dependencies	2026-10-30T23:39:17.1379591Z + @types/jsonwebtoken 9.0.10
+build-and-test	Install dependencies	2026-10-30T23:39:17.1379951Z + @types/node 25.0.3
+build-and-test	Install dependencies	2026-10-30T23:39:17.1380252Z + @types/nodemailer 8.0.2
+build-and-test	Install dependencies	2026-10-30T23:39:17.1380541Z + @types/pg 8.23.1
+build-and-test	Install dependencies	2026-10-30T23:39:17.1380832Z + drizzle-kit 0.31.11
+build-and-test	Install dependencies	2026-10-30T23:39:17.1381114Z + tsx 4.23.15
+build-and-test	Install dependencies	2026-10-30T23:39:17.1381383Z + typescript 5.9.3
+build-and-test	Install dependencies	2026-10-30T23:39:17.1381552Z 
+build-and-test	Install dependencies	2026-10-30T23:39:17.1384632Z ╭ Warning ─────────────────────────────────────────────────────────────────────╮│                                                                              ││   Ignored build scripts: esbuild.                                            ││   Run "pnpm approve-builds" to pick which dependencies should be allowed     ││   to run scripts.                                                            ││                                                                              │╰──────────────────────────────────────────────────────────────────────────────╯
+build-and-test	Install dependencies	2026-10-30T23:39:17.1613829Z 
+build-and-test	Install dependencies	2026-10-30T23:39:17.1614304Z Done in 727ms using pnpm v10.4.1
+build-and-test	Lint	﻿2026-10-30T23:39:17.1933730Z ##[group]Run cd server
+build-and-test	Lint	2026-10-30T23:39:17.1934022Z [36;1mcd server[0m
+build-and-test	Lint	2026-10-30T23:39:17.1934282Z [36;1m# Only runs if 'lint' script exists in server/package.json[0m
+build-and-test	Lint	2026-10-30T23:39:17.1934610Z [36;1mif grep -q "\"lint\":" package.json; then[0m
+build-and-test	Lint	2026-10-30T23:39:17.1934860Z [36;1m  pnpm lint[0m
+build-and-test	Lint	2026-10-30T23:39:17.1935036Z [36;1melse[0m
+build-and-test	Lint	2026-10-30T23:39:17.1935242Z [36;1m  echo "No lint script found, skipping..."[0m
+build-and-test	Lint	2026-10-30T23:39:17.1935482Z [36;1mfi[0m
+build-and-test	Lint	2026-10-30T23:39:17.1962412Z shell: /usr/bin/bash -e {0}
+build-and-test	Lint	2026-10-30T23:39:17.1962634Z env:
+build-and-test	Lint	2026-10-30T23:39:17.1962857Z   PNPM_HOME: /home/runner/setup-pnpm/node_modules/.bin
+build-and-test	Lint	2026-10-30T23:39:17.1963124Z ##[endgroup]
+build-and-test	Lint	2026-10-30T23:39:17.2020481Z No lint script found, skipping...
+build-and-test	Build	﻿2026-10-30T23:39:17.2044074Z ##[group]Run cd server
+build-and-test	Build	2026-10-30T23:39:17.2044288Z [36;1mcd server[0m
+build-and-test	Build	2026-10-30T23:39:17.2044471Z [36;1mpnpm build[0m
+build-and-test	Build	2026-10-30T23:39:17.2067115Z shell: /usr/bin/bash -e {0}
+build-and-test	Build	2026-10-30T23:39:17.2067342Z env:
+build-and-test	Build	2026-10-30T23:39:17.2067558Z   PNPM_HOME: /home/runner/setup-pnpm/node_modules/.bin
+build-and-test	Build	2026-10-30T23:39:17.2067980Z ##[endgroup]
+build-and-test	Build	2026-10-30T23:39:17.8298950Z 
+build-and-test	Build	2026-10-30T23:39:17.8299957Z > server@1.0.0 build /home/runner/work/imsop-app-backend/imsop-app-backend/server
+build-and-test	Build	2026-10-30T23:39:17.8300372Z > tsc
+build-and-test	Build	2026-10-30T23:39:17.8300477Z 
+build-and-test	Run Tests	﻿2026-10-30T23:39:20.7527806Z ##[group]Run pnpm -C server test
+build-and-test	Run Tests	2026-10-30T23:39:20.7528103Z [36;1mpnpm -C server test[0m
+build-and-test	Run Tests	2026-10-30T23:39:20.7554655Z shell: /usr/bin/bash -e {0}
+build-and-test	Run Tests	2026-10-30T23:39:20.7554880Z env:
+build-and-test	Run Tests	2026-10-30T23:39:20.7555124Z   PNPM_HOME: /home/runner/setup-pnpm/node_modules/.bin
+build-and-test	Run Tests	2026-10-30T23:39:20.7555438Z ##[endgroup]
+build-and-test	Run Tests	2026-10-30T23:39:21.4100664Z 
+build-and-test	Run Tests	2026-10-30T23:39:21.4101613Z > server@1.0.0 test /home/runner/work/imsop-app-backend/imsop-app-backend/server
+build-and-test	Run Tests	2026-10-30T23:39:21.4102559Z > NODE_ENV=test node --test --import tsx src/app.test.ts src/integrations.test.ts
+build-and-test	Run Tests	2026-10-30T23:39:21.4102985Z 
+build-and-test	Run Tests	2026-10-30T23:39:21.4499752Z TAP version 13
+build-and-test	Run Tests	2026-10-30T23:39:22.1054697Z # Subtest: API and authentication limits use independent windows and cover changing paths
+build-and-test	Run Tests	2026-10-30T23:39:22.1058225Z ok 1 - API and authentication limits use independent windows and cover changing paths
+build-and-test	Run Tests	2026-10-30T23:39:22.1058815Z   ---
+build-and-test	Run Tests	2026-10-30T23:39:22.1059035Z   duration_ms: 0.926473
+build-and-test	Run Tests	2026-10-30T23:39:22.1059329Z   type: 'test'
+build-and-test	Run Tests	2026-10-30T23:39:22.1059640Z   ...
+build-and-test	Run Tests	2026-10-30T23:39:22.1225007Z # {"event":"request","correlationId":"79c28423-5b95-47bc-a933-eb5eb4e68c9c","method":"GET","route":"unmatched","status":404,"durationMs":4}
+build-and-test	Run Tests	2026-10-30T23:39:22.1427214Z # {"event":"request","correlationId":"a65429b2-fd63-4a54-9e3e-c17fc68d59a1","method":"POST","route":"unmatched","status":400,"durationMs":9}
+build-and-test	Run Tests	2026-10-30T23:39:22.1446862Z # {"event":"request","correlationId":"c8df9548-2b78-4efb-a04c-170df95bc707","method":"POST","route":"unmatched","status":403,"durationMs":0}
+build-and-test	Run Tests	2026-10-30T23:39:22.1466687Z # {"event":"request","correlationId":"f3b022c2-deb7-432d-8352-c8f7955d00a6","method":"POST","route":"unmatched","status":403,"durationMs":0}
+build-and-test	Run Tests	2026-10-30T23:39:22.1501610Z # Subtest: API errors return JSON and unsafe cross-site cookie requests are rejected
+build-and-test	Run Tests	2026-10-30T23:39:22.1508461Z ok 2 - API errors return JSON and unsafe cross-site cookie requests are rejected
+build-and-test	Run Tests	2026-10-30T23:39:22.1509499Z   ---
+build-and-test	Run Tests	2026-10-30T23:39:22.1509912Z   duration_ms: 61.282532
+build-and-test	Run Tests	2026-10-30T23:39:22.1510402Z   type: 'test'
+build-and-test	Run Tests	2026-10-30T23:39:22.1510814Z   ...
+build-and-test	Run Tests	2026-10-30T23:39:22.1556867Z # {"event":"request","correlationId":"6fb41a38-9ad5-437c-bb48-388ca1064a28","method":"POST","route":"unmatched","status":400,"durationMs":2}
+build-and-test	Run Tests	2026-10-30T23:39:22.1583102Z # {"event":"request","correlationId":"4b064d39-d915-45c9-8972-f2023c407c80","method":"GET","route":"/health","status":200,"durationMs":1}
+build-and-test	Run Tests	2026-10-30T23:39:22.1644931Z # Subtest: trailing bytes after a compressed request cannot terminate the API process
+build-and-test	Run Tests	2026-10-30T23:39:22.1646345Z ok 3 - trailing bytes after a compressed request cannot terminate the API process
+build-and-test	Run Tests	2026-10-30T23:39:22.1647316Z   ---
+build-and-test	Run Tests	2026-10-30T23:39:22.1647764Z   duration_ms: 10.736346
+build-and-test	Run Tests	2026-10-30T23:39:22.1648330Z   type: 'test'
+build-and-test	Run Tests	2026-10-30T23:39:22.1648739Z   ...
+build-and-test	Run Tests	2026-10-30T23:39:22.1649252Z # Subtest: HTML reports escape stored data
+build-and-test	Run Tests	2026-10-30T23:39:22.1649899Z ok 4 - HTML reports escape stored data
+build-and-test	Run Tests	2026-10-30T23:39:22.1650409Z   ---
+build-and-test	Run Tests	2026-10-30T23:39:22.1650836Z   duration_ms: 0.207209
+build-and-test	Run Tests	2026-10-30T23:39:22.1651333Z   type: 'test'
+build-and-test	Run Tests	2026-10-30T23:39:22.1651833Z   ...
+build-and-test	Run Tests	2026-10-30T23:39:22.1652473Z # Subtest: filters reject normalized impossible dates and reversed ranges
+build-and-test	Run Tests	2026-10-30T23:39:22.1653375Z ok 5 - filters reject normalized impossible dates and reversed ranges
+build-and-test	Run Tests	2026-10-30T23:39:22.1677417Z   ---
+build-and-test	Run Tests	2026-10-30T23:39:22.1697597Z   duration_ms: 1.121774
+build-and-test	Run Tests	2026-10-30T23:39:22.1727299Z   type: 'test'
+build-and-test	Run Tests	2026-10-30T23:39:22.1735057Z   ...
+build-and-test	Run Tests	2026-10-30T23:39:22.1745068Z # Subtest: allowed origins are trimmed and support multiple Vercel domains
+build-and-test	Run Tests	2026-10-30T23:39:22.1746646Z ok 6 - allowed origins are trimmed and support multiple Vercel domains
+build-and-test	Run Tests	2026-10-30T23:39:22.1747492Z   ---
+build-and-test	Run Tests	2026-10-30T23:39:22.1748406Z   duration_ms: 0.200399
+build-and-test	Run Tests	2026-10-30T23:39:22.1748863Z   type: 'test'
+build-and-test	Run Tests	2026-10-30T23:39:22.1749272Z   ...
+build-and-test	Run Tests	2026-10-30T23:39:22.1749935Z # Subtest: production configuration rejects invalid Gmail app passwords
+build-and-test	Run Tests	2026-10-30T23:39:22.1750837Z ok 7 - production configuration rejects invalid Gmail app passwords
+build-and-test	Run Tests	2026-10-30T23:39:22.1751784Z   ---
+build-and-test	Run Tests	2026-10-30T23:39:22.1752174Z   duration_ms: 0.813744
+build-and-test	Run Tests	2026-10-30T23:39:22.1752608Z   type: 'test'
+build-and-test	Run Tests	2026-10-30T23:39:22.1753025Z   ...
+build-and-test	Run Tests	2026-10-30T23:39:22.1754018Z # {"event":"request","correlationId":"6688b6b4-d61d-4edd-b593-b5793a52b0d4","method":"GET","route":"/health","status":200,"durationMs":0}
+build-and-test	Run Tests	2026-10-30T23:39:22.1755063Z # Subtest: GET /health returns ok
+build-and-test	Run Tests	2026-10-30T23:39:22.1755597Z ok 8 - GET /health returns ok
+build-and-test	Run Tests	2026-10-30T23:39:22.1756036Z   ---
+build-and-test	Run Tests	2026-10-30T23:39:22.1756450Z   duration_ms: 7.917057
+build-and-test	Run Tests	2026-10-30T23:39:22.1756870Z   type: 'test'
+build-and-test	Run Tests	2026-10-30T23:39:22.1757416Z   ...
+build-and-test	Run Tests	2026-10-30T23:39:22.1761462Z # {"event":"request","correlationId":"020cce32-82ef-414f-a91c-a96117fdf155","method":"POST","route":"/register","status":400,"durationMs":4}
+build-and-test	Run Tests	2026-10-30T23:39:22.1795983Z # Subtest: authentication routes validate input before accessing the database
+build-and-test	Run Tests	2026-10-30T23:39:22.1796607Z ok 9 - authentication routes validate input before accessing the database
+build-and-test	Run Tests	2026-10-30T23:39:22.1796922Z   ---
+build-and-test	Run Tests	2026-10-30T23:39:22.1797319Z   duration_ms: 8.047121
+build-and-test	Run Tests	2026-10-30T23:39:22.1797623Z   type: 'test'
+build-and-test	Run Tests	2026-10-30T23:39:22.1797883Z   ...
+build-and-test	Run Tests	2026-10-30T23:39:22.1825042Z # {"event":"request","correlationId":"7fd3b7d3-54ca-432b-a3eb-ef349d78c91d","method":"GET","route":"/shipments","status":401,"durationMs":1}
+build-and-test	Run Tests	2026-10-30T23:39:22.1840674Z # {"event":"request","correlationId":"6acded0f-1ed0-4d6c-ad9e-a3aecff45882","method":"GET","route":"/integrations/sap/metadata","status":401,"durationMs":0}
+build-and-test	Run Tests	2026-10-30T23:39:22.1887678Z # Subtest: protected operations reject anonymous requests
+build-and-test	Run Tests	2026-10-30T23:39:22.1908193Z ok 10 - protected operations reject anonymous requests
+build-and-test	Run Tests	2026-10-30T23:39:22.1917492Z   ---
+build-and-test	Run Tests	2026-10-30T23:39:22.1927666Z   duration_ms: 7.487607
+build-and-test	Run Tests	2026-10-30T23:39:22.1928237Z   type: 'test'
+build-and-test	Run Tests	2026-10-30T23:39:22.1928645Z   ...
+build-and-test	Run Tests	2026-10-30T23:39:22.1929731Z # {"event":"request","correlationId":"3ea17209-6534-4658-a434-cb117b3e403c","method":"GET","route":"/shipments","status":401,"durationMs":3}
+build-and-test	Run Tests	2026-10-30T23:39:22.1957892Z # Subtest: legacy claim-only credentials fail closed before role authorization
+build-and-test	Run Tests	2026-10-30T23:39:22.1967811Z ok 11 - legacy claim-only credentials fail closed before role authorization
+build-and-test	Run Tests	2026-10-30T23:39:22.1979522Z   ---
+build-and-test	Run Tests	2026-10-30T23:39:22.1997852Z   duration_ms: 8.336073
+build-and-test	Run Tests	2026-10-30T23:39:22.1998226Z   type: 'test'
+build-and-test	Run Tests	2026-10-30T23:39:22.1998565Z   ...
+build-and-test	Run Tests	2026-10-30T23:39:22.1999328Z # {"event":"request","correlationId":"687c53c7-71b9-4a2e-b036-2e4bfa208ba9","method":"POST","route":"/:provider/events","status":401,"durationMs":1}
+build-and-test	Run Tests	2026-10-30T23:39:22.1999915Z # Subtest: logistics webhooks reject invalid signatures
+build-and-test	Run Tests	2026-10-30T23:39:22.2000447Z ok 12 - logistics webhooks reject invalid signatures
+build-and-test	Run Tests	2026-10-30T23:39:22.2000820Z   ---
+build-and-test	Run Tests	2026-10-30T23:39:22.2001130Z   duration_ms: 4.774297
+build-and-test	Run Tests	2026-10-30T23:39:22.2001474Z   type: 'test'
+build-and-test	Run Tests	2026-10-30T23:39:22.2001806Z   ...
+build-and-test	Run Tests	2026-10-30T23:39:22.2042754Z # {"event":"request","correlationId":"d91df1d6-aecf-4405-99ee-d3f524a8d1c5","method":"POST","route":"/:provider/events","status":400,"durationMs":3}
+build-and-test	Run Tests	2026-10-30T23:39:22.2117960Z # Subtest: signed logistics webhooks validate canonical payloads before database access
+build-and-test	Run Tests	2026-10-30T23:39:22.2119416Z ok 13 - signed logistics webhooks validate canonical payloads before database access
+build-and-test	Run Tests	2026-10-30T23:39:22.2127634Z   ---
+build-and-test	Run Tests	2026-10-30T23:39:22.2128004Z   duration_ms: 6.886729
+build-and-test	Run Tests	2026-10-30T23:39:22.2128370Z   type: 'test'
+build-and-test	Run Tests	2026-10-30T23:39:22.2128681Z   ...
+build-and-test	Run Tests	2026-10-30T23:39:22.2139934Z # {"event":"request","correlationId":"125f0a21-5af4-4bdc-92aa-0b53148630ea","method":"GET","route":"/shipments/:id","status":200,"durationMs":2}
+build-and-test	Run Tests	2026-10-30T23:39:22.2149025Z # {"event":"request","correlationId":"2464015e-4b0e-4194-be8a-3a8d971cf286","method":"GET","route":"/shipments","status":200,"durationMs":1}
+build-and-test	Run Tests	2026-10-30T23:39:22.2176011Z # {"event":"request","correlationId":"af13e2c6-1341-489f-9aa3-a8f487ce8c17","method":"GET","route":"/orders","status":200,"durationMs":1}
+build-and-test	Run Tests	2026-10-30T23:39:22.2196733Z # {"event":"request","correlationId":"7b3359ac-40e6-49c7-b6ca-8a772a00507c","method":"GET","route":"/shipments/:id/events","status":200,"durationMs":1}
+build-and-test	Run Tests	2026-10-30T23:39:22.2211208Z # {"event":"request","correlationId":"85824e58-3f71-481c-b012-cf952129ce09","method":"GET","route":"/orders/:id","status":200,"durationMs":1}
+build-and-test	Run Tests	2026-10-30T23:39:22.2223525Z # {"event":"request","correlationId":"87b84eb8-8c8f-457d-8dc7-8527a87ebd86","method":"GET","route":"/reports/access","status":200,"durationMs":1}
+build-and-test	Run Tests	2026-10-30T23:39:22.2237620Z # {"event":"request","correlationId":"54bc18b9-1c69-471b-b9c6-324981a98bbe","method":"GET","route":"/shipments/:id","status":200,"durationMs":1}
+build-and-test	Run Tests	2026-10-30T23:39:22.2254765Z # {"event":"request","correlationId":"f4ca3da6-ae12-43a4-8a8f-07ca0f3b4711","method":"GET","route":"/shipments","status":200,"durationMs":1}
+build-and-test	Run Tests	2026-10-30T23:39:22.2270965Z # {"event":"request","correlationId":"e5615874-61bd-4d62-96d3-85579435dd6b","method":"GET","route":"/orders","status":200,"durationMs":1}
+build-and-test	Run Tests	2026-10-30T23:39:22.2286811Z # {"event":"request","correlationId":"70be9793-8031-4fed-8d37-f8885740eed1","method":"GET","route":"/shipments/:id/events","status":200,"durationMs":1}
+build-and-test	Run Tests	2026-10-30T23:39:22.2300144Z # {"event":"request","correlationId":"11eaa75e-e5ae-444d-9c56-448311700ac1","method":"GET","route":"/orders/:id","status":200,"durationMs":1}
+build-and-test	Run Tests	2026-10-30T23:39:22.2313685Z # {"event":"request","correlationId":"aa5ab5b5-cc21-469c-8517-ed03520134e6","method":"GET","route":"/reports/access","status":403,"durationMs":0}
+build-and-test	Run Tests	2026-10-30T23:39:22.2324770Z # {"event":"request","correlationId":"f69e50ac-3648-4b80-aeb7-2b347a90955c","method":"GET","route":"/shipments/export/report","status":403,"durationMs":0}
+build-and-test	Run Tests	2026-10-30T23:39:22.2341744Z # {"event":"request","correlationId":"7f5948f4-6a5a-43a9-bac4-c184fa312db2","method":"GET","route":"/orders/export/report","status":403,"durationMs":1}
+build-and-test	Run Tests	2026-10-30T23:39:22.2354488Z # {"event":"request","correlationId":"d5710e0f-d87e-4188-a25a-3c46d664d331","method":"GET","route":"/shipments/:id","status":200,"durationMs":1}
+build-and-test	Run Tests	2026-10-30T23:39:22.2367460Z # {"event":"request","correlationId":"7442e097-0bec-478d-8de8-5599f0c927d5","method":"GET","route":"/shipments","status":200,"durationMs":1}
+build-and-test	Run Tests	2026-10-30T23:39:22.2380241Z # {"event":"request","correlationId":"ff2a09a6-017d-47c8-89c2-d0bd45975380","method":"GET","route":"/orders","status":200,"durationMs":1}
+build-and-test	Run Tests	2026-10-30T23:39:22.2392957Z # {"event":"request","correlationId":"fe375f18-028f-4b99-83fc-6034ea10debf","method":"GET","route":"/shipments/:id/events","status":200,"durationMs":1}
+build-and-test	Run Tests	2026-10-30T23:39:22.2404664Z # {"event":"request","correlationId":"15a1cd68-47ce-4e6d-89d6-53a0cf22598a","method":"GET","route":"/orders/:id","status":200,"durationMs":0}
+build-and-test	Run Tests	2026-10-30T23:39:22.2416519Z # {"event":"request","correlationId":"e2571428-35c0-41b6-bbd5-669b77ee80d4","method":"GET","route":"/reports/access","status":200,"durationMs":0}
+build-and-test	Run Tests	2026-10-30T23:39:22.2428552Z # {"event":"request","correlationId":"2e2544e7-4699-4f71-a7ac-51f0d1858a04","method":"GET","route":"/shipments/:id","status":200,"durationMs":0}
+build-and-test	Run Tests	2026-10-30T23:39:22.2440507Z # {"event":"request","correlationId":"4734e4da-917c-4e19-9b75-b27ec31ad86a","method":"GET","route":"/shipments","status":200,"durationMs":1}
+build-and-test	Run Tests	2026-10-30T23:39:22.2451006Z # {"event":"request","correlationId":"5eb8e804-1dbc-47a0-b7ce-ac464f4916b6","method":"GET","route":"/orders","status":403,"durationMs":0}
+build-and-test	Run Tests	2026-10-30T23:39:22.2463864Z # {"event":"request","correlationId":"ab452163-74af-450c-9f8f-c29b3b146b08","method":"GET","route":"/shipments/:id/events","status":200,"durationMs":1}
+build-and-test	Run Tests	2026-10-30T23:39:22.2475143Z # {"event":"request","correlationId":"09326b9b-9614-4d09-b27a-070555cedcfe","method":"GET","route":"/orders/:id","status":403,"durationMs":0}
+build-and-test	Run Tests	2026-10-30T23:39:22.2486643Z # {"event":"request","correlationId":"1613a4e4-cf6a-4b83-a8e6-fdba5bb418e2","method":"GET","route":"/reports/access","status":403,"durationMs":0}
+build-and-test	Run Tests	2026-10-30T23:39:22.2497883Z # {"event":"request","correlationId":"0b05f291-663f-4ec3-9cb8-4092f121c3ed","method":"GET","route":"/shipments/export/report","status":403,"durationMs":0}
+build-and-test	Run Tests	2026-10-30T23:39:22.2508187Z # {"event":"request","correlationId":"53356396-8f98-41f9-9ce4-c77f0e8cd9d2","method":"GET","route":"/orders/export/report","status":403,"durationMs":0}
+build-and-test	Run Tests	2026-10-30T23:39:22.2515774Z # {"event":"request","correlationId":"bdffe091-508b-4b00-871a-caa188b8bb04","method":"GET","route":"/shipments","status":401,"durationMs":0}
+build-and-test	Run Tests	2026-10-30T23:39:22.2524395Z # {"event":"request","correlationId":"e2111b8e-72a2-4e51-a36e-55f920e793b5","method":"GET","route":"/orders","status":401,"durationMs":0}
+build-and-test	Run Tests	2026-10-30T23:39:22.2533122Z # {"event":"request","correlationId":"f3bf4638-cc6d-46b3-8728-ee627561dfb5","method":"GET","route":"/shipments/:id","status":401,"durationMs":0}
+build-and-test	Run Tests	2026-10-30T23:39:22.2544082Z # {"event":"request","correlationId":"99104d98-d596-4669-8d50-129ecfed44e7","method":"GET","route":"/shipments/:id/events","status":401,"durationMs":0}
+build-and-test	Run Tests	2026-10-30T23:39:22.2552597Z # {"event":"request","correlationId":"25a8186e-f521-4b46-ab1c-c74a2e76433e","method":"GET","route":"/orders/:id","status":401,"durationMs":0}
+build-and-test	Run Tests	2026-10-30T23:39:22.2561155Z # {"event":"request","correlationId":"4b2d26ec-8258-495a-81d4-c8a48e62d919","method":"GET","route":"/reports/access","status":401,"durationMs":0}
+build-and-test	Run Tests	2026-10-30T23:39:22.2574454Z # {"event":"request","correlationId":"1b18ec17-889c-4529-9add-c6ba67708c69","method":"GET","route":"/shipments/:id","status":400,"durationMs":0}
+build-and-test	Run Tests	2026-10-30T23:39:22.2629097Z # {"event":"request","correlationId":"2726a04f-17a7-465e-a752-c4434a0b4408","method":"GET","route":"/orders/:id","status":400,"durationMs":0}
+build-and-test	Run Tests	2026-10-30T23:39:22.2638627Z # {"event":"request","correlationId":"7191f4ef-6d70-44d6-9333-116b6b5acdee","method":"GET","route":"/shipments","status":400,"durationMs":0}
+build-and-test	Run Tests	2026-10-30T23:39:22.2649618Z # {"event":"request","correlationId":"cf0d89c5-025f-421c-a19c-402fdaa8521d","method":"GET","route":"/shipments/:id","status":404,"durationMs":0}
+build-and-test	Run Tests	2026-10-30T23:39:22.2667831Z # {"event":"request","correlationId":"b37fe745-f765-4995-88d6-18ae38486213","method":"GET","route":"/shipments/:id/events","status":404,"durationMs":0}
+build-and-test	Run Tests	2026-10-30T23:39:22.2669800Z # {"event":"request","correlationId":"f35eccab-352c-4920-a47f-706158db78a4","method":"GET","route":"/shipments/:id","status":200,"durationMs":0}
+build-and-test	Run Tests	2026-10-30T23:39:22.2684594Z # {"event":"request","correlationId":"7b6559ae-d70e-4fe3-a3fb-d057749e616d","method":"GET","route":"/shipments","status":200,"durationMs":0}
+build-and-test	Run Tests	2026-10-30T23:39:22.2697626Z # {"event":"request","correlationId":"4c244d28-08d3-428f-8c4b-849047607463","method":"GET","route":"/shipments/:id/events","status":200,"durationMs":0}
+build-and-test	Run Tests	2026-10-30T23:39:22.2710794Z # {"event":"request","correlationId":"ed3362d5-6d33-4054-bac8-f9fd45170088","method":"GET","route":"/shipments","status":200,"durationMs":1}
+build-and-test	Run Tests	2026-10-30T23:39:22.2723813Z # {"event":"request","correlationId":"881a6cd0-b201-4b48-ad27-9370e9625ab3","method":"GET","route":"/shipments","status":503,"durationMs":0}
+build-and-test	Run Tests	2026-10-30T23:39:22.2800315Z # Subtest: bounded operational reads preserve permissions, identities and event provenance
+build-and-test	Run Tests	2026-10-30T23:39:22.2801724Z ok 14 - bounded operational reads preserve permissions, identities and event provenance
+build-and-test	Run Tests	2026-10-30T23:39:22.2802423Z   ---
+build-and-test	Run Tests	2026-10-30T23:39:22.2802817Z   duration_ms: 67.530789
+build-and-test	Run Tests	2026-10-30T23:39:22.2803218Z   type: 'test'
+build-and-test	Run Tests	2026-10-30T23:39:22.2803544Z   ...
+build-and-test	Run Tests	2026-10-30T23:39:22.2804224Z # Subtest: legacy UTC timestamp decoder is independent of the process timezone
+build-and-test	Run Tests	2026-10-30T23:39:22.2805077Z ok 15 - legacy UTC timestamp decoder is independent of the process timezone
+build-and-test	Run Tests	2026-10-30T23:39:22.2805683Z   ---
+build-and-test	Run Tests	2026-10-30T23:39:22.2806023Z   duration_ms: 6.246443
+build-and-test	Run Tests	2026-10-30T23:39:22.2806461Z   type: 'test'
+build-and-test	Run Tests	2026-10-30T23:39:22.2806862Z   ...
+build-and-test	Run Tests	2026-10-30T23:39:22.3969986Z # Subtest: new password hashes distinguish 128-character inputs sharing the first 72 bytes
+build-and-test	Run Tests	2026-10-30T23:39:22.3971214Z ok 16 - new password hashes distinguish 128-character inputs sharing the first 72 bytes
+build-and-test	Run Tests	2026-10-30T23:39:22.3985052Z   ---
+build-and-test	Run Tests	2026-10-30T23:39:22.3995330Z   duration_ms: 117.161039
+build-and-test	Run Tests	2026-10-30T23:39:22.3995652Z   type: 'test'
+build-and-test	Run Tests	2026-10-30T23:39:22.3996067Z   ...
+build-and-test	Run Tests	2026-10-30T23:39:22.4154751Z # Subtest: SAP adapter makes only the configured metadata read against an isolated HTTP provider
+build-and-test	Run Tests	2026-10-30T23:39:22.4155746Z ok 17 - SAP adapter makes only the configured metadata read against an isolated HTTP provider
+build-and-test	Run Tests	2026-10-30T23:39:22.4156297Z   ---
+build-and-test	Run Tests	2026-10-30T23:39:22.4156562Z   duration_ms: 55.498579
+build-and-test	Run Tests	2026-10-30T23:39:22.4156849Z   type: 'test'
+build-and-test	Run Tests	2026-10-30T23:39:22.4157208Z   ...
+build-and-test	Run Tests	2026-10-30T23:39:22.4157759Z # Subtest: optional adapters default disabled even when an endpoint happens to exist
+build-and-test	Run Tests	2026-10-30T23:39:22.4158637Z ok 18 - optional adapters default disabled even when an endpoint happens to exist
+build-and-test	Run Tests	2026-10-30T23:39:22.4159152Z   ---
+build-and-test	Run Tests	2026-10-30T23:39:22.4159403Z   duration_ms: 0.983528
+build-and-test	Run Tests	2026-10-30T23:39:22.4159678Z   type: 'test'
+build-and-test	Run Tests	2026-10-30T23:39:22.4159923Z   ...
+build-and-test	Run Tests	2026-10-30T23:39:22.4160481Z # Subtest: explicit activation fails closed on missing, ambiguous or unsafe configuration
+build-and-test	Run Tests	2026-10-30T23:39:22.4161360Z ok 19 - explicit activation fails closed on missing, ambiguous or unsafe configuration
+build-and-test	Run Tests	2026-10-30T23:39:22.4161880Z   ---
+build-and-test	Run Tests	2026-10-30T23:39:22.4162121Z   duration_ms: 0.663531
+build-and-test	Run Tests	2026-10-30T23:39:22.4162406Z   type: 'test'
+build-and-test	Run Tests	2026-10-30T23:39:22.4162644Z   ...
+build-and-test	Run Tests	2026-10-30T23:39:22.4163408Z # Subtest: server credential references are resolved only from operator files and never included in public metadata receipts
+build-and-test	Run Tests	2026-10-30T23:39:22.4164613Z ok 20 - server credential references are resolved only from operator files and never included in public metadata receipts
+build-and-test	Run Tests	2026-10-30T23:39:22.4165280Z   ---
+build-and-test	Run Tests	2026-10-30T23:39:22.4165513Z   duration_ms: 2.454003
+build-and-test	Run Tests	2026-10-30T23:39:22.4165785Z   type: 'test'
+build-and-test	Run Tests	2026-10-30T23:39:22.4166017Z   ...
+build-and-test	Run Tests	2026-10-30T23:39:22.4166531Z # Subtest: SAP rejects HTML fallbacks, XML entities, oversized bodies and provider failures
+build-and-test	Run Tests	2026-10-30T23:39:22.4167231Z ok 21 - SAP rejects HTML fallbacks, XML entities, oversized bodies and provider failures
+build-and-test	Run Tests	2026-10-30T23:39:22.4167566Z   ---
+build-and-test	Run Tests	2026-10-30T23:39:22.4167735Z   duration_ms: 2.765007
+build-and-test	Run Tests	2026-10-30T23:39:22.4167939Z   type: 'test'
+build-and-test	Run Tests	2026-10-30T23:39:22.4168103Z   ...
+build-and-test	Run Tests	2026-10-30T23:39:22.4168477Z # Subtest: forecasting supports server-only file credentials and validates configured limits
+build-and-test	Run Tests	2026-10-30T23:39:22.4169023Z ok 22 - forecasting supports server-only file credentials and validates configured limits
+build-and-test	Run Tests	2026-10-30T23:39:22.4169362Z   ---
+build-and-test	Run Tests	2026-10-30T23:39:22.4169534Z   duration_ms: 0.827185
+build-and-test	Run Tests	2026-10-30T23:39:22.4169721Z   type: 'test'
+build-and-test	Run Tests	2026-10-30T23:39:22.4169886Z   ...
+build-and-test	Run Tests	2026-10-30T23:39:22.4170037Z 1..22
+build-and-test	Run Tests	2026-10-30T23:39:22.4170189Z # tests 22
+build-and-test	Run Tests	2026-10-30T23:39:22.4170354Z # suites 0
+build-and-test	Run Tests	2026-10-30T23:39:22.4170506Z # pass 22
+build-and-test	Run Tests	2026-10-30T23:39:22.4170663Z # fail 0
+build-and-test	Run Tests	2026-10-30T23:39:22.4170822Z # cancelled 0
+build-and-test	Run Tests	2026-10-30T23:39:22.4170997Z # skipped 0
+build-and-test	Run Tests	2026-10-30T23:39:22.4171153Z # todo 0
+build-and-test	Run Tests	2026-10-30T23:39:22.4171324Z # duration_ms 977.613089
+build-and-test	Check image retention safety boundaries	﻿2026-10-30T23:39:22.4410162Z ##[group]Run python3 -m unittest discover -s scripts -p 'test_image_retention.py' -v
+build-and-test	Check image retention safety boundaries	2026-10-30T23:39:22.4410653Z [36;1mpython3 -m unittest discover -s scripts -p 'test_image_retention.py' -v[0m
+build-and-test	Check image retention safety boundaries	2026-10-30T23:39:22.4437537Z shell: /usr/bin/bash -e {0}
+build-and-test	Check image retention safety boundaries	2026-10-30T23:39:22.4437756Z env:
+build-and-test	Check image retention safety boundaries	2026-10-30T23:39:22.4437968Z   PNPM_HOME: /home/runner/setup-pnpm/node_modules/.bin
+build-and-test	Check image retention safety boundaries	2026-10-30T23:39:22.4438227Z ##[endgroup]
+build-and-test	Check image retention safety boundaries	2026-10-30T23:39:22.5242805Z test_container_reference_protects_platform_manifest_and_default_tag_alias (test_image_retention.RetentionTests.test_container_reference_protects_platform_manifest_and_default_tag_alias) ... ok
+build-and-test	Check image retention safety boundaries	2026-10-30T23:39:22.5245099Z test_current_and_stopped_container_images_are_protected (test_image_retention.RetentionTests.test_current_and_stopped_container_images_are_protected) ... ok
+build-and-test	Check image retention safety boundaries	2026-10-30T23:39:22.5248499Z test_dangling_image_needs_explicit_imsop_title (test_image_retention.RetentionTests.test_dangling_image_needs_explicit_imsop_title) ... ok
+build-and-test	Check image retention safety boundaries	2026-10-30T23:39:22.5249986Z test_disappearing_container_retries_a_complete_snapshot (test_image_retention.RetentionTests.test_disappearing_container_retries_a_complete_snapshot) ... ok
+build-and-test	Check image retention safety boundaries	2026-10-30T23:39:22.5253056Z test_docker_refusal_never_retries_with_force (test_image_retention.RetentionTests.test_docker_refusal_never_retries_with_force) ... ok
+build-and-test	Check image retention safety boundaries	2026-10-30T23:39:22.5256206Z test_dry_run_never_removes_images (test_image_retention.RetentionTests.test_dry_run_never_removes_images) ... ok
+build-and-test	Check image retention safety boundaries	2026-10-30T23:39:22.5270431Z test_failed_readiness_leaves_policy_and_images_unchanged (test_image_retention.RetentionTests.test_failed_readiness_leaves_policy_and_images_unchanged) ... ok
+build-and-test	Check image retention safety boundaries	2026-10-30T23:39:22.5272543Z test_missing_rollback_aborts_before_inventory_or_deletion (test_image_retention.RetentionTests.test_missing_rollback_aborts_before_inventory_or_deletion) ... ok
+build-and-test	Check image retention safety boundaries	2026-10-30T23:39:22.5275560Z test_new_container_reference_between_plan_and_delete_prevents_removal (test_image_retention.RetentionTests.test_new_container_reference_between_plan_and_delete_prevents_removal) ... ok
+build-and-test	Check image retention safety boundaries	2026-10-30T23:39:22.5278310Z test_new_unrelated_alias_between_plan_and_delete_prevents_removal (test_image_retention.RetentionTests.test_new_unrelated_alias_between_plan_and_delete_prevents_removal) ... ok
+build-and-test	Check image retention safety boundaries	2026-10-30T23:39:22.5279811Z test_persistent_snapshot_failure_stops_without_partial_protection (test_image_retention.RetentionTests.test_persistent_snapshot_failure_stops_without_partial_protection) ... ok
+build-and-test	Check image retention safety boundaries	2026-10-30T23:39:22.5280974Z test_previous_service_image_becomes_rollback_only_when_changed (test_image_retention.RetentionTests.test_previous_service_image_becomes_rollback_only_when_changed) ... ok
+build-and-test	Check image retention safety boundaries	2026-10-30T23:39:22.5300076Z test_successful_deployment_records_previous_image_then_cleans_up (test_image_retention.RetentionTests.test_successful_deployment_records_previous_image_then_cleans_up) ... ok
+build-and-test	Check image retention safety boundaries	2026-10-30T23:39:22.5303429Z test_timeout_stops_further_deletions_and_reports_uncertain_result (test_image_retention.RetentionTests.test_timeout_stops_further_deletions_and_reports_uncertain_result) ... ok
+build-and-test	Check image retention safety boundaries	2026-10-30T23:39:22.5305755Z test_unknown_and_other_project_aliases_are_protected (test_image_retention.RetentionTests.test_unknown_and_other_project_aliases_are_protected) ... ok
+build-and-test	Check image retention safety boundaries	2026-10-30T23:39:22.5309491Z test_unused_image_removed_by_immutable_id_without_force_or_parent_prune (test_image_retention.RetentionTests.test_unused_image_removed_by_immutable_id_without_force_or_parent_prune) ... ok
+build-and-test	Check image retention safety boundaries	2026-10-30T23:39:22.5310397Z 
+build-and-test	Check image retention safety boundaries	2026-10-30T23:39:22.5310700Z ----------------------------------------------------------------------
+build-and-test	Check image retention safety boundaries	2026-10-30T23:39:22.5311155Z Ran 16 tests in 0.007s
+build-and-test	Check image retention safety boundaries	2026-10-30T23:39:22.5311341Z 
+build-and-test	Check image retention safety boundaries	2026-10-30T23:39:22.5311441Z OK
+build-and-test	Post Setup Node.js	﻿2026-10-30T23:39:22.5497415Z Post job cleanup.
+build-and-test	Post Setup Node.js	2026-10-30T23:39:22.6467618Z (node:2411) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+build-and-test	Post Setup Node.js	2026-10-30T23:39:22.6468745Z (Use `node --trace-deprecation ...` to show where the warning was created)
+build-and-test	Post Setup Node.js	2026-10-30T23:39:22.6470744Z Cache hit occurred on the primary key node-cache-Linux-x64-pnpm-f86fcef2d52306e2f0c9227c85f30d75c3b3c119d24198be4f1c19f5b51acbb2, not saving cache.
+build-and-test	Post Setup PNPM	﻿2026-10-30T23:39:22.6565916Z Post job cleanup.
+build-and-test	Post Setup PNPM	2026-10-30T23:39:22.7285821Z Pruning is unnecessary.
+build-and-test	Post Checkout Repository	﻿2026-10-30T23:39:22.7455582Z Post job cleanup.
+build-and-test	Post Checkout Repository	2026-10-30T23:39:22.8157116Z [command]/usr/bin/git version
+build-and-test	Post Checkout Repository	2026-10-30T23:39:22.8195474Z git version 2.56.0
+build-and-test	Post Checkout Repository	2026-10-30T23:39:22.8227977Z Temporarily overriding HOME='/home/runner/work/_temp/ee29bc06-effb-433d-98e7-3f7976585ad6' before making global git config changes
+build-and-test	Post Checkout Repository	2026-10-30T23:39:22.8228861Z Adding repository directory to the temporary git global config as a safe directory
+build-and-test	Post Checkout Repository	2026-10-30T23:39:22.8234013Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/imsop-app-backend/imsop-app-backend
+build-and-test	Post Checkout Repository	2026-10-30T23:39:22.8268118Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+build-and-test	Post Checkout Repository	2026-10-30T23:39:22.8298765Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+build-and-test	Post Checkout Repository	2026-10-30T23:39:22.8553723Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+build-and-test	Post Checkout Repository	2026-10-30T23:39:22.8576476Z http.https://github.com/.extraheader
+build-and-test	Post Checkout Repository	2026-10-30T23:39:22.8594666Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+build-and-test	Post Checkout Repository	2026-10-30T23:39:22.8619570Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+build-and-test	Post Checkout Repository	2026-10-30T23:39:22.8896805Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+build-and-test	Post Checkout Repository	2026-10-30T23:39:22.8930223Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+build-and-test	Complete job	﻿2026-10-30T23:39:22.9294548Z Cleaning up orphan processes
+build-and-test	Complete job	2026-10-30T23:39:22.9617238Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4, pnpm/action-setup@v3. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/

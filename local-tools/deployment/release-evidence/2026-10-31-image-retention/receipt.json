@@ -1,0 +1,27 @@
+{
+  "localImagesRemoved": 22,
+  "oracleImagesRemoved": 5,
+  "remainingObsoleteCandidates": {
+    "local": 0,
+    "oracle": 0
+  },
+  "localContainerCount": 80,
+  "oracleContainerCount": 14,
+  "oracleCurrentImage": "sha256:e15bf05050a762b720b1e6016e6a13fbca9b9ee723794dd119a5be6768791839",
+  "oracleRollbackImage": "sha256:68a33836b22888a4ec214d5ac57cf1deedf958b16244cdae61b5b3c104f8ee48",
+  "sourceCommit": "e70a70de22bd0bc241d3580a329d936145647951",
+  "pullRequest": "https://github.com/DruHustle/imsop-app-backend/pull/9",
+  "safetyTests": 16,
+  "requiredQualification": "passed",
+  "applicationRelease": {
+    "origin": "https://imsop-app.vercel.app",
+    "frontend": "85aa203f182ece15854430cac13656710f6692c5",
+    "backend": "d577908528b3a69ce3bba9c02ee0af7f7f82180a",
+    "ready": true,
+    "anonymousAccess": "rejected",
+    "verifiedAt": "2026-10-30T23:41:28.666Z"
+  },
+  "applicationImageChanged": false,
+  "volumeOrDatabaseChanges": false,
+  "registryDeletion": false
+}

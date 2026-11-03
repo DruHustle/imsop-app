@@ -1,0 +1,7 @@
+Deployments previously accumulated historical and rejected Docker images on development hosts and Oracle. Add a Compose deployment command that verifies readiness and the production revision before retaining one rollback image per service and removing older unused IMSOP images.
+
+Cleanup defaults to dry-run, uses explicit IMSOP ownership, protects running/stopped containers and shared aliases, retries complete container snapshots, revalidates references, and removes immutable IDs without force deletion or global/parent pruning. Add repository instructions and the Oracle/local runbook; install the same tools on the existing Oracle host.
+
+Validation: 16 isolated safety tests cover current/rollback protection, container and alias races, incomplete snapshots, Docker refusal/timeouts, and deployment success/failure sequencing. Oracle cleanup removed five obsolete images, retained the installed/rehearsed pair, preserved all 14 containers, and left readiness healthy. All 22 obsolete local image IDs were verified absent; the follow-up protection check preserved all 80 containers and found no further cleanup candidates. The first local apply completed removal but its final container snapshot failed; the separate ID verification and successful retry are retained as evidence.
+
+No application code, running application image, database, secrets, external integrations or data volumes change.

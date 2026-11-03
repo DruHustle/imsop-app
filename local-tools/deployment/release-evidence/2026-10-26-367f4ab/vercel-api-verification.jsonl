@@ -1,0 +1,2 @@
+{"databaseReadCounts":{"shipments":0,"orders":0,"events":0}}
+{"origin":"https://imsop-app.vercel.app","roles":{"admin":{"shipmentStatus":200,"orderStatus":200,"reportStatus":200},"engineer":{"shipmentStatus":200,"orderStatus":200,"reportStatus":403},"analyst":{"shipmentStatus":200,"orderStatus":200,"reportStatus":200},"user":{"shipmentStatus":200,"orderStatus":403,"reportStatus":403}},"shipmentDetail":"empty source; missing stable-ID response verified","orderDetail":"empty source; missing stable-ID response verified"}

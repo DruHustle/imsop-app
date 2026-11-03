@@ -1,0 +1,14 @@
+Vercel Deploy	Verify the published source and first-party API	﻿2026-10-28T14:56:30.4007367Z ##[group]Run node scripts/verify-live-release.mjs https://imsop-app.vercel.app "85aa203f182ece15854430cac13656710f6692c5" "$IMSOP_BACKEND_REVISION"
+Vercel Deploy	Verify the published source and first-party API	2026-10-28T14:56:30.4009755Z [36;1mnode scripts/verify-live-release.mjs https://imsop-app.vercel.app "85aa203f182ece15854430cac13656710f6692c5" "$IMSOP_BACKEND_REVISION"[0m
+Vercel Deploy	Verify the published source and first-party API	2026-10-28T14:56:30.4036915Z shell: /usr/bin/bash -e {0}
+Vercel Deploy	Verify the published source and first-party API	2026-10-28T14:56:30.4037193Z env:
+Vercel Deploy	Verify the published source and first-party API	2026-10-28T14:56:30.4037467Z   PNPM_HOME: /home/runner/setup-pnpm/node_modules/.bin
+Vercel Deploy	Verify the published source and first-party API	2026-10-28T14:56:30.4037900Z   IMSOP_BACKEND_REVISION: d577908528b3a69ce3bba9c02ee0af7f7f82180a
+Vercel Deploy	Verify the published source and first-party API	2026-10-28T14:56:30.4038287Z ##[endgroup]
+Vercel Deploy	Verify the published source and first-party API	2026-10-28T14:56:30.5532367Z Release verification failed: The published frontend is a different revision
+Vercel Deploy	Verify the published source and first-party API	2026-10-28T14:56:30.5534060Z + actual - expected
+Vercel Deploy	Verify the published source and first-party API	2026-10-28T14:56:30.5535032Z 
+Vercel Deploy	Verify the published source and first-party API	2026-10-28T14:56:30.5535711Z + 'ee9c207154a6f90523cfe50adf90972356a7b9a5'
+Vercel Deploy	Verify the published source and first-party API	2026-10-28T14:56:30.5536800Z - '85aa203f182ece15854430cac13656710f6692c5'
+Vercel Deploy	Verify the published source and first-party API	2026-10-28T14:56:30.5537661Z 
+Vercel Deploy	Verify the published source and first-party API	2026-10-28T14:56:30.5670371Z ##[error]Process completed with exit code 1.

@@ -1,0 +1,50 @@
+{
+  "origin": "https://imsop-app.vercel.app",
+  "frontendRevision": "ee9c207154a6f90523cfe50adf90972356a7b9a5",
+  "mode": "explicit browser-local demonstration; production API writes blocked",
+  "checkedAt": "2026-10-28T11:30:39.443Z",
+  "results": [
+    {
+      "profile": "desktop",
+      "passed": [
+        "login and recovery navigation",
+        "reset route",
+        "registration form",
+        "explicit demo login",
+        "shipment filters, details and tracking",
+        "operational order search",
+        "analytics and demo export",
+        "review evidence",
+        "grounded demo Assistant",
+        "notification center",
+        "service health UI",
+        "integration requirements",
+        "Light, Dark and Auto themes",
+        "demo sign out"
+      ],
+      "apiWriteRequests": 0,
+      "browserErrors": []
+    },
+    {
+      "profile": "mobile",
+      "passed": [
+        "login and recovery navigation",
+        "reset route",
+        "registration form",
+        "explicit demo login",
+        "shipment filters, details and tracking",
+        "operational order search",
+        "analytics and demo export",
+        "review evidence",
+        "grounded demo Assistant",
+        "notification center",
+        "service health UI",
+        "integration requirements",
+        "Light, Dark and Auto themes",
+        "demo sign out"
+      ],
+      "apiWriteRequests": 0,
+      "browserErrors": []
+    }
+  ]
+}

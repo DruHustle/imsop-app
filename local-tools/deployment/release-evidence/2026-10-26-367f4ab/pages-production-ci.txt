@@ -1,0 +1,653 @@
+build	Set up job	﻿2026-10-26T19:39:13.0400844Z Current runner version: '2.338.0'
+build	Set up job	2026-10-26T19:39:13.0428807Z ##[group]Runner Image Provisioner
+build	Set up job	2026-10-26T19:39:13.0429772Z Hosted Compute Agent
+build	Set up job	2026-10-26T19:39:13.0430432Z Version: 20261021.618
+build	Set up job	2026-10-26T19:39:13.0431299Z Commit: 21505ad2541d5be6135ed84fc33697146cf75b8e
+build	Set up job	2026-10-26T19:39:13.0432083Z Build Date: 2026-10-21T00:45:21Z
+build	Set up job	2026-10-26T19:39:13.0432855Z Worker ID: {083ba9ad-9da9-41e9-8ddd-68b842a9ef8e}
+build	Set up job	2026-10-26T19:39:13.0433602Z Region: westus3
+build	Set up job	2026-10-26T19:39:13.0434172Z Cloud: Azure
+build	Set up job	2026-10-26T19:39:13.0434766Z ##[endgroup]
+build	Set up job	2026-10-26T19:39:13.0436945Z ##[group]Operating System
+build	Set up job	2026-10-26T19:39:13.0437694Z Ubuntu
+build	Set up job	2026-10-26T19:39:13.0438412Z 24.04.5
+build	Set up job	2026-10-26T19:39:13.0438996Z LTS
+build	Set up job	2026-10-26T19:39:13.0439627Z ##[endgroup]
+build	Set up job	2026-10-26T19:39:13.0440294Z ##[group]Runner Image
+build	Set up job	2026-10-26T19:39:13.0440949Z Image: ubuntu-24.04
+build	Set up job	2026-10-26T19:39:13.0441601Z Version: 20261012.334.1
+build	Set up job	2026-10-26T19:39:13.0442749Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261012.334/images/ubuntu/Ubuntu2404-Readme.md
+build	Set up job	2026-10-26T19:39:13.0444584Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261012.334
+build	Set up job	2026-10-26T19:39:13.0445628Z ##[endgroup]
+build	Set up job	2026-10-26T19:39:13.0447187Z ##[group]GITHUB_TOKEN Permissions
+build	Set up job	2026-10-26T19:39:13.0449738Z Contents: read
+build	Set up job	2026-10-26T19:39:13.0450549Z Metadata: read
+build	Set up job	2026-10-26T19:39:13.0451148Z Pages: write
+build	Set up job	2026-10-26T19:39:13.0451830Z ##[endgroup]
+build	Set up job	2026-10-26T19:39:13.0454089Z Secret source: Actions
+build	Set up job	2026-10-26T19:39:13.0455314Z Cache mode: write
+build	Set up job	2026-10-26T19:39:13.0456703Z Prepare workflow directory
+build	Set up job	2026-10-26T19:39:13.0963441Z Prepare all required actions
+build	Set up job	2026-10-26T19:39:13.1013987Z Getting action download info
+build	Set up job	2026-10-26T19:39:13.4618182Z Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+build	Set up job	2026-10-26T19:39:13.5719399Z Download action repository 'pnpm/action-setup@v3' (SHA:a3252b78c470c02df07e9d59298aecedc3ccdd6d)
+build	Set up job	2026-10-26T19:39:14.4200000Z Download action repository 'actions/setup-node@v4' (SHA:49933ea5288caeca8642d1e84afbd3f7d6820020)
+build	Set up job	2026-10-26T19:39:14.5160124Z Download action repository 'actions/upload-pages-artifact@v3' (SHA:56afc609e74202658d3ffba0e8f6dda462b719fa)
+build	Set up job	2026-10-26T19:39:14.8821399Z Getting action download info
+build	Set up job	2026-10-26T19:39:15.0202317Z Download action repository 'actions/upload-artifact@v4' (SHA:ea165f8d65b6e75b540449e92b4886f43607fa02)
+build	Set up job	2026-10-26T19:39:15.1816390Z Complete job name: build
+build	Initialize containers	﻿2026-10-26T19:39:15.2549585Z ##[group]Checking docker version
+build	Initialize containers	2026-10-26T19:39:15.2563867Z ##[command]/usr/bin/docker version --format '{{.Server.APIVersion}}'
+build	Initialize containers	2026-10-26T19:39:15.3683811Z '1.48'
+build	Initialize containers	2026-10-26T19:39:15.3698450Z Docker daemon API version: '1.48'
+build	Initialize containers	2026-10-26T19:39:15.3699994Z ##[command]/usr/bin/docker version --format '{{.Client.APIVersion}}'
+build	Initialize containers	2026-10-26T19:39:15.3877614Z '1.48'
+build	Initialize containers	2026-10-26T19:39:15.3892074Z Docker client API version: '1.48'
+build	Initialize containers	2026-10-26T19:39:15.3899962Z ##[endgroup]
+build	Initialize containers	2026-10-26T19:39:15.3904447Z ##[group]Clean up resources from previous jobs
+build	Initialize containers	2026-10-26T19:39:15.3911909Z ##[command]/usr/bin/docker ps --all --quiet --no-trunc --filter "label=f100d7"
+build	Initialize containers	2026-10-26T19:39:15.4075092Z ##[command]/usr/bin/docker network prune --force --filter "label=f100d7"
+build	Initialize containers	2026-10-26T19:39:15.4221789Z ##[endgroup]
+build	Initialize containers	2026-10-26T19:39:15.4222854Z ##[group]Create local container network
+build	Initialize containers	2026-10-26T19:39:15.4235581Z ##[command]/usr/bin/docker network create --label f100d7 github_network_549ef61f7e094d1ab5ba1e11942fee82
+build	Initialize containers	2026-10-26T19:39:15.4801499Z 6c63b61e9725ebcc40429a1aef852ad3aad014c6b490150d96c7115fc7fcb8ae
+build	Initialize containers	2026-10-26T19:39:15.4822732Z ##[endgroup]
+build	Initialize containers	2026-10-26T19:39:15.4850216Z ##[group]Starting job container
+build	Initialize containers	2026-10-26T19:39:15.4873544Z ##[command]/usr/bin/docker pull mcr.microsoft.com/playwright:v1.57.0-noble
+build	Initialize containers	2026-10-26T19:39:15.7858856Z v1.57.0-noble: Pulling from playwright
+build	Initialize containers	2026-10-26T19:39:15.8700841Z 02de03a7213b: Pulling fs layer
+build	Initialize containers	2026-10-26T19:39:15.8702317Z 24f36c9a3b12: Pulling fs layer
+build	Initialize containers	2026-10-26T19:39:15.8704187Z cbd08ed6b2dc: Pulling fs layer
+build	Initialize containers	2026-10-26T19:39:15.8705157Z de372fe83d1b: Pulling fs layer
+build	Initialize containers	2026-10-26T19:39:15.8706933Z de372fe83d1b: Waiting
+build	Initialize containers	2026-10-26T19:39:16.1005443Z cbd08ed6b2dc: Verifying Checksum
+build	Initialize containers	2026-10-26T19:39:16.1007669Z cbd08ed6b2dc: Download complete
+build	Initialize containers	2026-10-26T19:39:16.2316448Z 02de03a7213b: Verifying Checksum
+build	Initialize containers	2026-10-26T19:39:16.2318056Z 02de03a7213b: Download complete
+build	Initialize containers	2026-10-26T19:39:16.4730219Z 24f36c9a3b12: Verifying Checksum
+build	Initialize containers	2026-10-26T19:39:16.4731042Z 24f36c9a3b12: Download complete
+build	Initialize containers	2026-10-26T19:39:17.6094400Z 02de03a7213b: Pull complete
+build	Initialize containers	2026-10-26T19:39:19.2089097Z de372fe83d1b: Verifying Checksum
+build	Initialize containers	2026-10-26T19:39:19.2089737Z de372fe83d1b: Download complete
+build	Initialize containers	2026-10-26T19:39:24.2092409Z 24f36c9a3b12: Pull complete
+build	Initialize containers	2026-10-26T19:39:24.2293811Z cbd08ed6b2dc: Pull complete
+build	Initialize containers	2026-10-26T19:39:39.7441010Z de372fe83d1b: Pull complete
+build	Initialize containers	2026-10-26T19:39:39.7483942Z Digest: sha256:3bed4b1a12f2338642f3d8cba28e291deef3c66bd4a964bbeb3e57bbff511dbd
+build	Initialize containers	2026-10-26T19:39:39.7495315Z Status: Downloaded newer image for mcr.microsoft.com/playwright:v1.57.0-noble
+build	Initialize containers	2026-10-26T19:39:39.7509567Z mcr.microsoft.com/playwright:v1.57.0-noble
+build	Initialize containers	2026-10-26T19:39:39.7670511Z ##[command]/usr/bin/docker create --name 5609b5344fb54316be26d70318187c48_mcrmicrosoftcomplaywrightv1570noble_7b53ef --label f100d7 --workdir /__w/imsop-app-frontend/imsop-app-frontend --network github_network_549ef61f7e094d1ab5ba1e11942fee82 --ipc=host -e "HOME=/github/home" -e GITHUB_ACTIONS=true -e CI=true -v "/var/run/docker.sock":"/var/run/docker.sock" -v "/home/runner/work":"/__w" -v "/home/runner/actions-runner/cached/2.338.0/externals":"/__e":ro -v "/home/runner/work/_temp":"/__w/_temp" -v "/home/runner/work/_actions":"/__w/_actions" -v "/opt/hostedtoolcache":"/__t" -v "/home/runner/work/_temp/_github_home":"/github/home" -v "/home/runner/work/_temp/_github_workflow":"/github/workflow" --entrypoint "tail" mcr.microsoft.com/playwright:v1.57.0-noble "-f" "/dev/null"
+build	Initialize containers	2026-10-26T19:39:39.7955024Z 896b7f14fa988b5bc90c667404f40a687f64b5ef892e44bedbeeb710bdfb3178
+build	Initialize containers	2026-10-26T19:39:39.7991801Z ##[command]/usr/bin/docker start 896b7f14fa988b5bc90c667404f40a687f64b5ef892e44bedbeeb710bdfb3178
+build	Initialize containers	2026-10-26T19:39:40.0067863Z 896b7f14fa988b5bc90c667404f40a687f64b5ef892e44bedbeeb710bdfb3178
+build	Initialize containers	2026-10-26T19:39:40.0099670Z ##[command]/usr/bin/docker ps --all --filter id=896b7f14fa988b5bc90c667404f40a687f64b5ef892e44bedbeeb710bdfb3178 --filter status=running --no-trunc --format "{{.ID}} {{.Status}}"
+build	Initialize containers	2026-10-26T19:39:40.0229014Z 896b7f14fa988b5bc90c667404f40a687f64b5ef892e44bedbeeb710bdfb3178 Up Less than a second
+build	Initialize containers	2026-10-26T19:39:40.0248345Z ##[command]/usr/bin/docker inspect --format "{{range .Config.Env}}{{println .}}{{end}}" 896b7f14fa988b5bc90c667404f40a687f64b5ef892e44bedbeeb710bdfb3178
+build	Initialize containers	2026-10-26T19:39:40.0374408Z HOME=/github/home
+build	Initialize containers	2026-10-26T19:39:40.0374768Z GITHUB_ACTIONS=true
+build	Initialize containers	2026-10-26T19:39:40.0374991Z CI=true
+build	Initialize containers	2026-10-26T19:39:40.0375280Z PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+build	Initialize containers	2026-10-26T19:39:40.0375658Z LANG=C.UTF-8
+build	Initialize containers	2026-10-26T19:39:40.0376144Z LC_ALL=C.UTF-8
+build	Initialize containers	2026-10-26T19:39:40.0376417Z PLAYWRIGHT_BROWSERS_PATH=/ms-playwright
+build	Initialize containers	2026-10-26T19:39:40.0396493Z ##[endgroup]
+build	Initialize containers	2026-10-26T19:39:40.0405745Z ##[group]Waiting for all services to be ready
+build	Initialize containers	2026-10-26T19:39:40.0407881Z ##[endgroup]
+build	Checkout	﻿2026-10-26T19:39:40.0729807Z ##[group]Run actions/checkout@v4
+build	Checkout	2026-10-26T19:39:40.0730442Z with:
+build	Checkout	2026-10-26T19:39:40.0730700Z   repository: DruHustle/imsop-app-frontend
+build	Checkout	2026-10-26T19:39:40.0733572Z   token: ***
+build	Checkout	2026-10-26T19:39:40.0733823Z   ssh-strict: true
+build	Checkout	2026-10-26T19:39:40.0734038Z   ssh-user: git
+build	Checkout	2026-10-26T19:39:40.0734255Z   persist-credentials: true
+build	Checkout	2026-10-26T19:39:40.0734500Z   clean: true
+build	Checkout	2026-10-26T19:39:40.0734721Z   sparse-checkout-cone-mode: true
+build	Checkout	2026-10-26T19:39:40.0734982Z   fetch-depth: 1
+build	Checkout	2026-10-26T19:39:40.0735183Z   fetch-tags: false
+build	Checkout	2026-10-26T19:39:40.0735392Z   show-progress: true
+build	Checkout	2026-10-26T19:39:40.0735606Z   lfs: false
+build	Checkout	2026-10-26T19:39:40.0735796Z   submodules: false
+build	Checkout	2026-10-26T19:39:40.0736288Z   set-safe-directory: true
+build	Checkout	2026-10-26T19:39:40.0736549Z   allow-unsafe-pr-checkout: false
+build	Checkout	2026-10-26T19:39:40.0737422Z ##[endgroup]
+build	Checkout	2026-10-26T19:39:40.0804066Z ##[command]/usr/bin/docker exec  896b7f14fa988b5bc90c667404f40a687f64b5ef892e44bedbeeb710bdfb3178 sh -c "cat /etc/*release | grep ^ID"
+build	Checkout	2026-10-26T19:39:40.2924986Z Syncing repository: DruHustle/imsop-app-frontend
+build	Checkout	2026-10-26T19:39:40.2927827Z ##[group]Getting Git version info
+build	Checkout	2026-10-26T19:39:40.2928699Z Working directory is '/__w/imsop-app-frontend/imsop-app-frontend'
+build	Checkout	2026-10-26T19:39:40.2929870Z [command]/usr/bin/git version
+build	Checkout	2026-10-26T19:39:40.2930374Z git version 2.43.0
+build	Checkout	2026-10-26T19:39:40.2932137Z ##[endgroup]
+build	Checkout	2026-10-26T19:39:40.2957886Z Temporarily overriding HOME='/__w/_temp/52aa17a5-2646-4f46-b4bf-8495cef4aa44' before making global git config changes
+build	Checkout	2026-10-26T19:39:40.2959515Z Adding repository directory to the temporary git global config as a safe directory
+build	Checkout	2026-10-26T19:39:40.2960232Z [command]/usr/bin/git config --global --add safe.directory /__w/imsop-app-frontend/imsop-app-frontend
+build	Checkout	2026-10-26T19:39:40.3006601Z Deleting the contents of '/__w/imsop-app-frontend/imsop-app-frontend'
+build	Checkout	2026-10-26T19:39:40.3009131Z ##[group]Initializing the repository
+build	Checkout	2026-10-26T19:39:40.3014201Z [command]/usr/bin/git init /__w/imsop-app-frontend/imsop-app-frontend
+build	Checkout	2026-10-26T19:39:40.3064203Z hint: Using 'master' as the name for the initial branch. This default branch name
+build	Checkout	2026-10-26T19:39:40.3064939Z hint: is subject to change. To configure the initial branch name to use in all
+build	Checkout	2026-10-26T19:39:40.3065474Z hint: of your new repositories, which will suppress this warning, call:
+build	Checkout	2026-10-26T19:39:40.3066116Z hint: 
+build	Checkout	2026-10-26T19:39:40.3066720Z hint: 	git config --global init.defaultBranch <name>
+build	Checkout	2026-10-26T19:39:40.3067361Z hint: 
+build	Checkout	2026-10-26T19:39:40.3068003Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+build	Checkout	2026-10-26T19:39:40.3068865Z hint: 'development'. The just-created branch can be renamed via this command:
+build	Checkout	2026-10-26T19:39:40.3069809Z hint: 
+build	Checkout	2026-10-26T19:39:40.3070222Z hint: 	git branch -m <name>
+build	Checkout	2026-10-26T19:39:40.3075343Z Initialized empty Git repository in /__w/imsop-app-frontend/imsop-app-frontend/.git/
+build	Checkout	2026-10-26T19:39:40.3087529Z [command]/usr/bin/git remote add origin https://github.com/DruHustle/imsop-app-frontend
+build	Checkout	2026-10-26T19:39:40.3132869Z ##[endgroup]
+build	Checkout	2026-10-26T19:39:40.3133924Z ##[group]Disabling automatic garbage collection
+build	Checkout	2026-10-26T19:39:40.3137229Z [command]/usr/bin/git config --local gc.auto 0
+build	Checkout	2026-10-26T19:39:40.3176644Z ##[endgroup]
+build	Checkout	2026-10-26T19:39:40.3177627Z ##[group]Setting up auth
+build	Checkout	2026-10-26T19:39:40.3182202Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+build	Checkout	2026-10-26T19:39:40.3224366Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+build	Checkout	2026-10-26T19:39:40.3551324Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+build	Checkout	2026-10-26T19:39:40.3605621Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+build	Checkout	2026-10-26T19:39:40.3887482Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+build	Checkout	2026-10-26T19:39:40.3932752Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+build	Checkout	2026-10-26T19:39:40.4197819Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+build	Checkout	2026-10-26T19:39:40.4246596Z ##[endgroup]
+build	Checkout	2026-10-26T19:39:40.4247133Z ##[group]Fetching the repository
+build	Checkout	2026-10-26T19:39:40.4257544Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +367f4abfc10d681d60c38244865a831d78be7588:refs/remotes/origin/main
+build	Checkout	2026-10-26T19:39:41.8834267Z From https://github.com/DruHustle/imsop-app-frontend
+build	Checkout	2026-10-26T19:39:41.8834889Z  * [new ref]         367f4abfc10d681d60c38244865a831d78be7588 -> origin/main
+build	Checkout	2026-10-26T19:39:41.8857389Z ##[endgroup]
+build	Checkout	2026-10-26T19:39:41.8858159Z ##[group]Determining the checkout info
+build	Checkout	2026-10-26T19:39:41.8860487Z ##[endgroup]
+build	Checkout	2026-10-26T19:39:41.8866945Z [command]/usr/bin/git sparse-checkout disable
+build	Checkout	2026-10-26T19:39:41.8915429Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+build	Checkout	2026-10-26T19:39:41.8951791Z ##[group]Checking out the ref
+build	Checkout	2026-10-26T19:39:41.8958072Z [command]/usr/bin/git checkout --progress --force -B main refs/remotes/origin/main
+build	Checkout	2026-10-26T19:39:41.9874151Z Switched to a new branch 'main'
+build	Checkout	2026-10-26T19:39:41.9874798Z branch 'main' set up to track 'origin/main'.
+build	Checkout	2026-10-26T19:39:41.9892754Z ##[endgroup]
+build	Checkout	2026-10-26T19:39:41.9936721Z [command]/usr/bin/git log -1 --format=%H
+build	Checkout	2026-10-26T19:39:41.9968859Z 367f4abfc10d681d60c38244865a831d78be7588
+build	Setup PNPM	﻿2026-10-26T19:39:42.0216851Z ##[group]Run pnpm/action-setup@v3
+build	Setup PNPM	2026-10-26T19:39:42.0217160Z with:
+build	Setup PNPM	2026-10-26T19:39:42.0217350Z   version: 10
+build	Setup PNPM	2026-10-26T19:39:42.0217552Z   dest: ~/setup-pnpm
+build	Setup PNPM	2026-10-26T19:39:42.0217785Z   run_install: null
+build	Setup PNPM	2026-10-26T19:39:42.0218003Z   package_json_file: package.json
+build	Setup PNPM	2026-10-26T19:39:42.0218253Z   standalone: false
+build	Setup PNPM	2026-10-26T19:39:42.0218456Z ##[endgroup]
+build	Setup PNPM	2026-10-26T19:39:42.0222343Z ##[command]/usr/bin/docker exec  896b7f14fa988b5bc90c667404f40a687f64b5ef892e44bedbeeb710bdfb3178 sh -c "cat /etc/*release | grep ^ID"
+build	Setup PNPM	2026-10-26T19:39:42.2198552Z ##[group]Running self-installer...
+build	Setup PNPM	2026-10-26T19:39:42.6643106Z (node:163) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+build	Setup PNPM	2026-10-26T19:39:42.6645059Z (Use `node --trace-deprecation ...` to show where the warning was created)
+build	Setup PNPM	2026-10-26T19:39:42.8451434Z Progress: resolved 1, reused 0, downloaded 0, added 0
+build	Setup PNPM	2026-10-26T19:39:42.8553577Z Packages: +1
+build	Setup PNPM	2026-10-26T19:39:42.8554482Z +
+build	Setup PNPM	2026-10-26T19:39:43.3458677Z Progress: resolved 1, reused 0, downloaded 1, added 1, done
+build	Setup PNPM	2026-10-26T19:39:43.3742037Z 
+build	Setup PNPM	2026-10-26T19:39:43.3742630Z dependencies:
+build	Setup PNPM	2026-10-26T19:39:43.3743075Z + pnpm 10.34.9 (12.15.0 is available)
+build	Setup PNPM	2026-10-26T19:39:43.3743379Z 
+build	Setup PNPM	2026-10-26T19:39:43.3768900Z Done in 953ms
+build	Setup PNPM	2026-10-26T19:39:43.3962567Z ##[endgroup]
+build	Setup PNPM	2026-10-26T19:39:43.3968157Z Installation Completed!
+build	Setup Node	﻿2026-10-26T19:39:43.4161235Z ##[group]Run actions/setup-node@v4
+build	Setup Node	2026-10-26T19:39:43.4161551Z with:
+build	Setup Node	2026-10-26T19:39:43.4161755Z   node-version: 22
+build	Setup Node	2026-10-26T19:39:43.4161968Z   cache: pnpm
+build	Setup Node	2026-10-26T19:39:43.4162173Z   always-auth: false
+build	Setup Node	2026-10-26T19:39:43.4162401Z   check-latest: false
+build	Setup Node	2026-10-26T19:39:43.4189188Z   token: ***
+build	Setup Node	2026-10-26T19:39:43.4189490Z env:
+build	Setup Node	2026-10-26T19:39:43.4189756Z   PNPM_HOME: /github/home/setup-pnpm/node_modules/.bin
+build	Setup Node	2026-10-26T19:39:43.4190083Z ##[endgroup]
+build	Setup Node	2026-10-26T19:39:43.4198657Z ##[command]/usr/bin/docker exec  896b7f14fa988b5bc90c667404f40a687f64b5ef892e44bedbeeb710bdfb3178 sh -c "cat /etc/*release | grep ^ID"
+build	Setup Node	2026-10-26T19:39:43.6748948Z Found in cache @ /__t/node/22.23.3/x64
+build	Setup Node	2026-10-26T19:39:43.6754652Z (node:185) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+build	Setup Node	2026-10-26T19:39:43.6756246Z (Use `node --trace-deprecation ...` to show where the warning was created)
+build	Setup Node	2026-10-26T19:39:43.6759519Z ##[group]Environment details
+build	Setup Node	2026-10-26T19:39:44.1444457Z node: v22.23.3
+build	Setup Node	2026-10-26T19:39:44.1444998Z npm: 10.9.9
+build	Setup Node	2026-10-26T19:39:44.1445221Z yarn: 1.22.22
+build	Setup Node	2026-10-26T19:39:44.1446708Z ##[endgroup]
+build	Setup Node	2026-10-26T19:39:44.1464349Z [command]/github/home/setup-pnpm/node_modules/.bin/pnpm store path --silent
+build	Setup Node	2026-10-26T19:39:46.3133591Z /__w/.pnpm-store/v10
+build	Setup Node	2026-10-26T19:39:46.5501041Z pnpm cache is not found
+build	Install dependencies	﻿2026-10-26T19:39:46.5689551Z ##[group]Run pnpm install --frozen-lockfile
+build	Install dependencies	2026-10-26T19:39:46.5690005Z pnpm install --frozen-lockfile
+build	Install dependencies	2026-10-26T19:39:46.5692968Z shell: sh -e {0}
+build	Install dependencies	2026-10-26T19:39:46.5693202Z env:
+build	Install dependencies	2026-10-26T19:39:46.5693459Z   PNPM_HOME: /github/home/setup-pnpm/node_modules/.bin
+build	Install dependencies	2026-10-26T19:39:46.5694018Z ##[endgroup]
+build	Install dependencies	2026-10-26T19:39:47.3268498Z Lockfile is up to date, resolution step is skipped
+build	Install dependencies	2026-10-26T19:39:47.3995656Z Progress: resolved 1, reused 0, downloaded 0, added 0
+build	Install dependencies	2026-10-26T19:39:47.5158268Z Packages: +632
+build	Install dependencies	2026-10-26T19:39:47.5159321Z ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+build	Install dependencies	2026-10-26T19:39:48.4027809Z Progress: resolved 632, reused 0, downloaded 119, added 111
+build	Install dependencies	2026-10-26T19:39:49.4030707Z Progress: resolved 632, reused 0, downloaded 185, added 185
+build	Install dependencies	2026-10-26T19:39:50.4046252Z Progress: resolved 632, reused 0, downloaded 321, added 321
+build	Install dependencies	2026-10-26T19:39:51.4042508Z Progress: resolved 632, reused 0, downloaded 519, added 519
+build	Install dependencies	2026-10-26T19:39:52.0032168Z Progress: resolved 632, reused 0, downloaded 632, added 632, done
+build	Install dependencies	2026-10-26T19:39:52.3679573Z 
+build	Install dependencies	2026-10-26T19:39:52.3680390Z dependencies:
+build	Install dependencies	2026-10-26T19:39:52.3680997Z + @hookform/resolvers 5.2.2
+build	Install dependencies	2026-10-26T19:39:52.3681630Z + @radix-ui/react-accordion 1.2.12
+build	Install dependencies	2026-10-26T19:39:52.3682372Z + @radix-ui/react-alert-dialog 1.1.15
+build	Install dependencies	2026-10-26T19:39:52.3683111Z + @radix-ui/react-aspect-ratio 1.1.7
+build	Install dependencies	2026-10-26T19:39:52.3683770Z + @radix-ui/react-avatar 1.1.10
+build	Install dependencies	2026-10-26T19:39:52.3684380Z + @radix-ui/react-checkbox 1.3.3
+build	Install dependencies	2026-10-26T19:39:52.3684986Z + @radix-ui/react-collapsible 1.1.12
+build	Install dependencies	2026-10-26T19:39:52.3685624Z + @radix-ui/react-context-menu 2.2.16
+build	Install dependencies	2026-10-26T19:39:52.3686486Z + @radix-ui/react-dialog 1.1.15
+build	Install dependencies	2026-10-26T19:39:52.3686848Z + @radix-ui/react-dropdown-menu 2.1.16
+build	Install dependencies	2026-10-26T19:39:52.3687294Z + @radix-ui/react-hover-card 1.1.15
+build	Install dependencies	2026-10-26T19:39:52.3687839Z + @radix-ui/react-label 2.1.7
+build	Install dependencies	2026-10-26T19:39:52.3688413Z + @radix-ui/react-menubar 1.1.16
+build	Install dependencies	2026-10-26T19:39:52.3689043Z + @radix-ui/react-navigation-menu 1.2.14
+build	Install dependencies	2026-10-26T19:39:52.3689742Z + @radix-ui/react-popover 1.1.15
+build	Install dependencies	2026-10-26T19:39:52.3690373Z + @radix-ui/react-progress 1.1.7
+build	Install dependencies	2026-10-26T19:39:52.3691026Z + @radix-ui/react-radio-group 1.3.8
+build	Install dependencies	2026-10-26T19:39:52.3691602Z + @radix-ui/react-scroll-area 1.2.10
+build	Install dependencies	2026-10-26T19:39:52.3691977Z + @radix-ui/react-select 2.2.6
+build	Install dependencies	2026-10-26T19:39:52.3692314Z + @radix-ui/react-separator 1.1.7
+build	Install dependencies	2026-10-26T19:39:52.3692621Z + @radix-ui/react-slider 1.3.6
+build	Install dependencies	2026-10-26T19:39:52.3692891Z + @radix-ui/react-slot 1.2.3
+build	Install dependencies	2026-10-26T19:39:52.3693177Z + @radix-ui/react-switch 1.2.6
+build	Install dependencies	2026-10-26T19:39:52.3693501Z + @radix-ui/react-tabs 1.1.13
+build	Install dependencies	2026-10-26T19:39:52.3693786Z + @radix-ui/react-toggle 1.1.10
+build	Install dependencies	2026-10-26T19:39:52.3694101Z + @radix-ui/react-toggle-group 1.1.11
+build	Install dependencies	2026-10-26T19:39:52.3694418Z + @radix-ui/react-tooltip 1.2.8
+build	Install dependencies	2026-10-26T19:39:52.3694735Z + @vercel/analytics 1.6.1
+build	Install dependencies	2026-10-26T19:39:52.3694974Z + axios 1.20.0
+build	Install dependencies	2026-10-26T19:39:52.3695230Z + class-variance-authority 0.7.1
+build	Install dependencies	2026-10-26T19:39:52.3695485Z + clsx 2.1.1
+build	Install dependencies	2026-10-26T19:39:52.3695687Z + cmdk 1.1.1
+build	Install dependencies	2026-10-26T19:39:52.3696193Z + date-fns 4.1.0
+build	Install dependencies	2026-10-26T19:39:52.3696646Z + embla-carousel-react 8.6.0
+build	Install dependencies	2026-10-26T19:39:52.3697161Z + framer-motion 12.23.22
+build	Install dependencies	2026-10-26T19:39:52.3697643Z + input-otp 1.4.2
+build	Install dependencies	2026-10-26T19:39:52.3698089Z + lucide-react 0.453.0
+build	Install dependencies	2026-10-26T19:39:52.3698504Z + nanoid 5.1.16
+build	Install dependencies	2026-10-26T19:39:52.3698920Z + next-themes 0.4.6
+build	Install dependencies	2026-10-26T19:39:52.3699311Z + react 19.2.1
+build	Install dependencies	2026-10-26T19:39:52.3699743Z + react-day-picker 9.11.1
+build	Install dependencies	2026-10-26T19:39:52.3700214Z + react-dom 19.2.1
+build	Install dependencies	2026-10-26T19:39:52.3700639Z + react-hook-form 7.64.0
+build	Install dependencies	2026-10-26T19:39:52.3701153Z + react-resizable-panels 3.0.6
+build	Install dependencies	2026-10-26T19:39:52.3701630Z + recharts 2.15.4
+build	Install dependencies	2026-10-26T19:39:52.3701989Z + sonner 2.0.7
+build	Install dependencies	2026-10-26T19:39:52.3702361Z + streamdown 1.4.0
+build	Install dependencies	2026-10-26T19:39:52.3702752Z + tailwind-merge 3.3.1
+build	Install dependencies	2026-10-26T19:39:52.3703187Z + tailwindcss-animate 1.0.7
+build	Install dependencies	2026-10-26T19:39:52.3703606Z + vaul 1.1.2
+build	Install dependencies	2026-10-26T19:39:52.3703934Z + wouter 3.7.1
+build	Install dependencies	2026-10-26T19:39:52.3704272Z + zod 4.6.7
+build	Install dependencies	2026-10-26T19:39:52.3705067Z 
+build	Install dependencies	2026-10-26T19:39:52.3705256Z devDependencies:
+build	Install dependencies	2026-10-26T19:39:52.3705718Z + @playwright/test 1.57.0
+build	Install dependencies	2026-10-26T19:39:52.3706558Z + @tailwindcss/typography 0.5.19
+build	Install dependencies	2026-10-26T19:39:52.3707095Z + @tailwindcss/vite 4.1.14
+build	Install dependencies	2026-10-26T19:39:52.3707922Z + @testing-library/dom 10.4.1
+build	Install dependencies	2026-10-26T19:39:52.3708499Z + @testing-library/react 16.3.1
+build	Install dependencies	2026-10-26T19:39:52.3709042Z + @types/google.maps 3.58.1
+build	Install dependencies	2026-10-26T19:39:52.3709537Z + @types/node 24.7.0
+build	Install dependencies	2026-10-26T19:39:52.3709976Z + @types/react 19.2.1
+build	Install dependencies	2026-10-26T19:39:52.3710432Z + @types/react-dom 19.2.1
+build	Install dependencies	2026-10-26T19:39:52.3711005Z + @vitejs/plugin-react 5.0.4
+build	Install dependencies	2026-10-26T19:39:52.3711500Z + autoprefixer 10.4.21
+build	Install dependencies	2026-10-26T19:39:52.3711944Z + gh-pages 6.3.0
+build	Install dependencies	2026-10-26T19:39:52.3712348Z + jsdom 27.4.0
+build	Install dependencies	2026-10-26T19:39:52.3712723Z + pnpm 10.18.1
+build	Install dependencies	2026-10-26T19:39:52.3713097Z + postcss 8.5.6
+build	Install dependencies	2026-10-26T19:39:52.3713474Z + prettier 3.6.2
+build	Install dependencies	2026-10-26T19:39:52.3713885Z + tailwindcss 4.1.14
+build	Install dependencies	2026-10-26T19:39:52.3714321Z + tw-animate-css 1.4.0
+build	Install dependencies	2026-10-26T19:39:52.3714781Z + typescript 5.9.3
+build	Install dependencies	2026-10-26T19:39:52.3715170Z + vite 7.1.9
+build	Install dependencies	2026-10-26T19:39:52.3715619Z + vitest 2.1.9
+build	Install dependencies	2026-10-26T19:39:52.3715844Z 
+build	Install dependencies	2026-10-26T19:39:52.3720360Z ╭ Warning ─────────────────────────────────────────────────────────────────────╮│                                                                              ││   Ignored build scripts: @tailwindcss/oxide, esbuild.                        ││   Run "pnpm approve-builds" to pick which dependencies should be allowed     ││   to run scripts.                                                            ││                                                                              │╰──────────────────────────────────────────────────────────────────────────────╯
+build	Install dependencies	2026-10-26T19:39:52.3722720Z 
+build	Install dependencies	2026-10-26T19:39:52.3932076Z Done in 5.4s using pnpm v10.4.1
+build	Run unit tests	﻿2026-10-26T19:39:52.4559896Z ##[group]Run pnpm test
+build	Run unit tests	2026-10-26T19:39:52.4560210Z pnpm test
+build	Run unit tests	2026-10-26T19:39:52.4560623Z shell: sh -e {0}
+build	Run unit tests	2026-10-26T19:39:52.4560825Z env:
+build	Run unit tests	2026-10-26T19:39:52.4561073Z   PNPM_HOME: /github/home/setup-pnpm/node_modules/.bin
+build	Run unit tests	2026-10-26T19:39:52.4561387Z ##[endgroup]
+build	Run unit tests	2026-10-26T19:39:53.1387044Z 
+build	Run unit tests	2026-10-26T19:39:53.1397845Z > imsop-app@1.0.0 test /__w/imsop-app-frontend/imsop-app-frontend
+build	Run unit tests	2026-10-26T19:39:53.1398829Z > vitest run && node --test scripts/verify-deployment.test.mjs
+build	Run unit tests	2026-10-26T19:39:53.1399274Z 
+build	Run unit tests	2026-10-26T19:39:53.4666304Z 
+build	Run unit tests	2026-10-26T19:39:53.4668502Z  RUN  v2.1.9 /__w/imsop-app-frontend/imsop-app-frontend
+build	Run unit tests	2026-10-26T19:39:53.4669347Z 
+build	Run unit tests	2026-10-26T19:39:54.7465659Z  ✓ client/src/lib/api-auth.test.ts (4 tests) 26ms
+build	Run unit tests	2026-10-26T19:39:55.4037632Z  ✓ client/src/__tests__/components.test.tsx (13 tests) 276ms
+build	Run unit tests	2026-10-26T19:39:55.6975141Z  ✓ client/src/lib/api-origin.test.ts (3 tests) 4ms
+build	Run unit tests	2026-10-26T19:39:56.2409899Z  ✓ client/src/lib/auth.test.ts (6 tests) 1515ms
+build	Run unit tests	2026-10-26T19:39:56.2411782Z    ✓ Auth Service > MockAuthService > should login with valid demo credentials 501ms
+build	Run unit tests	2026-10-26T19:39:56.2413819Z    ✓ Auth Service > MockAuthService > should fail with invalid credentials 502ms
+build	Run unit tests	2026-10-26T19:39:56.2416146Z    ✓ Auth Service > MockAuthService > should logout and clear session 501ms
+build	Run unit tests	2026-10-26T19:39:56.2617130Z 
+build	Run unit tests	2026-10-26T19:39:56.2618808Z  Test Files  4 passed (4)
+build	Run unit tests	2026-10-26T19:39:56.2620245Z       Tests  26 passed (26)
+build	Run unit tests	2026-10-26T19:39:56.2621413Z    Start at  19:39:53
+build	Run unit tests	2026-10-26T19:39:56.2623548Z    Duration  2.79s (transform 378ms, setup 0ms, collect 917ms, tests 1.82s, environment 2.89s, prepare 447ms)
+build	Run unit tests	2026-10-26T19:39:56.2624668Z 
+build	Run unit tests	2026-10-26T19:39:56.3203223Z TAP version 13
+build	Run unit tests	2026-10-26T19:39:56.3660070Z # Subtest: rejects stale lazy Operations chunks even when the entry bundle is clean
+build	Run unit tests	2026-10-26T19:39:56.3667826Z ok 1 - rejects stale lazy Operations chunks even when the entry bundle is clean
+build	Run unit tests	2026-10-26T19:39:56.3669086Z   ---
+build	Run unit tests	2026-10-26T19:39:56.3669934Z   duration_ms: 9.089442
+build	Run unit tests	2026-10-26T19:39:56.3670398Z   type: 'test'
+build	Run unit tests	2026-10-26T19:39:56.3671047Z   ...
+build	Run unit tests	2026-10-26T19:39:56.3705239Z # Subtest: accepts same-origin and Oracle bundles
+build	Run unit tests	2026-10-26T19:39:56.3708663Z ok 2 - accepts same-origin and Oracle bundles
+build	Run unit tests	2026-10-26T19:39:56.3709497Z   ---
+build	Run unit tests	2026-10-26T19:39:56.3710353Z   duration_ms: 4.891517
+build	Run unit tests	2026-10-26T19:39:56.3716596Z   type: 'test'
+build	Run unit tests	2026-10-26T19:39:56.3717021Z   ...
+build	Run unit tests	2026-10-26T19:39:56.3730694Z # Subtest: does not pass an absent build
+build	Run unit tests	2026-10-26T19:39:56.3732008Z ok 3 - does not pass an absent build
+build	Run unit tests	2026-10-26T19:39:56.3732861Z   ---
+build	Run unit tests	2026-10-26T19:39:56.3733515Z   duration_ms: 2.170019
+build	Run unit tests	2026-10-26T19:39:56.3734088Z   type: 'test'
+build	Run unit tests	2026-10-26T19:39:56.3734456Z   ...
+build	Run unit tests	2026-10-26T19:39:56.3828037Z 1..3
+build	Run unit tests	2026-10-26T19:39:56.3828491Z # tests 3
+build	Run unit tests	2026-10-26T19:39:56.3828894Z # suites 0
+build	Run unit tests	2026-10-26T19:39:56.3829586Z # pass 3
+build	Run unit tests	2026-10-26T19:39:56.3830629Z # fail 0
+build	Run unit tests	2026-10-26T19:39:56.3831527Z # cancelled 0
+build	Run unit tests	2026-10-26T19:39:56.3832598Z # skipped 0
+build	Run unit tests	2026-10-26T19:39:56.3833546Z # todo 0
+build	Run unit tests	2026-10-26T19:39:56.3834373Z # duration_ms 74.997079
+build	Audit production dependencies	﻿2026-10-26T19:39:56.4140921Z ##[group]Run pnpm audit --prod --audit-level=moderate
+build	Audit production dependencies	2026-10-26T19:39:56.4141650Z pnpm audit --prod --audit-level=moderate
+build	Audit production dependencies	2026-10-26T19:39:56.4142501Z shell: sh -e {0}
+build	Audit production dependencies	2026-10-26T19:39:56.4142857Z env:
+build	Audit production dependencies	2026-10-26T19:39:56.4143281Z   PNPM_HOME: /github/home/setup-pnpm/node_modules/.bin
+build	Audit production dependencies	2026-10-26T19:39:56.4143826Z ##[endgroup]
+build	Audit production dependencies	2026-10-26T19:39:57.5902128Z 2 vulnerabilities found
+build	Audit production dependencies	2026-10-26T19:39:57.5902699Z Severity: 2 low
+build	Verify Playwright Chromium	﻿2026-10-26T19:39:57.6156890Z ##[group]Run pnpm exec playwright install chromium
+build	Verify Playwright Chromium	2026-10-26T19:39:57.6157375Z pnpm exec playwright install chromium
+build	Verify Playwright Chromium	2026-10-26T19:39:57.6157834Z shell: sh -e {0}
+build	Verify Playwright Chromium	2026-10-26T19:39:57.6158043Z env:
+build	Verify Playwright Chromium	2026-10-26T19:39:57.6158301Z   PNPM_HOME: /github/home/setup-pnpm/node_modules/.bin
+build	Verify Playwright Chromium	2026-10-26T19:39:57.6158620Z ##[endgroup]
+build	Run desktop and mobile end-to-end tests	﻿2026-10-26T19:39:58.9361653Z ##[group]Run pnpm e2e
+build	Run desktop and mobile end-to-end tests	2026-10-26T19:39:58.9361967Z pnpm e2e
+build	Run desktop and mobile end-to-end tests	2026-10-26T19:39:58.9362267Z shell: sh -e {0}
+build	Run desktop and mobile end-to-end tests	2026-10-26T19:39:58.9362469Z env:
+build	Run desktop and mobile end-to-end tests	2026-10-26T19:39:58.9362717Z   PNPM_HOME: /github/home/setup-pnpm/node_modules/.bin
+build	Run desktop and mobile end-to-end tests	2026-10-26T19:39:58.9363026Z   VITE_BASE_PATH: /
+build	Run desktop and mobile end-to-end tests	2026-10-26T19:39:58.9363229Z ##[endgroup]
+build	Run desktop and mobile end-to-end tests	2026-10-26T19:39:59.6023258Z 
+build	Run desktop and mobile end-to-end tests	2026-10-26T19:39:59.6024193Z > imsop-app@1.0.0 e2e /__w/imsop-app-frontend/imsop-app-frontend
+build	Run desktop and mobile end-to-end tests	2026-10-26T19:39:59.6024971Z > playwright test
+build	Run desktop and mobile end-to-end tests	2026-10-26T19:39:59.6025235Z 
+build	Run desktop and mobile end-to-end tests	2026-10-26T19:40:08.8441367Z 
+build	Run desktop and mobile end-to-end tests	2026-10-26T19:40:08.8442169Z Running 74 tests using 1 worker
+build	Run desktop and mobile end-to-end tests	2026-10-26T19:43:07.3701816Z ··········································································
+build	Run desktop and mobile end-to-end tests	2026-10-26T19:43:07.3703847Z   74 passed (3.1m)
+build	Run desktop and mobile end-to-end tests	2026-10-26T19:43:07.3733967Z ##[notice]  74 passed (3.1m)
+build	Build	﻿2026-10-26T19:43:07.4709011Z ##[group]Run pnpm build
+build	Build	2026-10-26T19:43:07.4709318Z pnpm build
+build	Build	2026-10-26T19:43:07.4709619Z shell: sh -e {0}
+build	Build	2026-10-26T19:43:07.4709823Z env:
+build	Build	2026-10-26T19:43:07.4710086Z   PNPM_HOME: /github/home/setup-pnpm/node_modules/.bin
+build	Build	2026-10-26T19:43:07.4710482Z   VITE_API_URL: https://imsop-api.152-70-22-84.sslip.io
+build	Build	2026-10-26T19:43:07.4710818Z   VITE_BASE_PATH: /imsop-app-frontend/
+build	Build	2026-10-26T19:43:07.4711482Z   VITE_GOOGLE_MAPS_API_KEY: ***
+build	Build	2026-10-26T19:43:07.4711731Z ##[endgroup]
+build	Build	2026-10-26T19:43:08.1512889Z 
+build	Build	2026-10-26T19:43:08.1513756Z > imsop-app@1.0.0 build /__w/imsop-app-frontend/imsop-app-frontend
+build	Build	2026-10-26T19:43:08.1514446Z > vite build && pnpm verify:deployment
+build	Build	2026-10-26T19:43:08.1514648Z 
+build	Build	2026-10-26T19:43:08.4733478Z vite v7.1.9 building for production...
+build	Build	2026-10-26T19:43:08.5331913Z transforming...
+build	Build	2026-10-26T19:43:11.3423774Z ✓ 1714 modules transformed.
+build	Build	2026-10-26T19:43:12.5039524Z rendering chunks...
+build	Build	2026-10-26T19:43:12.6627648Z computing gzip size...
+build	Build	2026-10-26T19:43:12.6793560Z ../dist/index.html                             2.89 kB │ gzip:   0.88 kB
+build	Build	2026-10-26T19:43:12.6796997Z ../dist/assets/index-C0LQSZZS.css            125.72 kB │ gzip:  20.64 kB
+build	Build	2026-10-26T19:43:12.6799434Z ../dist/assets/circle-check-big-DdUsOOYF.js    0.36 kB │ gzip:   0.28 kB
+build	Build	2026-10-26T19:43:12.6801434Z ../dist/assets/user-Xnplc_PD.js                0.37 kB │ gzip:   0.28 kB
+build	Build	2026-10-26T19:43:12.6803221Z ../dist/assets/lock-DzRmVDGb.js                0.38 kB │ gzip:   0.29 kB
+build	Build	2026-10-26T19:43:12.6804957Z ../dist/assets/mail-DFQw_0gY.js                0.38 kB │ gzip:   0.30 kB
+build	Build	2026-10-26T19:43:12.6807079Z ../dist/assets/NotFound-lKSSU4z5.js            0.47 kB │ gzip:   0.32 kB
+build	Build	2026-10-26T19:43:12.6808912Z ../dist/assets/charts-BuC_iVWv.js              0.88 kB │ gzip:   0.51 kB
+build	Build	2026-10-26T19:43:12.6810192Z ../dist/assets/brain-circuit-DorgcpMP.js       0.97 kB │ gzip:   0.50 kB
+build	Build	2026-10-26T19:43:12.6811188Z ../dist/assets/eye-CjzDYixk.js                 0.97 kB │ gzip:   0.45 kB
+build	Build	2026-10-26T19:43:12.6812254Z ../dist/assets/Forbidden-D9SG5V9v.js           1.07 kB │ gzip:   0.66 kB
+build	Build	2026-10-26T19:43:12.6813350Z ../dist/assets/Intelligence-Cj5AV_R-.js        1.89 kB │ gzip:   0.97 kB
+build	Build	2026-10-26T19:43:12.6814392Z ../dist/assets/dialog-IzxGdAYq.js              2.78 kB │ gzip:   1.13 kB
+build	Build	2026-10-26T19:43:12.6815397Z ../dist/assets/input-XsvbE-6f.js               3.39 kB │ gzip:   1.33 kB
+build	Build	2026-10-26T19:43:12.6817252Z ../dist/assets/ForgotPassword-Db38rHTi.js      3.74 kB │ gzip:   1.49 kB
+build	Build	2026-10-26T19:43:12.6818371Z ../dist/assets/Register-B4zX8ukV.js            3.83 kB │ gzip:   1.40 kB
+build	Build	2026-10-26T19:43:12.6819456Z ../dist/assets/ExportActions-Cjs5Qfgp.js       4.07 kB │ gzip:   2.06 kB
+build	Build	2026-10-26T19:43:12.6820523Z ../dist/assets/Dashboard-CIqkl-_w.js           4.35 kB │ gzip:   1.95 kB
+build	Build	2026-10-26T19:43:12.6821586Z ../dist/assets/Login-CvZhk7wD.js               4.45 kB │ gzip:   1.58 kB
+build	Build	2026-10-26T19:43:12.6823139Z ../dist/assets/AnalyticsPage-Buj92zGo.js       4.45 kB │ gzip:   1.81 kB
+build	Build	2026-10-26T19:43:12.6824131Z ../dist/assets/Map-BL9UsA4L.js                 4.70 kB │ gzip:   2.09 kB
+build	Build	2026-10-26T19:43:12.6825096Z ../dist/assets/Orders-BH6txZfu.js              4.74 kB │ gzip:   1.86 kB
+build	Build	2026-10-26T19:43:12.6827263Z ../dist/assets/ResetPassword-BEEckH3W.js       4.74 kB │ gzip:   1.52 kB
+build	Build	2026-10-26T19:43:12.6828882Z ../dist/assets/Infrastructure-C-kW_RSH.js      4.77 kB │ gzip:   2.05 kB
+build	Build	2026-10-26T19:43:12.6830414Z ../dist/assets/RecordDetail-DEix1Zgo.js        5.81 kB │ gzip:   2.26 kB
+build	Build	2026-10-26T19:43:12.6831905Z ../dist/assets/Settings-SAEJgaYE.js            5.99 kB │ gzip:   2.29 kB
+build	Build	2026-10-26T19:43:12.6833437Z ../dist/assets/Assistant-BurpWS8L.js           6.47 kB │ gzip:   2.70 kB
+build	Build	2026-10-26T19:43:12.6835318Z ../dist/assets/Operations-Dq6pTlqn.js          9.73 kB │ gzip:   3.37 kB
+build	Build	2026-10-26T19:43:12.6837347Z ../dist/assets/Profile-CkfofMsq.js            10.80 kB │ gzip:   3.65 kB
+build	Build	2026-10-26T19:43:12.6839042Z ../dist/assets/vendor-COd4auuD.js             11.79 kB │ gzip:   4.21 kB
+build	Build	2026-10-26T19:43:12.6840569Z ../dist/assets/index-BdjXiSlt.js             392.72 kB │ gzip: 123.93 kB
+build	Build	2026-10-26T19:43:12.6841487Z ✓ built in 4.18s
+build	Build	2026-10-26T19:43:13.3124916Z 
+build	Build	2026-10-26T19:43:13.3126166Z > imsop-app@1.0.0 verify:deployment /__w/imsop-app-frontend/imsop-app-frontend
+build	Build	2026-10-26T19:43:13.3127105Z > node scripts/verify-deployment.mjs
+build	Build	2026-10-26T19:43:13.3127459Z 
+build	Build	2026-10-26T19:43:13.3591720Z Verified 29 browser chunks use no retired backend
+build	Upload Pages artifact	﻿2026-10-26T19:43:13.4109071Z ##[group]Run actions/upload-pages-artifact@v3
+build	Upload Pages artifact	2026-10-26T19:43:13.4109416Z with:
+build	Upload Pages artifact	2026-10-26T19:43:13.4109604Z   path: dist
+build	Upload Pages artifact	2026-10-26T19:43:13.4109802Z   name: github-pages
+build	Upload Pages artifact	2026-10-26T19:43:13.4110023Z   retention-days: 1
+build	Upload Pages artifact	2026-10-26T19:43:13.4110216Z env:
+build	Upload Pages artifact	2026-10-26T19:43:13.4110452Z   PNPM_HOME: /github/home/setup-pnpm/node_modules/.bin
+build	Upload Pages artifact	2026-10-26T19:43:13.4110759Z ##[endgroup]
+build	Upload Pages artifact	2026-10-26T19:43:13.4180102Z ##[start-action display=Archive artifact;id=__actions_upload-pages-artifact.__run]
+build	Upload Pages artifact	2026-10-26T19:43:13.4230152Z ##[group]Run echo ::group::Archive artifact
+build	Upload Pages artifact	2026-10-26T19:43:13.4230507Z echo ::group::Archive artifact
+build	Upload Pages artifact	2026-10-26T19:43:13.4230773Z tar \
+build	Upload Pages artifact	2026-10-26T19:43:13.4231011Z   --dereference --hard-dereference \
+build	Upload Pages artifact	2026-10-26T19:43:13.4231319Z   --directory "$INPUT_PATH" \
+build	Upload Pages artifact	2026-10-26T19:43:13.4231612Z   -cvf "$RUNNER_TEMP/artifact.tar" \
+build	Upload Pages artifact	2026-10-26T19:43:13.4231900Z   --exclude=.git \
+build	Upload Pages artifact	2026-10-26T19:43:13.4232158Z   --exclude=.github \
+build	Upload Pages artifact	2026-10-26T19:43:13.4232421Z   .
+build	Upload Pages artifact	2026-10-26T19:43:13.4232621Z echo ::endgroup::
+build	Upload Pages artifact	2026-10-26T19:43:13.4234331Z shell: sh -e {0}
+build	Upload Pages artifact	2026-10-26T19:43:13.4234557Z env:
+build	Upload Pages artifact	2026-10-26T19:43:13.4234811Z   PNPM_HOME: /github/home/setup-pnpm/node_modules/.bin
+build	Upload Pages artifact	2026-10-26T19:43:13.4235133Z   INPUT_PATH: dist
+build	Upload Pages artifact	2026-10-26T19:43:13.4235339Z ##[endgroup]
+build	Upload Pages artifact	2026-10-26T19:43:13.4735393Z ##[group]Archive artifact
+build	Upload Pages artifact	2026-10-26T19:43:13.4752243Z ./
+build	Upload Pages artifact	2026-10-26T19:43:13.4752832Z ./favicon.svg
+build	Upload Pages artifact	2026-10-26T19:43:13.4753549Z ./assets/
+build	Upload Pages artifact	2026-10-26T19:43:13.4754634Z ./assets/charts-BuC_iVWv.js
+build	Upload Pages artifact	2026-10-26T19:43:13.4755118Z ./assets/index-BdjXiSlt.js
+build	Upload Pages artifact	2026-10-26T19:43:13.4760847Z ./assets/Forbidden-D9SG5V9v.js
+build	Upload Pages artifact	2026-10-26T19:43:13.4761692Z ./assets/circle-check-big-DdUsOOYF.js
+build	Upload Pages artifact	2026-10-26T19:43:13.4762401Z ./assets/ForgotPassword-Db38rHTi.js
+build	Upload Pages artifact	2026-10-26T19:43:13.4763092Z ./assets/dialog-IzxGdAYq.js
+build	Upload Pages artifact	2026-10-26T19:43:13.4763840Z ./assets/brain-circuit-DorgcpMP.js
+build	Upload Pages artifact	2026-10-26T19:43:13.4764554Z ./assets/user-Xnplc_PD.js
+build	Upload Pages artifact	2026-10-26T19:43:13.4765297Z ./assets/Orders-BH6txZfu.js
+build	Upload Pages artifact	2026-10-26T19:43:13.4766193Z ./assets/RecordDetail-DEix1Zgo.js
+build	Upload Pages artifact	2026-10-26T19:43:13.4766969Z ./assets/AnalyticsPage-Buj92zGo.js
+build	Upload Pages artifact	2026-10-26T19:43:13.4767662Z ./assets/Map-BL9UsA4L.js
+build	Upload Pages artifact	2026-10-26T19:43:13.4768277Z ./assets/Login-CvZhk7wD.js
+build	Upload Pages artifact	2026-10-26T19:43:13.4768871Z ./assets/input-XsvbE-6f.js
+build	Upload Pages artifact	2026-10-26T19:43:13.4769473Z ./assets/ResetPassword-BEEckH3W.js
+build	Upload Pages artifact	2026-10-26T19:43:13.4770032Z ./assets/Settings-SAEJgaYE.js
+build	Upload Pages artifact	2026-10-26T19:43:13.4770775Z ./assets/Register-B4zX8ukV.js
+build	Upload Pages artifact	2026-10-26T19:43:13.4771564Z ./assets/eye-CjzDYixk.js
+build	Upload Pages artifact	2026-10-26T19:43:13.4772427Z ./assets/vendor-COd4auuD.js
+build	Upload Pages artifact	2026-10-26T19:43:13.4773581Z ./assets/ExportActions-Cjs5Qfgp.js
+build	Upload Pages artifact	2026-10-26T19:43:13.4774368Z ./assets/Profile-CkfofMsq.js
+build	Upload Pages artifact	2026-10-26T19:43:13.4775191Z ./assets/Assistant-BurpWS8L.js
+build	Upload Pages artifact	2026-10-26T19:43:13.4777108Z ./assets/NotFound-lKSSU4z5.js
+build	Upload Pages artifact	2026-10-26T19:43:13.4778036Z ./assets/Infrastructure-C-kW_RSH.js
+build	Upload Pages artifact	2026-10-26T19:43:13.4779109Z ./assets/lock-DzRmVDGb.js
+build	Upload Pages artifact	2026-10-26T19:43:13.4779793Z ./assets/mail-DFQw_0gY.js
+build	Upload Pages artifact	2026-10-26T19:43:13.4780539Z ./assets/Intelligence-Cj5AV_R-.js
+build	Upload Pages artifact	2026-10-26T19:43:13.4781347Z ./assets/Operations-Dq6pTlqn.js
+build	Upload Pages artifact	2026-10-26T19:43:13.4782086Z ./assets/index-C0LQSZZS.css
+build	Upload Pages artifact	2026-10-26T19:43:13.4782822Z ./assets/Dashboard-CIqkl-_w.js
+build	Upload Pages artifact	2026-10-26T19:43:13.4783484Z ./index.html
+build	Upload Pages artifact	2026-10-26T19:43:13.4784075Z ./favicon.ico
+build	Upload Pages artifact	2026-10-26T19:43:13.4784687Z ./apple-touch-icon.png
+build	Upload Pages artifact	2026-10-26T19:43:13.4785290Z ./favicon.png
+build	Upload Pages artifact	2026-10-26T19:43:13.4785845Z ./404.html
+build	Upload Pages artifact	2026-10-26T19:43:13.4786685Z ./images/
+build	Upload Pages artifact	2026-10-26T19:43:13.4787291Z ./images/ai-analytics.jpg
+build	Upload Pages artifact	2026-10-26T19:43:13.4787953Z ./images/profile.jpg
+build	Upload Pages artifact	2026-10-26T19:43:13.4788605Z ./images/hero-bg.jpg
+build	Upload Pages artifact	2026-10-26T19:43:13.4790079Z ./images/dashboard-bg.jpg
+build	Upload Pages artifact	2026-10-26T19:43:13.4791791Z ./docs/
+build	Upload Pages artifact	2026-10-26T19:43:13.4792397Z ./docs/README.pdf
+build	Upload Pages artifact	2026-10-26T19:43:13.4794892Z ./docs/API_DOCUMENTATION.pdf
+build	Upload Pages artifact	2026-10-26T19:43:13.4800235Z ./docs/REQUIREMENTS.md
+build	Upload Pages artifact	2026-10-26T19:43:13.4801070Z ./docs/DESIGN.md
+build	Upload Pages artifact	2026-10-26T19:43:13.4801775Z ./docs/DESIGN.pdf
+build	Upload Pages artifact	2026-10-26T19:43:13.4809947Z ./docs/diagrams/
+build	Upload Pages artifact	2026-10-26T19:43:13.4810316Z ./docs/diagrams/high_level_architecture.png
+build	Upload Pages artifact	2026-10-26T19:43:13.4811983Z ./docs/diagrams/high_level_architecture.mmd
+build	Upload Pages artifact	2026-10-26T19:43:13.4813290Z ./docs/API_DOCUMENTATION.md
+build	Upload Pages artifact	2026-10-26T19:43:13.4813965Z ./docs/REQUIREMENTS.pdf
+build	Upload Pages artifact	2026-10-26T19:43:13.4817793Z ./docs/README.md
+build	Upload Pages artifact	2026-10-26T19:43:13.4818477Z ./docs/PACKAGE_README.md
+build	Upload Pages artifact	2026-10-26T19:43:13.4819173Z ./.gitkeep
+build	Upload Pages artifact	2026-10-26T19:43:13.4822052Z ##[endgroup]
+build	Upload Pages artifact	2026-10-26T19:43:13.4869368Z ##[end-action id=__actions_upload-pages-artifact.__run;outcome=success;conclusion=success;duration_ms=68]
+build	Upload Pages artifact	2026-10-26T19:43:13.4873351Z ##[start-action display=Archive artifact;id=__actions_upload-pages-artifact.__run_2]
+build	Upload Pages artifact	2026-10-26T19:43:13.4879313Z ##[end-action id=__actions_upload-pages-artifact.__run_2;outcome=skipped;conclusion=skipped;duration_ms=0]
+build	Upload Pages artifact	2026-10-26T19:43:13.4882049Z ##[start-action display=Archive artifact;id=__actions_upload-pages-artifact.__run_3]
+build	Upload Pages artifact	2026-10-26T19:43:13.4886159Z ##[end-action id=__actions_upload-pages-artifact.__run_3;outcome=skipped;conclusion=skipped;duration_ms=0]
+build	Upload Pages artifact	2026-10-26T19:43:13.4888212Z ##[start-action display=Upload artifact;id=__actions_upload-pages-artifact.upload-artifact]
+build	Upload Pages artifact	2026-10-26T19:43:13.4942955Z ##[group]Run actions/upload-artifact@v4
+build	Upload Pages artifact	2026-10-26T19:43:13.4943235Z with:
+build	Upload Pages artifact	2026-10-26T19:43:13.4943428Z   name: github-pages
+build	Upload Pages artifact	2026-10-26T19:43:13.4943676Z   path: /home/runner/work/_temp/artifact.tar
+build	Upload Pages artifact	2026-10-26T19:43:13.4943968Z   retention-days: 1
+build	Upload Pages artifact	2026-10-26T19:43:13.4944182Z   if-no-files-found: error
+build	Upload Pages artifact	2026-10-26T19:43:13.4944416Z   compression-level: 6
+build	Upload Pages artifact	2026-10-26T19:43:13.4944634Z   overwrite: false
+build	Upload Pages artifact	2026-10-26T19:43:13.4944855Z   include-hidden-files: false
+build	Upload Pages artifact	2026-10-26T19:43:13.4945090Z env:
+build	Upload Pages artifact	2026-10-26T19:43:13.4945334Z   PNPM_HOME: /github/home/setup-pnpm/node_modules/.bin
+build	Upload Pages artifact	2026-10-26T19:43:13.4945636Z ##[endgroup]
+build	Upload Pages artifact	2026-10-26T19:43:13.4949540Z ##[command]/usr/bin/docker exec  896b7f14fa988b5bc90c667404f40a687f64b5ef892e44bedbeeb710bdfb3178 sh -c "cat /etc/*release | grep ^ID"
+build	Upload Pages artifact	2026-10-26T19:43:13.7808731Z (node:1843) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+build	Upload Pages artifact	2026-10-26T19:43:13.7809608Z (Use `node --trace-deprecation ...` to show where the warning was created)
+build	Upload Pages artifact	2026-10-26T19:43:13.7866929Z With the provided path, there will be 1 file uploaded
+build	Upload Pages artifact	2026-10-26T19:43:13.7870151Z Artifact name is valid!
+build	Upload Pages artifact	2026-10-26T19:43:13.7871218Z Root directory input is valid!
+build	Upload Pages artifact	2026-10-26T19:43:14.1565428Z Beginning upload of artifact content to blob storage
+build	Upload Pages artifact	2026-10-26T19:43:14.2873593Z (node:1843) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+build	Upload Pages artifact	2026-10-26T19:43:14.9864274Z Uploaded bytes 2833870
+build	Upload Pages artifact	2026-10-26T19:43:15.0521526Z Finished uploading artifact content to blob storage!
+build	Upload Pages artifact	2026-10-26T19:43:15.0525513Z SHA256 digest of uploaded artifact zip is b5569758bf872d3cea7da4d689d45ae4bef4382d18010aab8f99d6bded02dd38
+build	Upload Pages artifact	2026-10-26T19:43:15.0526638Z Finalizing artifact upload
+build	Upload Pages artifact	2026-10-26T19:43:15.5435078Z Artifact github-pages.zip successfully finalized. Artifact ID 12682187897
+build	Upload Pages artifact	2026-10-26T19:43:15.5436666Z Artifact github-pages has been successfully uploaded! Final size is 2833870 bytes. Artifact ID is 12682187897
+build	Upload Pages artifact	2026-10-26T19:43:15.5444421Z Artifact download URL: https://github.com/DruHustle/imsop-app-frontend/actions/runs/40388632763/artifacts/12682187897
+build	Upload Pages artifact	2026-10-26T19:43:15.5605545Z ##[end-action id=__actions_upload-pages-artifact.upload-artifact;outcome=success;conclusion=success;duration_ms=2071]
+build	Post Setup Node	﻿2026-10-26T19:43:15.5698026Z Post job cleanup.
+build	Post Setup Node	2026-10-26T19:43:15.5704540Z ##[command]/usr/bin/docker exec  896b7f14fa988b5bc90c667404f40a687f64b5ef892e44bedbeeb710bdfb3178 sh -c "cat /etc/*release | grep ^ID"
+build	Post Setup Node	2026-10-26T19:43:15.8010795Z (node:1868) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+build	Post Setup Node	2026-10-26T19:43:15.8012591Z (Use `node --trace-deprecation ...` to show where the warning was created)
+build	Post Setup Node	2026-10-26T19:43:15.8216895Z [command]/usr/bin/tar --posix -cf cache.tgz --exclude cache.tgz -P -C /__w/imsop-app-frontend/imsop-app-frontend --files-from manifest.txt -z
+build	Post Setup Node	2026-10-26T19:43:30.7854504Z Failed to save: Unable to reserve cache with key node-cache-Linux-x64-pnpm-bdae289cdc4783c5fc2038db7d839cdb6f91f61cdd8811cd45bb1c02042a1290, another job may be creating this cache.
+build	Post Setup PNPM	﻿2026-10-26T19:43:30.8047067Z Post job cleanup.
+build	Post Setup PNPM	2026-10-26T19:43:30.8050426Z ##[command]/usr/bin/docker exec  896b7f14fa988b5bc90c667404f40a687f64b5ef892e44bedbeeb710bdfb3178 sh -c "cat /etc/*release | grep ^ID"
+build	Post Setup PNPM	2026-10-26T19:43:30.9977605Z Pruning is unnecessary.
+build	Post Checkout	﻿2026-10-26T19:43:31.0218721Z Post job cleanup.
+build	Post Checkout	2026-10-26T19:43:31.0231585Z ##[command]/usr/bin/docker exec  896b7f14fa988b5bc90c667404f40a687f64b5ef892e44bedbeeb710bdfb3178 sh -c "cat /etc/*release | grep ^ID"
+build	Post Checkout	2026-10-26T19:43:31.2286662Z [command]/usr/bin/git version
+build	Post Checkout	2026-10-26T19:43:31.2342865Z git version 2.43.0
+build	Post Checkout	2026-10-26T19:43:31.2391532Z Temporarily overriding HOME='/__w/_temp/caa6109a-fabb-4633-8343-69ca711dbd07' before making global git config changes
+build	Post Checkout	2026-10-26T19:43:31.2393057Z Adding repository directory to the temporary git global config as a safe directory
+build	Post Checkout	2026-10-26T19:43:31.2398124Z [command]/usr/bin/git config --global --add safe.directory /__w/imsop-app-frontend/imsop-app-frontend
+build	Post Checkout	2026-10-26T19:43:31.2445405Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+build	Post Checkout	2026-10-26T19:43:31.2498473Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+build	Post Checkout	2026-10-26T19:43:31.2805617Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+build	Post Checkout	2026-10-26T19:43:31.2839795Z http.https://github.com/.extraheader
+build	Post Checkout	2026-10-26T19:43:31.2865800Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+build	Post Checkout	2026-10-26T19:43:31.2907111Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+build	Post Checkout	2026-10-26T19:43:31.3229223Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+build	Post Checkout	2026-10-26T19:43:31.3270643Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+build	Stop containers	﻿2026-10-26T19:43:31.3687060Z Stop and remove container: 5609b5344fb54316be26d70318187c48_mcrmicrosoftcomplaywrightv1570noble_7b53ef
+build	Stop containers	2026-10-26T19:43:31.3691612Z ##[command]/usr/bin/docker rm --force 896b7f14fa988b5bc90c667404f40a687f64b5ef892e44bedbeeb710bdfb3178
+build	Stop containers	2026-10-26T19:43:31.5128545Z 896b7f14fa988b5bc90c667404f40a687f64b5ef892e44bedbeeb710bdfb3178
+build	Stop containers	2026-10-26T19:43:31.5160894Z Remove container network: github_network_549ef61f7e094d1ab5ba1e11942fee82
+build	Stop containers	2026-10-26T19:43:31.5166515Z ##[command]/usr/bin/docker network rm github_network_549ef61f7e094d1ab5ba1e11942fee82
+build	Stop containers	2026-10-26T19:43:31.6173805Z github_network_549ef61f7e094d1ab5ba1e11942fee82
+build	Complete job	﻿2026-10-26T19:43:31.6269235Z Cleaning up orphan processes
+build	Complete job	2026-10-26T19:43:31.6653804Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4, actions/upload-artifact@v4, pnpm/action-setup@v3. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+deploy	Set up job	﻿2026-10-26T19:43:40.0370762Z Current runner version: '2.338.0'
+deploy	Set up job	2026-10-26T19:43:40.0394242Z ##[group]Runner Image Provisioner
+deploy	Set up job	2026-10-26T19:43:40.0395017Z Hosted Compute Agent
+deploy	Set up job	2026-10-26T19:43:40.0395866Z Version: 20261021.618
+deploy	Set up job	2026-10-26T19:43:40.0396393Z Commit: 21505ad2541d5be6135ed84fc33697146cf75b8e
+deploy	Set up job	2026-10-26T19:43:40.0396988Z Build Date: 2026-10-21T00:45:21Z
+deploy	Set up job	2026-10-26T19:43:40.0397585Z Worker ID: {6e34d0f2-558b-4228-94eb-9cfdfbe4a575}
+deploy	Set up job	2026-10-26T19:43:40.0398191Z Region: westus3
+deploy	Set up job	2026-10-26T19:43:40.0398691Z Cloud: Azure
+deploy	Set up job	2026-10-26T19:43:40.0399156Z ##[endgroup]
+deploy	Set up job	2026-10-26T19:43:40.0400677Z ##[group]Operating System
+deploy	Set up job	2026-10-26T19:43:40.0401285Z Ubuntu
+deploy	Set up job	2026-10-26T19:43:40.0401723Z 24.04.5
+deploy	Set up job	2026-10-26T19:43:40.0402176Z LTS
+deploy	Set up job	2026-10-26T19:43:40.0402615Z ##[endgroup]
+deploy	Set up job	2026-10-26T19:43:40.0403098Z ##[group]Runner Image
+deploy	Set up job	2026-10-26T19:43:40.0403617Z Image: ubuntu-24.04
+deploy	Set up job	2026-10-26T19:43:40.0404117Z Version: 20261012.334.1
+deploy	Set up job	2026-10-26T19:43:40.0405038Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261012.334/images/ubuntu/Ubuntu2404-Readme.md
+deploy	Set up job	2026-10-26T19:43:40.0406758Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261012.334
+deploy	Set up job	2026-10-26T19:43:40.0407662Z ##[endgroup]
+deploy	Set up job	2026-10-26T19:43:40.0408616Z ##[group]GITHUB_TOKEN Permissions
+deploy	Set up job	2026-10-26T19:43:40.0410853Z Contents: read
+deploy	Set up job	2026-10-26T19:43:40.0411396Z Metadata: read
+deploy	Set up job	2026-10-26T19:43:40.0411910Z Pages: write
+deploy	Set up job	2026-10-26T19:43:40.0412377Z ##[endgroup]
+deploy	Set up job	2026-10-26T19:43:40.0414176Z Secret source: Actions
+deploy	Set up job	2026-10-26T19:43:40.0415039Z Cache mode: write
+deploy	Set up job	2026-10-26T19:43:40.0415611Z Prepare workflow directory
+deploy	Set up job	2026-10-26T19:43:40.0707367Z Prepare all required actions
+deploy	Set up job	2026-10-26T19:43:40.0763541Z Getting action download info
+deploy	Set up job	2026-10-26T19:43:40.3945481Z Download action repository 'actions/deploy-pages@v4' (SHA:d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e)
+deploy	Set up job	2026-10-26T19:43:41.4658942Z Complete job name: deploy
+deploy	Deploy to GitHub Pages	﻿2026-10-26T19:43:41.5419687Z ##[group]Run actions/deploy-pages@v4
+deploy	Deploy to GitHub Pages	2026-10-26T19:43:41.5420666Z with:
+deploy	Deploy to GitHub Pages	2026-10-26T19:43:41.5423900Z   token: ***
+deploy	Deploy to GitHub Pages	2026-10-26T19:43:41.5424319Z   timeout: 600000
+deploy	Deploy to GitHub Pages	2026-10-26T19:43:41.5424706Z   error_count: 10
+deploy	Deploy to GitHub Pages	2026-10-26T19:43:41.5425098Z   reporting_interval: 5000
+deploy	Deploy to GitHub Pages	2026-10-26T19:43:41.5425537Z   artifact_name: github-pages
+deploy	Deploy to GitHub Pages	2026-10-26T19:43:41.5425968Z   preview: false
+deploy	Deploy to GitHub Pages	2026-10-26T19:43:41.5426508Z ##[endgroup]
+deploy	Deploy to GitHub Pages	2026-10-26T19:43:41.6927604Z (node:1935) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+deploy	Deploy to GitHub Pages	2026-10-26T19:43:41.6928931Z (Use `node --trace-deprecation ...` to show where the warning was created)
+deploy	Deploy to GitHub Pages	2026-10-26T19:43:41.9409144Z Fetching artifact metadata for "github-pages" in this workflow run
+deploy	Deploy to GitHub Pages	2026-10-26T19:43:42.1805065Z Found 1 artifact(s)
+deploy	Deploy to GitHub Pages	2026-10-26T19:43:42.1814588Z Creating Pages deployment with payload:
+deploy	Deploy to GitHub Pages	2026-10-26T19:43:42.1815498Z {
+deploy	Deploy to GitHub Pages	2026-10-26T19:43:42.1815938Z 	"artifact_id": 12682187897,
+deploy	Deploy to GitHub Pages	2026-10-26T19:43:42.1816658Z 	"pages_build_version": "367f4abfc10d681d60c38244865a831d78be7588",
+deploy	Deploy to GitHub Pages	2026-10-26T19:43:42.1904027Z 	"oidc_token": "***"
+deploy	Deploy to GitHub Pages	2026-10-26T19:43:42.1904658Z }
+deploy	Deploy to GitHub Pages	2026-10-26T19:43:43.5966202Z Created deployment for 367f4abfc10d681d60c38244865a831d78be7588, ID: 367f4abfc10d681d60c38244865a831d78be7588
+deploy	Deploy to GitHub Pages	2026-10-26T19:43:48.5984740Z Getting Pages deployment status...
+deploy	Deploy to GitHub Pages	2026-10-26T19:43:48.8638281Z Reported success!
+deploy	Complete job	﻿2026-10-26T19:43:48.8943943Z Evaluate and set environment url
+deploy	Complete job	2026-10-26T19:43:48.8947744Z Evaluated environment url: https://druhustle.github.io/imsop-app-frontend/
+deploy	Complete job	2026-10-26T19:43:48.8948586Z Cleaning up orphan processes
+deploy	Complete job	2026-10-26T19:43:48.9261356Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/deploy-pages@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/

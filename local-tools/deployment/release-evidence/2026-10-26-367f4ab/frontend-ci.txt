@@ -1,0 +1,491 @@
+Build and Test	Set up job	﻿2026-10-26T19:33:08.4730825Z Current runner version: '2.338.0'
+Build and Test	Set up job	2026-10-26T19:33:08.4758961Z ##[group]Runner Image Provisioner
+Build and Test	Set up job	2026-10-26T19:33:08.4760279Z Hosted Compute Agent
+Build and Test	Set up job	2026-10-26T19:33:08.4760897Z Version: 20261021.618
+Build and Test	Set up job	2026-10-26T19:33:08.4761702Z Commit: 21505ad2541d5be6135ed84fc33697146cf75b8e
+Build and Test	Set up job	2026-10-26T19:33:08.4762436Z Build Date: 2026-10-21T00:45:21Z
+Build and Test	Set up job	2026-10-26T19:33:08.4763158Z Worker ID: {ed59e459-892d-4504-9db8-295d77a4cef6}
+Build and Test	Set up job	2026-10-26T19:33:08.4763883Z Region: centralus
+Build and Test	Set up job	2026-10-26T19:33:08.4764488Z Cloud: Azure
+Build and Test	Set up job	2026-10-26T19:33:08.4765104Z ##[endgroup]
+Build and Test	Set up job	2026-10-26T19:33:08.4766778Z ##[group]Operating System
+Build and Test	Set up job	2026-10-26T19:33:08.4767504Z Ubuntu
+Build and Test	Set up job	2026-10-26T19:33:08.4768096Z 24.04.5
+Build and Test	Set up job	2026-10-26T19:33:08.4768611Z LTS
+Build and Test	Set up job	2026-10-26T19:33:08.4769355Z ##[endgroup]
+Build and Test	Set up job	2026-10-26T19:33:08.4770133Z ##[group]Runner Image
+Build and Test	Set up job	2026-10-26T19:33:08.4770795Z Image: ubuntu-24.04
+Build and Test	Set up job	2026-10-26T19:33:08.4771383Z Version: 20261012.334.1
+Build and Test	Set up job	2026-10-26T19:33:08.4772507Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261012.334/images/ubuntu/Ubuntu2404-Readme.md
+Build and Test	Set up job	2026-10-26T19:33:08.4774430Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261012.334
+Build and Test	Set up job	2026-10-26T19:33:08.4775466Z ##[endgroup]
+Build and Test	Set up job	2026-10-26T19:33:08.4776603Z ##[group]GITHUB_TOKEN Permissions
+Build and Test	Set up job	2026-10-26T19:33:08.4779046Z Contents: read
+Build and Test	Set up job	2026-10-26T19:33:08.4779926Z Metadata: read
+Build and Test	Set up job	2026-10-26T19:33:08.4780484Z ##[endgroup]
+Build and Test	Set up job	2026-10-26T19:33:08.4782763Z Secret source: Actions
+Build and Test	Set up job	2026-10-26T19:33:08.4783773Z Cache mode: write
+Build and Test	Set up job	2026-10-26T19:33:08.4784955Z Prepare workflow directory
+Build and Test	Set up job	2026-10-26T19:33:08.5244885Z Prepare all required actions
+Build and Test	Set up job	2026-10-26T19:33:08.5295864Z Getting action download info
+Build and Test	Set up job	2026-10-26T19:33:08.8211856Z Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+Build and Test	Set up job	2026-10-26T19:33:08.9252669Z Download action repository 'pnpm/action-setup@v3' (SHA:a3252b78c470c02df07e9d59298aecedc3ccdd6d)
+Build and Test	Set up job	2026-10-26T19:33:09.5192407Z Download action repository 'actions/setup-node@v4' (SHA:49933ea5288caeca8642d1e84afbd3f7d6820020)
+Build and Test	Set up job	2026-10-26T19:33:09.7170947Z Complete job name: Build and Test
+Build and Test	Initialize containers	﻿2026-10-26T19:33:09.7861132Z ##[group]Checking docker version
+Build and Test	Initialize containers	2026-10-26T19:33:09.7875160Z ##[command]/usr/bin/docker version --format '{{.Server.APIVersion}}'
+Build and Test	Initialize containers	2026-10-26T19:33:09.8992626Z '1.48'
+Build and Test	Initialize containers	2026-10-26T19:33:09.9031653Z Docker daemon API version: '1.48'
+Build and Test	Initialize containers	2026-10-26T19:33:09.9033154Z ##[command]/usr/bin/docker version --format '{{.Client.APIVersion}}'
+Build and Test	Initialize containers	2026-10-26T19:33:09.9228618Z '1.48'
+Build and Test	Initialize containers	2026-10-26T19:33:09.9243586Z Docker client API version: '1.48'
+Build and Test	Initialize containers	2026-10-26T19:33:09.9250774Z ##[endgroup]
+Build and Test	Initialize containers	2026-10-26T19:33:09.9254653Z ##[group]Clean up resources from previous jobs
+Build and Test	Initialize containers	2026-10-26T19:33:09.9262130Z ##[command]/usr/bin/docker ps --all --quiet --no-trunc --filter "label=482985"
+Build and Test	Initialize containers	2026-10-26T19:33:09.9422950Z ##[command]/usr/bin/docker network prune --force --filter "label=482985"
+Build and Test	Initialize containers	2026-10-26T19:33:09.9567387Z ##[endgroup]
+Build and Test	Initialize containers	2026-10-26T19:33:09.9568071Z ##[group]Create local container network
+Build and Test	Initialize containers	2026-10-26T19:33:09.9579215Z ##[command]/usr/bin/docker network create --label 482985 github_network_e4153a5bd83d49a2a19c7c871a6803ae
+Build and Test	Initialize containers	2026-10-26T19:33:10.0140392Z 6594348976bc25c206672427a6b5c8bff14d8462def307eb5313b0cc24957e8b
+Build and Test	Initialize containers	2026-10-26T19:33:10.0157514Z ##[endgroup]
+Build and Test	Initialize containers	2026-10-26T19:33:10.0182134Z ##[group]Starting job container
+Build and Test	Initialize containers	2026-10-26T19:33:10.0204727Z ##[command]/usr/bin/docker pull mcr.microsoft.com/playwright:v1.57.0-noble
+Build and Test	Initialize containers	2026-10-26T19:33:10.1749600Z v1.57.0-noble: Pulling from playwright
+Build and Test	Initialize containers	2026-10-26T19:33:10.2303111Z 02de03a7213b: Pulling fs layer
+Build and Test	Initialize containers	2026-10-26T19:33:10.2304630Z 24f36c9a3b12: Pulling fs layer
+Build and Test	Initialize containers	2026-10-26T19:33:10.2305648Z cbd08ed6b2dc: Pulling fs layer
+Build and Test	Initialize containers	2026-10-26T19:33:10.2306312Z de372fe83d1b: Pulling fs layer
+Build and Test	Initialize containers	2026-10-26T19:33:10.2307474Z de372fe83d1b: Waiting
+Build and Test	Initialize containers	2026-10-26T19:33:10.3312641Z cbd08ed6b2dc: Verifying Checksum
+Build and Test	Initialize containers	2026-10-26T19:33:10.3313996Z cbd08ed6b2dc: Download complete
+Build and Test	Initialize containers	2026-10-26T19:33:10.4686842Z 02de03a7213b: Verifying Checksum
+Build and Test	Initialize containers	2026-10-26T19:33:10.4688430Z 02de03a7213b: Download complete
+Build and Test	Initialize containers	2026-10-26T19:33:10.8688266Z 24f36c9a3b12: Verifying Checksum
+Build and Test	Initialize containers	2026-10-26T19:33:10.8690808Z 24f36c9a3b12: Download complete
+Build and Test	Initialize containers	2026-10-26T19:33:11.7504318Z 02de03a7213b: Pull complete
+Build and Test	Initialize containers	2026-10-26T19:33:15.9934819Z de372fe83d1b: Verifying Checksum
+Build and Test	Initialize containers	2026-10-26T19:33:18.5078407Z de372fe83d1b: Download complete
+Build and Test	Initialize containers	2026-10-26T19:33:18.5079837Z 24f36c9a3b12: Pull complete
+Build and Test	Initialize containers	2026-10-26T19:33:18.5270942Z cbd08ed6b2dc: Pull complete
+Build and Test	Initialize containers	2026-10-26T19:33:33.9604749Z de372fe83d1b: Pull complete
+Build and Test	Initialize containers	2026-10-26T19:33:33.9653293Z Digest: sha256:3bed4b1a12f2338642f3d8cba28e291deef3c66bd4a964bbeb3e57bbff511dbd
+Build and Test	Initialize containers	2026-10-26T19:33:33.9667844Z Status: Downloaded newer image for mcr.microsoft.com/playwright:v1.57.0-noble
+Build and Test	Initialize containers	2026-10-26T19:33:33.9675425Z mcr.microsoft.com/playwright:v1.57.0-noble
+Build and Test	Initialize containers	2026-10-26T19:33:33.9766101Z ##[command]/usr/bin/docker create --name 5ec14088f52246d68b4836c1f0f496ef_mcrmicrosoftcomplaywrightv1570noble_df9163 --label 482985 --workdir /__w/imsop-app-frontend/imsop-app-frontend --network github_network_e4153a5bd83d49a2a19c7c871a6803ae --ipc=host -e "HOME=/github/home" -e GITHUB_ACTIONS=true -e CI=true -v "/var/run/docker.sock":"/var/run/docker.sock" -v "/home/runner/work":"/__w" -v "/home/runner/actions-runner/cached/2.338.0/externals":"/__e":ro -v "/home/runner/work/_temp":"/__w/_temp" -v "/home/runner/work/_actions":"/__w/_actions" -v "/opt/hostedtoolcache":"/__t" -v "/home/runner/work/_temp/_github_home":"/github/home" -v "/home/runner/work/_temp/_github_workflow":"/github/workflow" --entrypoint "tail" mcr.microsoft.com/playwright:v1.57.0-noble "-f" "/dev/null"
+Build and Test	Initialize containers	2026-10-26T19:33:34.0074623Z 4a04943ac86393f5bab0efb9e8b1ca3239ae32966a785f31700a8c071a12bffe
+Build and Test	Initialize containers	2026-10-26T19:33:34.0099319Z ##[command]/usr/bin/docker start 4a04943ac86393f5bab0efb9e8b1ca3239ae32966a785f31700a8c071a12bffe
+Build and Test	Initialize containers	2026-10-26T19:33:34.2113489Z 4a04943ac86393f5bab0efb9e8b1ca3239ae32966a785f31700a8c071a12bffe
+Build and Test	Initialize containers	2026-10-26T19:33:34.2140499Z ##[command]/usr/bin/docker ps --all --filter id=4a04943ac86393f5bab0efb9e8b1ca3239ae32966a785f31700a8c071a12bffe --filter status=running --no-trunc --format "{{.ID}} {{.Status}}"
+Build and Test	Initialize containers	2026-10-26T19:33:34.2267496Z 4a04943ac86393f5bab0efb9e8b1ca3239ae32966a785f31700a8c071a12bffe Up Less than a second
+Build and Test	Initialize containers	2026-10-26T19:33:34.2288406Z ##[command]/usr/bin/docker inspect --format "{{range .Config.Env}}{{println .}}{{end}}" 4a04943ac86393f5bab0efb9e8b1ca3239ae32966a785f31700a8c071a12bffe
+Build and Test	Initialize containers	2026-10-26T19:33:34.2416005Z HOME=/github/home
+Build and Test	Initialize containers	2026-10-26T19:33:34.2417154Z GITHUB_ACTIONS=true
+Build and Test	Initialize containers	2026-10-26T19:33:34.2417932Z CI=true
+Build and Test	Initialize containers	2026-10-26T19:33:34.2418807Z PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+Build and Test	Initialize containers	2026-10-26T19:33:34.2420045Z LANG=C.UTF-8
+Build and Test	Initialize containers	2026-10-26T19:33:34.2420699Z LC_ALL=C.UTF-8
+Build and Test	Initialize containers	2026-10-26T19:33:34.2421580Z PLAYWRIGHT_BROWSERS_PATH=/ms-playwright
+Build and Test	Initialize containers	2026-10-26T19:33:34.2438367Z ##[endgroup]
+Build and Test	Initialize containers	2026-10-26T19:33:34.2448146Z ##[group]Waiting for all services to be ready
+Build and Test	Initialize containers	2026-10-26T19:33:34.2450498Z ##[endgroup]
+Build and Test	Checkout Code	﻿2026-10-26T19:33:34.2861994Z ##[group]Run actions/checkout@v4
+Build and Test	Checkout Code	2026-10-26T19:33:34.2862631Z with:
+Build and Test	Checkout Code	2026-10-26T19:33:34.2862888Z   repository: DruHustle/imsop-app-frontend
+Build and Test	Checkout Code	2026-10-26T19:33:34.2865660Z   token: ***
+Build and Test	Checkout Code	2026-10-26T19:33:34.2865908Z   ssh-strict: true
+Build and Test	Checkout Code	2026-10-26T19:33:34.2866128Z   ssh-user: git
+Build and Test	Checkout Code	2026-10-26T19:33:34.2866350Z   persist-credentials: true
+Build and Test	Checkout Code	2026-10-26T19:33:34.2866589Z   clean: true
+Build and Test	Checkout Code	2026-10-26T19:33:34.2866801Z   sparse-checkout-cone-mode: true
+Build and Test	Checkout Code	2026-10-26T19:33:34.2867058Z   fetch-depth: 1
+Build and Test	Checkout Code	2026-10-26T19:33:34.2867257Z   fetch-tags: false
+Build and Test	Checkout Code	2026-10-26T19:33:34.2867473Z   show-progress: true
+Build and Test	Checkout Code	2026-10-26T19:33:34.2867684Z   lfs: false
+Build and Test	Checkout Code	2026-10-26T19:33:34.2867868Z   submodules: false
+Build and Test	Checkout Code	2026-10-26T19:33:34.2868076Z   set-safe-directory: true
+Build and Test	Checkout Code	2026-10-26T19:33:34.2868317Z   allow-unsafe-pr-checkout: false
+Build and Test	Checkout Code	2026-10-26T19:33:34.2868766Z ##[endgroup]
+Build and Test	Checkout Code	2026-10-26T19:33:34.2934949Z ##[command]/usr/bin/docker exec  4a04943ac86393f5bab0efb9e8b1ca3239ae32966a785f31700a8c071a12bffe sh -c "cat /etc/*release | grep ^ID"
+Build and Test	Checkout Code	2026-10-26T19:33:34.4967886Z Syncing repository: DruHustle/imsop-app-frontend
+Build and Test	Checkout Code	2026-10-26T19:33:34.4970511Z ##[group]Getting Git version info
+Build and Test	Checkout Code	2026-10-26T19:33:34.4971582Z Working directory is '/__w/imsop-app-frontend/imsop-app-frontend'
+Build and Test	Checkout Code	2026-10-26T19:33:34.4972534Z [command]/usr/bin/git version
+Build and Test	Checkout Code	2026-10-26T19:33:34.4972945Z git version 2.43.0
+Build and Test	Checkout Code	2026-10-26T19:33:34.4974289Z ##[endgroup]
+Build and Test	Checkout Code	2026-10-26T19:33:34.4979751Z Temporarily overriding HOME='/__w/_temp/9a522965-ed42-4156-a494-3090522ef971' before making global git config changes
+Build and Test	Checkout Code	2026-10-26T19:33:34.4980988Z Adding repository directory to the temporary git global config as a safe directory
+Build and Test	Checkout Code	2026-10-26T19:33:34.4982139Z [command]/usr/bin/git config --global --add safe.directory /__w/imsop-app-frontend/imsop-app-frontend
+Build and Test	Checkout Code	2026-10-26T19:33:34.5011549Z Deleting the contents of '/__w/imsop-app-frontend/imsop-app-frontend'
+Build and Test	Checkout Code	2026-10-26T19:33:34.5016865Z ##[group]Initializing the repository
+Build and Test	Checkout Code	2026-10-26T19:33:34.5021138Z [command]/usr/bin/git init /__w/imsop-app-frontend/imsop-app-frontend
+Build and Test	Checkout Code	2026-10-26T19:33:34.5067833Z hint: Using 'master' as the name for the initial branch. This default branch name
+Build and Test	Checkout Code	2026-10-26T19:33:34.5080616Z hint: is subject to change. To configure the initial branch name to use in all
+Build and Test	Checkout Code	2026-10-26T19:33:34.5081968Z hint: of your new repositories, which will suppress this warning, call:
+Build and Test	Checkout Code	2026-10-26T19:33:34.5082799Z hint: 
+Build and Test	Checkout Code	2026-10-26T19:33:34.5083393Z hint: 	git config --global init.defaultBranch <name>
+Build and Test	Checkout Code	2026-10-26T19:33:34.5084146Z hint: 
+Build and Test	Checkout Code	2026-10-26T19:33:34.5087134Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+Build and Test	Checkout Code	2026-10-26T19:33:34.5090259Z hint: 'development'. The just-created branch can be renamed via this command:
+Build and Test	Checkout Code	2026-10-26T19:33:34.5091376Z hint: 
+Build and Test	Checkout Code	2026-10-26T19:33:34.5091984Z hint: 	git branch -m <name>
+Build and Test	Checkout Code	2026-10-26T19:33:34.5092957Z Initialized empty Git repository in /__w/imsop-app-frontend/imsop-app-frontend/.git/
+Build and Test	Checkout Code	2026-10-26T19:33:34.5095706Z [command]/usr/bin/git remote add origin https://github.com/DruHustle/imsop-app-frontend
+Build and Test	Checkout Code	2026-10-26T19:33:34.5168478Z ##[endgroup]
+Build and Test	Checkout Code	2026-10-26T19:33:34.5169870Z ##[group]Disabling automatic garbage collection
+Build and Test	Checkout Code	2026-10-26T19:33:34.5171213Z [command]/usr/bin/git config --local gc.auto 0
+Build and Test	Checkout Code	2026-10-26T19:33:34.5212073Z ##[endgroup]
+Build and Test	Checkout Code	2026-10-26T19:33:34.5212761Z ##[group]Setting up auth
+Build and Test	Checkout Code	2026-10-26T19:33:34.5219409Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+Build and Test	Checkout Code	2026-10-26T19:33:34.5256022Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+Build and Test	Checkout Code	2026-10-26T19:33:34.5554833Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+Build and Test	Checkout Code	2026-10-26T19:33:34.5593329Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+Build and Test	Checkout Code	2026-10-26T19:33:34.5874315Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+Build and Test	Checkout Code	2026-10-26T19:33:34.5915791Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+Build and Test	Checkout Code	2026-10-26T19:33:34.6174296Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+Build and Test	Checkout Code	2026-10-26T19:33:34.6219573Z ##[endgroup]
+Build and Test	Checkout Code	2026-10-26T19:33:34.6220390Z ##[group]Fetching the repository
+Build and Test	Checkout Code	2026-10-26T19:33:34.6230869Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +faf95108753cbcdc559759f4317d4b36facc2ea5:refs/remotes/pull/6/merge
+Build and Test	Checkout Code	2026-10-26T19:33:35.6564595Z From https://github.com/DruHustle/imsop-app-frontend
+Build and Test	Checkout Code	2026-10-26T19:33:35.6566042Z  * [new ref]         faf95108753cbcdc559759f4317d4b36facc2ea5 -> pull/6/merge
+Build and Test	Checkout Code	2026-10-26T19:33:35.6597578Z ##[endgroup]
+Build and Test	Checkout Code	2026-10-26T19:33:35.6598585Z ##[group]Determining the checkout info
+Build and Test	Checkout Code	2026-10-26T19:33:35.6599777Z ##[endgroup]
+Build and Test	Checkout Code	2026-10-26T19:33:35.6600467Z [command]/usr/bin/git sparse-checkout disable
+Build and Test	Checkout Code	2026-10-26T19:33:35.6646561Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+Build and Test	Checkout Code	2026-10-26T19:33:35.6681508Z ##[group]Checking out the ref
+Build and Test	Checkout Code	2026-10-26T19:33:35.6685845Z [command]/usr/bin/git checkout --progress --force refs/remotes/pull/6/merge
+Build and Test	Checkout Code	2026-10-26T19:33:35.7582864Z Note: switching to 'refs/remotes/pull/6/merge'.
+Build and Test	Checkout Code	2026-10-26T19:33:35.7583383Z 
+Build and Test	Checkout Code	2026-10-26T19:33:35.7583755Z You are in 'detached HEAD' state. You can look around, make experimental
+Build and Test	Checkout Code	2026-10-26T19:33:35.7584626Z changes and commit them, and you can discard any commits you make in this
+Build and Test	Checkout Code	2026-10-26T19:33:35.7585537Z state without impacting any branches by switching back to a branch.
+Build and Test	Checkout Code	2026-10-26T19:33:35.7586032Z 
+Build and Test	Checkout Code	2026-10-26T19:33:35.7586377Z If you want to create a new branch to retain commits you create, you may
+Build and Test	Checkout Code	2026-10-26T19:33:35.7586992Z do so (now or later) by using -c with the switch command. Example:
+Build and Test	Checkout Code	2026-10-26T19:33:35.7587274Z 
+Build and Test	Checkout Code	2026-10-26T19:33:35.7587394Z   git switch -c <new-branch-name>
+Build and Test	Checkout Code	2026-10-26T19:33:35.7587614Z 
+Build and Test	Checkout Code	2026-10-26T19:33:35.7587731Z Or undo this operation with:
+Build and Test	Checkout Code	2026-10-26T19:33:35.7587895Z 
+Build and Test	Checkout Code	2026-10-26T19:33:35.7588008Z   git switch -
+Build and Test	Checkout Code	2026-10-26T19:33:35.7588182Z 
+Build and Test	Checkout Code	2026-10-26T19:33:35.7588396Z Turn off this advice by setting config variable advice.detachedHead to false
+Build and Test	Checkout Code	2026-10-26T19:33:35.7588731Z 
+Build and Test	Checkout Code	2026-10-26T19:33:35.7589079Z HEAD is now at faf9510 Merge 513e5dc6e39d602790b18da8ae9aea89fb3e22f3 into cb548fb8bed08dbcb019cc46ba1ae482b186ab33
+Build and Test	Checkout Code	2026-10-26T19:33:35.7601603Z ##[endgroup]
+Build and Test	Checkout Code	2026-10-26T19:33:35.7652302Z [command]/usr/bin/git log -1 --format=%H
+Build and Test	Checkout Code	2026-10-26T19:33:35.7683736Z faf95108753cbcdc559759f4317d4b36facc2ea5
+Build and Test	Setup PNPM	﻿2026-10-26T19:33:35.7946274Z ##[group]Run pnpm/action-setup@v3
+Build and Test	Setup PNPM	2026-10-26T19:33:35.7946588Z with:
+Build and Test	Setup PNPM	2026-10-26T19:33:35.7946784Z   version: 10
+Build and Test	Setup PNPM	2026-10-26T19:33:35.7946986Z   dest: ~/setup-pnpm
+Build and Test	Setup PNPM	2026-10-26T19:33:35.7947201Z   run_install: null
+Build and Test	Setup PNPM	2026-10-26T19:33:35.7947431Z   package_json_file: package.json
+Build and Test	Setup PNPM	2026-10-26T19:33:35.7947683Z   standalone: false
+Build and Test	Setup PNPM	2026-10-26T19:33:35.7947882Z ##[endgroup]
+Build and Test	Setup PNPM	2026-10-26T19:33:35.7952099Z ##[command]/usr/bin/docker exec  4a04943ac86393f5bab0efb9e8b1ca3239ae32966a785f31700a8c071a12bffe sh -c "cat /etc/*release | grep ^ID"
+Build and Test	Setup PNPM	2026-10-26T19:33:35.9877981Z ##[group]Running self-installer...
+Build and Test	Setup PNPM	2026-10-26T19:33:36.4420584Z (node:163) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+Build and Test	Setup PNPM	2026-10-26T19:33:36.4421998Z (Use `node --trace-deprecation ...` to show where the warning was created)
+Build and Test	Setup PNPM	2026-10-26T19:33:36.6931517Z Progress: resolved 1, reused 0, downloaded 0, added 0
+Build and Test	Setup PNPM	2026-10-26T19:33:36.7054312Z Packages: +1
+Build and Test	Setup PNPM	2026-10-26T19:33:36.7054820Z +
+Build and Test	Setup PNPM	2026-10-26T19:33:37.2152505Z Progress: resolved 1, reused 0, downloaded 1, added 1, done
+Build and Test	Setup PNPM	2026-10-26T19:33:37.2419749Z 
+Build and Test	Setup PNPM	2026-10-26T19:33:37.2420634Z dependencies:
+Build and Test	Setup PNPM	2026-10-26T19:33:37.2421302Z + pnpm 10.34.9 (12.15.0 is available)
+Build and Test	Setup PNPM	2026-10-26T19:33:37.2421656Z 
+Build and Test	Setup PNPM	2026-10-26T19:33:37.2452118Z Done in 1s
+Build and Test	Setup PNPM	2026-10-26T19:33:37.2651146Z ##[endgroup]
+Build and Test	Setup PNPM	2026-10-26T19:33:37.2651673Z Installation Completed!
+Build and Test	Setup Node.js	﻿2026-10-26T19:33:37.2857920Z ##[group]Run actions/setup-node@v4
+Build and Test	Setup Node.js	2026-10-26T19:33:37.2858228Z with:
+Build and Test	Setup Node.js	2026-10-26T19:33:37.2858420Z   node-version: 22
+Build and Test	Setup Node.js	2026-10-26T19:33:37.2858626Z   cache: pnpm
+Build and Test	Setup Node.js	2026-10-26T19:33:37.2858822Z   always-auth: false
+Build and Test	Setup Node.js	2026-10-26T19:33:37.2859035Z   check-latest: false
+Build and Test	Setup Node.js	2026-10-26T19:33:37.2861998Z   token: ***
+Build and Test	Setup Node.js	2026-10-26T19:33:37.2862210Z env:
+Build and Test	Setup Node.js	2026-10-26T19:33:37.2862456Z   PNPM_HOME: /github/home/setup-pnpm/node_modules/.bin
+Build and Test	Setup Node.js	2026-10-26T19:33:37.2862772Z ##[endgroup]
+Build and Test	Setup Node.js	2026-10-26T19:33:37.2870780Z ##[command]/usr/bin/docker exec  4a04943ac86393f5bab0efb9e8b1ca3239ae32966a785f31700a8c071a12bffe sh -c "cat /etc/*release | grep ^ID"
+Build and Test	Setup Node.js	2026-10-26T19:33:37.5432018Z Found in cache @ /__t/node/22.23.3/x64
+Build and Test	Setup Node.js	2026-10-26T19:33:37.5443390Z ##[group]Environment details
+Build and Test	Setup Node.js	2026-10-26T19:33:37.5450923Z (node:185) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+Build and Test	Setup Node.js	2026-10-26T19:33:37.5451850Z (Use `node --trace-deprecation ...` to show where the warning was created)
+Build and Test	Setup Node.js	2026-10-26T19:33:37.9818807Z node: v22.23.3
+Build and Test	Setup Node.js	2026-10-26T19:33:37.9819290Z npm: 10.9.9
+Build and Test	Setup Node.js	2026-10-26T19:33:37.9819886Z yarn: 1.22.22
+Build and Test	Setup Node.js	2026-10-26T19:33:37.9824936Z ##[endgroup]
+Build and Test	Setup Node.js	2026-10-26T19:33:37.9841599Z [command]/github/home/setup-pnpm/node_modules/.bin/pnpm store path --silent
+Build and Test	Setup Node.js	2026-10-26T19:33:40.2938118Z /__w/.pnpm-store/v10
+Build and Test	Setup Node.js	2026-10-26T19:33:40.4652991Z pnpm cache is not found
+Build and Test	Restore Dependencies	﻿2026-10-26T19:33:40.4862473Z ##[group]Run pnpm install --frozen-lockfile
+Build and Test	Restore Dependencies	2026-10-26T19:33:40.4862927Z pnpm install --frozen-lockfile
+Build and Test	Restore Dependencies	2026-10-26T19:33:40.4865926Z shell: sh -e {0}
+Build and Test	Restore Dependencies	2026-10-26T19:33:40.4866170Z env:
+Build and Test	Restore Dependencies	2026-10-26T19:33:40.4866426Z   PNPM_HOME: /github/home/setup-pnpm/node_modules/.bin
+Build and Test	Restore Dependencies	2026-10-26T19:33:40.4866755Z ##[endgroup]
+Build and Test	Restore Dependencies	2026-10-26T19:33:41.2510703Z Lockfile is up to date, resolution step is skipped
+Build and Test	Restore Dependencies	2026-10-26T19:33:41.3262722Z Progress: resolved 1, reused 0, downloaded 0, added 0
+Build and Test	Restore Dependencies	2026-10-26T19:33:41.4346607Z Packages: +632
+Build and Test	Restore Dependencies	2026-10-26T19:33:41.4347592Z ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Build and Test	Restore Dependencies	2026-10-26T19:33:42.3293310Z Progress: resolved 632, reused 0, downloaded 121, added 113
+Build and Test	Restore Dependencies	2026-10-26T19:33:43.3295735Z Progress: resolved 632, reused 0, downloaded 169, added 160
+Build and Test	Restore Dependencies	2026-10-26T19:33:44.3298598Z Progress: resolved 632, reused 0, downloaded 311, added 311
+Build and Test	Restore Dependencies	2026-10-26T19:33:45.3301418Z Progress: resolved 632, reused 0, downloaded 513, added 510
+Build and Test	Restore Dependencies	2026-10-26T19:33:45.8888079Z Progress: resolved 632, reused 0, downloaded 632, added 632, done
+Build and Test	Restore Dependencies	2026-10-26T19:33:46.2032164Z 
+Build and Test	Restore Dependencies	2026-10-26T19:33:46.2032989Z dependencies:
+Build and Test	Restore Dependencies	2026-10-26T19:33:46.2033698Z + @hookform/resolvers 5.2.2
+Build and Test	Restore Dependencies	2026-10-26T19:33:46.2034268Z + @radix-ui/react-accordion 1.2.12
+Build and Test	Restore Dependencies	2026-10-26T19:33:46.2034874Z + @radix-ui/react-alert-dialog 1.1.15
+Build and Test	Restore Dependencies	2026-10-26T19:33:46.2035488Z + @radix-ui/react-aspect-ratio 1.1.7
+Build and Test	Restore Dependencies	2026-10-26T19:33:46.2036050Z + @radix-ui/react-avatar 1.1.10
+Build and Test	Restore Dependencies	2026-10-26T19:33:46.2036573Z + @radix-ui/react-checkbox 1.3.3
+Build and Test	Restore Dependencies	2026-10-26T19:33:46.2037115Z + @radix-ui/react-collapsible 1.1.12
+Build and Test	Restore Dependencies	2026-10-26T19:33:46.2037715Z + @radix-ui/react-context-menu 2.2.16
+Build and Test	Restore Dependencies	2026-10-26T19:33:46.2038269Z + @radix-ui/react-dialog 1.1.15
+Build and Test	Restore Dependencies	2026-10-26T19:33:46.2038807Z + @radix-ui/react-dropdown-menu 2.1.16
+Build and Test	Restore Dependencies	2026-10-26T19:33:46.2039706Z + @radix-ui/react-hover-card 1.1.15
+Build and Test	Restore Dependencies	2026-10-26T19:33:46.2040120Z + @radix-ui/react-label 2.1.7
+Build and Test	Restore Dependencies	2026-10-26T19:33:46.2040663Z + @radix-ui/react-menubar 1.1.16
+Build and Test	Restore Dependencies	2026-10-26T19:33:46.2041278Z + @radix-ui/react-navigation-menu 1.2.14
+Build and Test	Restore Dependencies	2026-10-26T19:33:46.2041862Z + @radix-ui/react-popover 1.1.15
+Build and Test	Restore Dependencies	2026-10-26T19:33:46.2042232Z + @radix-ui/react-progress 1.1.7
+Build and Test	Restore Dependencies	2026-10-26T19:33:46.2042585Z + @radix-ui/react-radio-group 1.3.8
+Build and Test	Restore Dependencies	2026-10-26T19:33:46.2042955Z + @radix-ui/react-scroll-area 1.2.10
+Build and Test	Restore Dependencies	2026-10-26T19:33:46.2043312Z + @radix-ui/react-select 2.2.6
+Build and Test	Restore Dependencies	2026-10-26T19:33:46.2043669Z + @radix-ui/react-separator 1.1.7
+Build and Test	Restore Dependencies	2026-10-26T19:33:46.2043990Z + @radix-ui/react-slider 1.3.6
+Build and Test	Restore Dependencies	2026-10-26T19:33:46.2044253Z + @radix-ui/react-slot 1.2.3
+Build and Test	Restore Dependencies	2026-10-26T19:33:46.2044533Z + @radix-ui/react-switch 1.2.6
+Build and Test	Restore Dependencies	2026-10-26T19:33:46.2044877Z + @radix-ui/react-tabs 1.1.13
+Build and Test	Restore Dependencies	2026-10-26T19:33:46.2045169Z + @radix-ui/react-toggle 1.1.10
+Build and Test	Restore Dependencies	2026-10-26T19:33:46.2045477Z + @radix-ui/react-toggle-group 1.1.11
+Build and Test	Restore Dependencies	2026-10-26T19:33:46.2045808Z + @radix-ui/react-tooltip 1.2.8
+Build and Test	Restore Dependencies	2026-10-26T19:33:46.2046074Z + @vercel/analytics 1.6.1
+Build and Test	Restore Dependencies	2026-10-26T19:33:46.2046304Z + axios 1.20.0
+Build and Test	Restore Dependencies	2026-10-26T19:33:46.2046566Z + class-variance-authority 0.7.1
+Build and Test	Restore Dependencies	2026-10-26T19:33:46.2046812Z + clsx 2.1.1
+Build and Test	Restore Dependencies	2026-10-26T19:33:46.2047030Z + cmdk 1.1.1
+Build and Test	Restore Dependencies	2026-10-26T19:33:46.2047292Z + date-fns 4.1.0
+Build and Test	Restore Dependencies	2026-10-26T19:33:46.2047571Z + embla-carousel-react 8.6.0
+Build and Test	Restore Dependencies	2026-10-26T19:33:46.2047836Z + framer-motion 12.23.22
+Build and Test	Restore Dependencies	2026-10-26T19:33:46.2048074Z + input-otp 1.4.2
+Build and Test	Restore Dependencies	2026-10-26T19:33:46.2048308Z + lucide-react 0.453.0
+Build and Test	Restore Dependencies	2026-10-26T19:33:46.2048538Z + nanoid 5.1.16
+Build and Test	Restore Dependencies	2026-10-26T19:33:46.2048766Z + next-themes 0.4.6
+Build and Test	Restore Dependencies	2026-10-26T19:33:46.2048975Z + react 19.2.1
+Build and Test	Restore Dependencies	2026-10-26T19:33:46.2049201Z + react-day-picker 9.11.1
+Build and Test	Restore Dependencies	2026-10-26T19:33:46.2049753Z + react-dom 19.2.1
+Build and Test	Restore Dependencies	2026-10-26T19:33:46.2050265Z + react-hook-form 7.64.0
+Build and Test	Restore Dependencies	2026-10-26T19:33:46.2051181Z + react-resizable-panels 3.0.6
+Build and Test	Restore Dependencies	2026-10-26T19:33:46.2051722Z + recharts 2.15.4
+Build and Test	Restore Dependencies	2026-10-26T19:33:46.2052117Z + sonner 2.0.7
+Build and Test	Restore Dependencies	2026-10-26T19:33:46.2052539Z + streamdown 1.4.0
+Build and Test	Restore Dependencies	2026-10-26T19:33:46.2052982Z + tailwind-merge 3.3.1
+Build and Test	Restore Dependencies	2026-10-26T19:33:46.2053438Z + tailwindcss-animate 1.0.7
+Build and Test	Restore Dependencies	2026-10-26T19:33:46.2053850Z + vaul 1.1.2
+Build and Test	Restore Dependencies	2026-10-26T19:33:46.2054170Z + wouter 3.7.1
+Build and Test	Restore Dependencies	2026-10-26T19:33:46.2054530Z + zod 4.6.7
+Build and Test	Restore Dependencies	2026-10-26T19:33:46.2055077Z 
+Build and Test	Restore Dependencies	2026-10-26T19:33:46.2055253Z devDependencies:
+Build and Test	Restore Dependencies	2026-10-26T19:33:46.2055738Z + @playwright/test 1.57.0
+Build and Test	Restore Dependencies	2026-10-26T19:33:46.2056306Z + @tailwindcss/typography 0.5.19
+Build and Test	Restore Dependencies	2026-10-26T19:33:46.2056827Z + @tailwindcss/vite 4.1.14
+Build and Test	Restore Dependencies	2026-10-26T19:33:46.2057259Z + @testing-library/dom 10.4.1
+Build and Test	Restore Dependencies	2026-10-26T19:33:46.2057820Z + @testing-library/react 16.3.1
+Build and Test	Restore Dependencies	2026-10-26T19:33:46.2058358Z + @types/google.maps 3.58.1
+Build and Test	Restore Dependencies	2026-10-26T19:33:46.2058824Z + @types/node 24.7.0
+Build and Test	Restore Dependencies	2026-10-26T19:33:46.2059262Z + @types/react 19.2.1
+Build and Test	Restore Dependencies	2026-10-26T19:33:46.2059926Z + @types/react-dom 19.2.1
+Build and Test	Restore Dependencies	2026-10-26T19:33:46.2060439Z + @vitejs/plugin-react 5.0.4
+Build and Test	Restore Dependencies	2026-10-26T19:33:46.2060904Z + autoprefixer 10.4.21
+Build and Test	Restore Dependencies	2026-10-26T19:33:46.2061351Z + gh-pages 6.3.0
+Build and Test	Restore Dependencies	2026-10-26T19:33:46.2061661Z + jsdom 27.4.0
+Build and Test	Restore Dependencies	2026-10-26T19:33:46.2062041Z + pnpm 10.18.1
+Build and Test	Restore Dependencies	2026-10-26T19:33:46.2062416Z + postcss 8.5.6
+Build and Test	Restore Dependencies	2026-10-26T19:33:46.2062794Z + prettier 3.6.2
+Build and Test	Restore Dependencies	2026-10-26T19:33:46.2063234Z + tailwindcss 4.1.14
+Build and Test	Restore Dependencies	2026-10-26T19:33:46.2063689Z + tw-animate-css 1.4.0
+Build and Test	Restore Dependencies	2026-10-26T19:33:46.2064137Z + typescript 5.9.3
+Build and Test	Restore Dependencies	2026-10-26T19:33:46.2064535Z + vite 7.1.9
+Build and Test	Restore Dependencies	2026-10-26T19:33:46.2064925Z + vitest 2.1.9
+Build and Test	Restore Dependencies	2026-10-26T19:33:46.2065152Z 
+Build and Test	Restore Dependencies	2026-10-26T19:33:46.2069737Z ╭ Warning ─────────────────────────────────────────────────────────────────────╮│                                                                              ││   Ignored build scripts: @tailwindcss/oxide, esbuild.                        ││   Run "pnpm approve-builds" to pick which dependencies should be allowed     ││   to run scripts.                                                            ││                                                                              │╰──────────────────────────────────────────────────────────────────────────────╯
+Build and Test	Restore Dependencies	2026-10-26T19:33:46.2072176Z 
+Build and Test	Restore Dependencies	2026-10-26T19:33:46.2300138Z Done in 5.3s using pnpm v10.4.1
+Build and Test	Build Solution	﻿2026-10-26T19:33:46.2942910Z ##[group]Run pnpm build
+Build and Test	Build Solution	2026-10-26T19:33:46.2943229Z pnpm build
+Build and Test	Build Solution	2026-10-26T19:33:46.2943567Z shell: sh -e {0}
+Build and Test	Build Solution	2026-10-26T19:33:46.2943769Z env:
+Build and Test	Build Solution	2026-10-26T19:33:46.2944008Z   PNPM_HOME: /github/home/setup-pnpm/node_modules/.bin
+Build and Test	Build Solution	2026-10-26T19:33:46.2944319Z   VITE_BASE_PATH: /
+Build and Test	Build Solution	2026-10-26T19:33:46.2944527Z ##[endgroup]
+Build and Test	Build Solution	2026-10-26T19:33:46.9630479Z 
+Build and Test	Build Solution	2026-10-26T19:33:46.9631558Z > imsop-app@1.0.0 build /__w/imsop-app-frontend/imsop-app-frontend
+Build and Test	Build Solution	2026-10-26T19:33:46.9632416Z > vite build && pnpm verify:deployment
+Build and Test	Build Solution	2026-10-26T19:33:46.9632723Z 
+Build and Test	Build Solution	2026-10-26T19:33:47.3620573Z vite v7.1.9 building for production...
+Build and Test	Build Solution	2026-10-26T19:33:47.4405894Z transforming...
+Build and Test	Build Solution	2026-10-26T19:33:50.6531120Z ✓ 1714 modules transformed.
+Build and Test	Build Solution	2026-10-26T19:33:51.9351514Z rendering chunks...
+Build and Test	Build Solution	2026-10-26T19:33:52.0957817Z computing gzip size...
+Build and Test	Build Solution	2026-10-26T19:33:52.1120914Z ../dist/index.html                             2.77 kB │ gzip:   0.87 kB
+Build and Test	Build Solution	2026-10-26T19:33:52.1122951Z ../dist/assets/index-C0LQSZZS.css            125.72 kB │ gzip:  20.64 kB
+Build and Test	Build Solution	2026-10-26T19:33:52.1124968Z ../dist/assets/circle-check-big-DUYm0y0U.js    0.36 kB │ gzip:   0.28 kB
+Build and Test	Build Solution	2026-10-26T19:33:52.1126657Z ../dist/assets/user-DTJjRqwY.js                0.37 kB │ gzip:   0.29 kB
+Build and Test	Build Solution	2026-10-26T19:33:52.1128556Z ../dist/assets/lock-C9LMF_eq.js                0.38 kB │ gzip:   0.30 kB
+Build and Test	Build Solution	2026-10-26T19:33:52.1130638Z ../dist/assets/mail-SIW3wHOa.js                0.38 kB │ gzip:   0.31 kB
+Build and Test	Build Solution	2026-10-26T19:33:52.1132603Z ../dist/assets/NotFound-dg5jZ-Tu.js            0.47 kB │ gzip:   0.33 kB
+Build and Test	Build Solution	2026-10-26T19:33:52.1133965Z ../dist/assets/charts-BuC_iVWv.js              0.88 kB │ gzip:   0.51 kB
+Build and Test	Build Solution	2026-10-26T19:33:52.1135724Z ../dist/assets/brain-circuit-Dztvwm6r.js       0.97 kB │ gzip:   0.51 kB
+Build and Test	Build Solution	2026-10-26T19:33:52.1137419Z ../dist/assets/eye-DaJmpB5Q.js                 0.97 kB │ gzip:   0.45 kB
+Build and Test	Build Solution	2026-10-26T19:33:52.1139156Z ../dist/assets/Forbidden-nnoHeu6p.js           1.07 kB │ gzip:   0.66 kB
+Build and Test	Build Solution	2026-10-26T19:33:52.1141577Z ../dist/assets/Intelligence-BRRI7KRP.js        1.89 kB │ gzip:   0.97 kB
+Build and Test	Build Solution	2026-10-26T19:33:52.1143454Z ../dist/assets/dialog-BKHvYLi1.js              2.78 kB │ gzip:   1.13 kB
+Build and Test	Build Solution	2026-10-26T19:33:52.1145228Z ../dist/assets/input-L48buiCY.js               3.39 kB │ gzip:   1.33 kB
+Build and Test	Build Solution	2026-10-26T19:33:52.1147222Z ../dist/assets/ForgotPassword-Cykw6DQs.js      3.74 kB │ gzip:   1.49 kB
+Build and Test	Build Solution	2026-10-26T19:33:52.1149167Z ../dist/assets/Map-DjRi4MGP.js                 3.78 kB │ gzip:   1.69 kB
+Build and Test	Build Solution	2026-10-26T19:33:52.1151333Z ../dist/assets/Register-TqSAeSLX.js            3.83 kB │ gzip:   1.41 kB
+Build and Test	Build Solution	2026-10-26T19:33:52.1153234Z ../dist/assets/ExportActions-CtDCGCm-.js       4.07 kB │ gzip:   2.06 kB
+Build and Test	Build Solution	2026-10-26T19:33:52.1155034Z ../dist/assets/Dashboard-B8Z8xpSD.js           4.35 kB │ gzip:   1.95 kB
+Build and Test	Build Solution	2026-10-26T19:33:52.1156719Z ../dist/assets/Login-CZx1PEg4.js               4.45 kB │ gzip:   1.58 kB
+Build and Test	Build Solution	2026-10-26T19:33:52.1157749Z ../dist/assets/AnalyticsPage-D6TKCoo0.js       4.45 kB │ gzip:   1.81 kB
+Build and Test	Build Solution	2026-10-26T19:33:52.1159048Z ../dist/assets/Orders-FBWkRlhn.js              4.74 kB │ gzip:   1.86 kB
+Build and Test	Build Solution	2026-10-26T19:33:52.1160760Z ../dist/assets/ResetPassword-D9D34xTl.js       4.74 kB │ gzip:   1.52 kB
+Build and Test	Build Solution	2026-10-26T19:33:52.1161825Z ../dist/assets/Infrastructure-DTAgMBu8.js      4.77 kB │ gzip:   2.05 kB
+Build and Test	Build Solution	2026-10-26T19:33:52.1162828Z ../dist/assets/RecordDetail-B66wx1YR.js        5.81 kB │ gzip:   2.27 kB
+Build and Test	Build Solution	2026-10-26T19:33:52.1163823Z ../dist/assets/Settings-CuxoYWUw.js            5.99 kB │ gzip:   2.30 kB
+Build and Test	Build Solution	2026-10-26T19:33:52.1164784Z ../dist/assets/Assistant-DA3i_ZG9.js           6.47 kB │ gzip:   2.70 kB
+Build and Test	Build Solution	2026-10-26T19:33:52.1165750Z ../dist/assets/Operations-CkwRSjjO.js          9.73 kB │ gzip:   3.37 kB
+Build and Test	Build Solution	2026-10-26T19:33:52.1166701Z ../dist/assets/Profile-Dy_-W-U7.js            10.80 kB │ gzip:   3.65 kB
+Build and Test	Build Solution	2026-10-26T19:33:52.1167696Z ../dist/assets/vendor-COd4auuD.js             11.79 kB │ gzip:   4.21 kB
+Build and Test	Build Solution	2026-10-26T19:33:52.1168692Z ../dist/assets/index-KDPYAVO3.js             392.57 kB │ gzip: 123.86 kB
+Build and Test	Build Solution	2026-10-26T19:33:52.1169312Z ✓ built in 4.71s
+Build and Test	Build Solution	2026-10-26T19:33:52.8431585Z 
+Build and Test	Build Solution	2026-10-26T19:33:52.8432528Z > imsop-app@1.0.0 verify:deployment /__w/imsop-app-frontend/imsop-app-frontend
+Build and Test	Build Solution	2026-10-26T19:33:52.8433284Z > node scripts/verify-deployment.mjs
+Build and Test	Build Solution	2026-10-26T19:33:52.8433573Z 
+Build and Test	Build Solution	2026-10-26T19:33:52.8880221Z Verified 29 browser chunks use no retired backend
+Build and Test	Audit production dependencies	﻿2026-10-26T19:33:52.9336542Z ##[group]Run pnpm audit --prod --audit-level=moderate
+Build and Test	Audit production dependencies	2026-10-26T19:33:52.9337270Z pnpm audit --prod --audit-level=moderate
+Build and Test	Audit production dependencies	2026-10-26T19:33:52.9338102Z shell: sh -e {0}
+Build and Test	Audit production dependencies	2026-10-26T19:33:52.9338443Z env:
+Build and Test	Audit production dependencies	2026-10-26T19:33:52.9338835Z   PNPM_HOME: /github/home/setup-pnpm/node_modules/.bin
+Build and Test	Audit production dependencies	2026-10-26T19:33:52.9339373Z ##[endgroup]
+Build and Test	Audit production dependencies	2026-10-26T19:33:54.0302116Z 2 vulnerabilities found
+Build and Test	Audit production dependencies	2026-10-26T19:33:54.0302554Z Severity: 2 low
+Build and Test	Run Tests	﻿2026-10-26T19:33:54.0544159Z ##[group]Run pnpm test
+Build and Test	Run Tests	2026-10-26T19:33:54.0544476Z pnpm test
+Build and Test	Run Tests	2026-10-26T19:33:54.0544834Z shell: sh -e {0}
+Build and Test	Run Tests	2026-10-26T19:33:54.0545047Z env:
+Build and Test	Run Tests	2026-10-26T19:33:54.0545306Z   PNPM_HOME: /github/home/setup-pnpm/node_modules/.bin
+Build and Test	Run Tests	2026-10-26T19:33:54.0545691Z ##[endgroup]
+Build and Test	Run Tests	2026-10-26T19:33:54.7249050Z 
+Build and Test	Run Tests	2026-10-26T19:33:54.7250241Z > imsop-app@1.0.0 test /__w/imsop-app-frontend/imsop-app-frontend
+Build and Test	Run Tests	2026-10-26T19:33:54.7251313Z > vitest run && node --test scripts/verify-deployment.test.mjs
+Build and Test	Run Tests	2026-10-26T19:33:54.7251817Z 
+Build and Test	Run Tests	2026-10-26T19:33:55.0311055Z 
+Build and Test	Run Tests	2026-10-26T19:33:55.0313198Z  RUN  v2.1.9 /__w/imsop-app-frontend/imsop-app-frontend
+Build and Test	Run Tests	2026-10-26T19:33:55.0314566Z 
+Build and Test	Run Tests	2026-10-26T19:33:56.2722118Z  ✓ client/src/lib/api-auth.test.ts (4 tests) 25ms
+Build and Test	Run Tests	2026-10-26T19:33:56.9142187Z  ✓ client/src/__tests__/components.test.tsx (13 tests) 254ms
+Build and Test	Run Tests	2026-10-26T19:33:57.2031467Z  ✓ client/src/lib/api-origin.test.ts (3 tests) 3ms
+Build and Test	Run Tests	2026-10-26T19:33:57.8016204Z  ✓ client/src/lib/auth.test.ts (6 tests) 1510ms
+Build and Test	Run Tests	2026-10-26T19:33:57.8018025Z    ✓ Auth Service > MockAuthService > should login with valid demo credentials 502ms
+Build and Test	Run Tests	2026-10-26T19:33:57.8019534Z    ✓ Auth Service > MockAuthService > should fail with invalid credentials 501ms
+Build and Test	Run Tests	2026-10-26T19:33:57.8021087Z    ✓ Auth Service > MockAuthService > should logout and clear session 501ms
+Build and Test	Run Tests	2026-10-26T19:33:57.8205699Z 
+Build and Test	Run Tests	2026-10-26T19:33:57.8216503Z  Test Files  4 passed (4)
+Build and Test	Run Tests	2026-10-26T19:33:57.8218274Z       Tests  26 passed (26)
+Build and Test	Run Tests	2026-10-26T19:33:57.8219967Z    Start at  19:33:55
+Build and Test	Run Tests	2026-10-26T19:33:57.8221443Z    Duration  2.79s (transform 353ms, setup 0ms, collect 841ms, tests 1.79s, environment 2.89s, prepare 443ms)
+Build and Test	Run Tests	2026-10-26T19:33:57.8222306Z 
+Build and Test	Run Tests	2026-10-26T19:33:57.8819537Z TAP version 13
+Build and Test	Run Tests	2026-10-26T19:33:57.9261377Z # Subtest: rejects stale lazy Operations chunks even when the entry bundle is clean
+Build and Test	Run Tests	2026-10-26T19:33:57.9269106Z ok 1 - rejects stale lazy Operations chunks even when the entry bundle is clean
+Build and Test	Run Tests	2026-10-26T19:33:57.9270697Z   ---
+Build and Test	Run Tests	2026-10-26T19:33:57.9271376Z   duration_ms: 9.09298
+Build and Test	Run Tests	2026-10-26T19:33:57.9271881Z   type: 'test'
+Build and Test	Run Tests	2026-10-26T19:33:57.9272162Z   ...
+Build and Test	Run Tests	2026-10-26T19:33:57.9305564Z # Subtest: accepts same-origin and Oracle bundles
+Build and Test	Run Tests	2026-10-26T19:33:57.9308791Z ok 2 - accepts same-origin and Oracle bundles
+Build and Test	Run Tests	2026-10-26T19:33:57.9309890Z   ---
+Build and Test	Run Tests	2026-10-26T19:33:57.9310622Z   duration_ms: 5.035788
+Build and Test	Run Tests	2026-10-26T19:33:57.9311075Z   type: 'test'
+Build and Test	Run Tests	2026-10-26T19:33:57.9311367Z   ...
+Build and Test	Run Tests	2026-10-26T19:33:57.9326623Z # Subtest: does not pass an absent build
+Build and Test	Run Tests	2026-10-26T19:33:57.9329801Z ok 3 - does not pass an absent build
+Build and Test	Run Tests	2026-10-26T19:33:57.9330675Z   ---
+Build and Test	Run Tests	2026-10-26T19:33:57.9331024Z   duration_ms: 2.133688
+Build and Test	Run Tests	2026-10-26T19:33:57.9331372Z   type: 'test'
+Build and Test	Run Tests	2026-10-26T19:33:57.9332184Z   ...
+Build and Test	Run Tests	2026-10-26T19:33:57.9420267Z 1..3
+Build and Test	Run Tests	2026-10-26T19:33:57.9420741Z # tests 3
+Build and Test	Run Tests	2026-10-26T19:33:57.9426655Z # suites 0
+Build and Test	Run Tests	2026-10-26T19:33:57.9427321Z # pass 3
+Build and Test	Run Tests	2026-10-26T19:33:57.9427966Z # fail 0
+Build and Test	Run Tests	2026-10-26T19:33:57.9428576Z # cancelled 0
+Build and Test	Run Tests	2026-10-26T19:33:57.9428997Z # skipped 0
+Build and Test	Run Tests	2026-10-26T19:33:57.9429343Z # todo 0
+Build and Test	Run Tests	2026-10-26T19:33:57.9430480Z # duration_ms 72.525809
+Build and Test	Verify Playwright Chromium	﻿2026-10-26T19:33:57.9718422Z ##[group]Run pnpm exec playwright install chromium
+Build and Test	Verify Playwright Chromium	2026-10-26T19:33:57.9718864Z pnpm exec playwright install chromium
+Build and Test	Verify Playwright Chromium	2026-10-26T19:33:57.9719278Z shell: sh -e {0}
+Build and Test	Verify Playwright Chromium	2026-10-26T19:33:57.9719910Z env:
+Build and Test	Verify Playwright Chromium	2026-10-26T19:33:57.9720314Z   PNPM_HOME: /github/home/setup-pnpm/node_modules/.bin
+Build and Test	Verify Playwright Chromium	2026-10-26T19:33:57.9720728Z ##[endgroup]
+Build and Test	Run End-to-End Tests	﻿2026-10-26T19:33:59.3397261Z ##[group]Run pnpm e2e
+Build and Test	Run End-to-End Tests	2026-10-26T19:33:59.3397556Z pnpm e2e
+Build and Test	Run End-to-End Tests	2026-10-26T19:33:59.3397843Z shell: sh -e {0}
+Build and Test	Run End-to-End Tests	2026-10-26T19:33:59.3398047Z env:
+Build and Test	Run End-to-End Tests	2026-10-26T19:33:59.3398295Z   PNPM_HOME: /github/home/setup-pnpm/node_modules/.bin
+Build and Test	Run End-to-End Tests	2026-10-26T19:33:59.3398635Z   VITE_BASE_PATH: /
+Build and Test	Run End-to-End Tests	2026-10-26T19:33:59.3398848Z ##[endgroup]
+Build and Test	Run End-to-End Tests	2026-10-26T19:34:00.0086555Z 
+Build and Test	Run End-to-End Tests	2026-10-26T19:34:00.0087614Z > imsop-app@1.0.0 e2e /__w/imsop-app-frontend/imsop-app-frontend
+Build and Test	Run End-to-End Tests	2026-10-26T19:34:00.0088460Z > playwright test
+Build and Test	Run End-to-End Tests	2026-10-26T19:34:00.0088712Z 
+Build and Test	Run End-to-End Tests	2026-10-26T19:34:08.2342509Z 
+Build and Test	Run End-to-End Tests	2026-10-26T19:34:08.2343290Z Running 74 tests using 1 worker
+Build and Test	Run End-to-End Tests	2026-10-26T19:37:07.3987678Z ··········································································
+Build and Test	Run End-to-End Tests	2026-10-26T19:37:07.3994191Z   74 passed (3.1m)
+Build and Test	Run End-to-End Tests	2026-10-26T19:37:07.4021462Z ##[notice]  74 passed (3.1m)
+Build and Test	Post Setup Node.js	﻿2026-10-26T19:37:07.4990128Z Post job cleanup.
+Build and Test	Post Setup Node.js	2026-10-26T19:37:07.5000466Z ##[command]/usr/bin/docker exec  4a04943ac86393f5bab0efb9e8b1ca3239ae32966a785f31700a8c071a12bffe sh -c "cat /etc/*release | grep ^ID"
+Build and Test	Post Setup Node.js	2026-10-26T19:37:07.7315002Z (node:1834) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+Build and Test	Post Setup Node.js	2026-10-26T19:37:07.7316785Z (Use `node --trace-deprecation ...` to show where the warning was created)
+Build and Test	Post Setup Node.js	2026-10-26T19:37:07.7486599Z [command]/usr/bin/tar --posix -cf cache.tgz --exclude cache.tgz -P -C /__w/imsop-app-frontend/imsop-app-frontend --files-from manifest.txt -z
+Build and Test	Post Setup Node.js	2026-10-26T19:37:22.6508872Z (node:1834) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+Build and Test	Post Setup Node.js	2026-10-26T19:37:23.6409736Z Sent 45285376 of 120674054 (37.5%), 43.2 MBs/sec
+Build and Test	Post Setup Node.js	2026-10-26T19:37:24.6405647Z Sent 89456640 of 120674054 (74.1%), 42.7 MBs/sec
+Build and Test	Post Setup Node.js	2026-10-26T19:37:25.6409200Z Sent 120674054 of 120674054 (100.0%), 38.4 MBs/sec
+Build and Test	Post Setup Node.js	2026-10-26T19:37:25.8494694Z Cache saved with the key: node-cache-Linux-x64-pnpm-bdae289cdc4783c5fc2038db7d839cdb6f91f61cdd8811cd45bb1c02042a1290
+Build and Test	Post Setup PNPM	﻿2026-10-26T19:37:25.8660961Z Post job cleanup.
+Build and Test	Post Setup PNPM	2026-10-26T19:37:25.8664336Z ##[command]/usr/bin/docker exec  4a04943ac86393f5bab0efb9e8b1ca3239ae32966a785f31700a8c071a12bffe sh -c "cat /etc/*release | grep ^ID"
+Build and Test	Post Setup PNPM	2026-10-26T19:37:26.0610989Z Pruning is unnecessary.
+Build and Test	Post Checkout Code	﻿2026-10-26T19:37:26.0837290Z Post job cleanup.
+Build and Test	Post Checkout Code	2026-10-26T19:37:26.0845315Z ##[command]/usr/bin/docker exec  4a04943ac86393f5bab0efb9e8b1ca3239ae32966a785f31700a8c071a12bffe sh -c "cat /etc/*release | grep ^ID"
+Build and Test	Post Checkout Code	2026-10-26T19:37:26.2699430Z [command]/usr/bin/git version
+Build and Test	Post Checkout Code	2026-10-26T19:37:26.2755992Z git version 2.43.0
+Build and Test	Post Checkout Code	2026-10-26T19:37:26.2806751Z Temporarily overriding HOME='/__w/_temp/2dec96aa-c83c-4768-bc0b-e9816fd72808' before making global git config changes
+Build and Test	Post Checkout Code	2026-10-26T19:37:26.2808403Z Adding repository directory to the temporary git global config as a safe directory
+Build and Test	Post Checkout Code	2026-10-26T19:37:26.2813180Z [command]/usr/bin/git config --global --add safe.directory /__w/imsop-app-frontend/imsop-app-frontend
+Build and Test	Post Checkout Code	2026-10-26T19:37:26.2880575Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+Build and Test	Post Checkout Code	2026-10-26T19:37:26.2925671Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+Build and Test	Post Checkout Code	2026-10-26T19:37:26.3202983Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+Build and Test	Post Checkout Code	2026-10-26T19:37:26.3240540Z http.https://github.com/.extraheader
+Build and Test	Post Checkout Code	2026-10-26T19:37:26.3257747Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+Build and Test	Post Checkout Code	2026-10-26T19:37:26.3313355Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+Build and Test	Post Checkout Code	2026-10-26T19:37:26.3629953Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+Build and Test	Post Checkout Code	2026-10-26T19:37:26.3670657Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+Build and Test	Stop containers	﻿2026-10-26T19:37:26.4074728Z Stop and remove container: 5ec14088f52246d68b4836c1f0f496ef_mcrmicrosoftcomplaywrightv1570noble_df9163
+Build and Test	Stop containers	2026-10-26T19:37:26.4079926Z ##[command]/usr/bin/docker rm --force 4a04943ac86393f5bab0efb9e8b1ca3239ae32966a785f31700a8c071a12bffe
+Build and Test	Stop containers	2026-10-26T19:37:26.5494964Z 4a04943ac86393f5bab0efb9e8b1ca3239ae32966a785f31700a8c071a12bffe
+Build and Test	Stop containers	2026-10-26T19:37:26.5524739Z Remove container network: github_network_e4153a5bd83d49a2a19c7c871a6803ae
+Build and Test	Stop containers	2026-10-26T19:37:26.5529721Z ##[command]/usr/bin/docker network rm github_network_e4153a5bd83d49a2a19c7c871a6803ae
+Build and Test	Stop containers	2026-10-26T19:37:26.6480211Z github_network_e4153a5bd83d49a2a19c7c871a6803ae
+Build and Test	Complete job	﻿2026-10-26T19:37:26.6563654Z Cleaning up orphan processes
+Build and Test	Complete job	2026-10-26T19:37:26.6959328Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4, pnpm/action-setup@v3. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/

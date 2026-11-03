@@ -1,0 +1,226 @@
+{
+  "apply": false,
+  "retained": [
+    {
+      "id": "sha256:3475bec1379bf3d56a4ed19622ad8905818d345f4d5b2b3b3fc21d6e8ffe8e55",
+      "references": [
+        "imsop-app-backend-gateway:latest",
+        "imsop-app-backend-gateway@sha256:3475bec1379bf3d56a4ed19622ad8905818d345f4d5b2b3b3fc21d6e8ffe8e55"
+      ],
+      "logicalBytes": 381624382,
+      "reason": "referenced by a container"
+    },
+    {
+      "id": "sha256:48ba39454b97c92b1817e7b244966c1a640923abc23bfd6c8db3e10fd86be916",
+      "references": [
+        "imsop-app-backend-supply-chain-service:latest",
+        "imsop-app-backend-supply-chain-service@sha256:48ba39454b97c92b1817e7b244966c1a640923abc23bfd6c8db3e10fd86be916"
+      ],
+      "logicalBytes": 395452139,
+      "reason": "referenced by a container"
+    },
+    {
+      "id": "sha256:705b42082c0dff4d83e0497a4a9f0cef35e704f2c35bbcf0d8d012d8f1e24d0a",
+      "references": [
+        "ghcr.io/druhustle/imsop-backend@sha256:705b42082c0dff4d83e0497a4a9f0cef35e704f2c35bbcf0d8d012d8f1e24d0a"
+      ],
+      "logicalBytes": 662797358,
+      "reason": "explicit current/rollback"
+    },
+    {
+      "id": "sha256:7458865b9a85f1120289ead07db30a576a07d13b370033eeea9057e673b56c45",
+      "references": [
+        "imsop-app-backend-operations-service:latest",
+        "imsop-app-backend-operations-service@sha256:7458865b9a85f1120289ead07db30a576a07d13b370033eeea9057e673b56c45"
+      ],
+      "logicalBytes": 355257625,
+      "reason": "referenced by a container"
+    },
+    {
+      "id": "sha256:fc5bb42f1c6480a6fa900019c33420bc68eb2d59e329a03f1df59cbebd36a0a4",
+      "references": [
+        "imsop-app-backend-server:latest",
+        "imsop-app-backend-server@sha256:fc5bb42f1c6480a6fa900019c33420bc68eb2d59e329a03f1df59cbebd36a0a4"
+      ],
+      "logicalBytes": 273306783,
+      "reason": "referenced by a container"
+    }
+  ],
+  "candidates": [
+    {
+      "id": "sha256:033db69785fa2ce6b28e9d8d931d4b7eebe45476bd494812507cc6b8e63a3327",
+      "references": [
+        "imsop-node-api:postgres-test",
+        "imsop-node-api@sha256:033db69785fa2ce6b28e9d8d931d4b7eebe45476bd494812507cc6b8e63a3327"
+      ],
+      "logicalBytes": 275372501
+    },
+    {
+      "id": "sha256:21265b625393d08fd00b4e33f7893b1cc61d930802b7a4127f93379c2801da0b",
+      "references": [
+        "imsop-remediation:pre-cors",
+        "imsop-remediation@sha256:21265b625393d08fd00b4e33f7893b1cc61d930802b7a4127f93379c2801da0b"
+      ],
+      "logicalBytes": 667378260
+    },
+    {
+      "id": "sha256:23f35ca5710095a3cc0e213e6640d7df26d86f9bea9806992310f13671ba9079",
+      "references": [
+        "imsop-node-api:production-test",
+        "imsop-node-api@sha256:23f35ca5710095a3cc0e213e6640d7df26d86f9bea9806992310f13671ba9079"
+      ],
+      "logicalBytes": 270783723
+    },
+    {
+      "id": "sha256:2fb88a479252e2a43a3ce60462d08935777ad0fd982f31975d4702dc8ba9ac38",
+      "references": [
+        "imsop-backend:security-audit",
+        "imsop-backend@sha256:2fb88a479252e2a43a3ce60462d08935777ad0fd982f31975d4702dc8ba9ac38"
+      ],
+      "logicalBytes": 660389494
+    },
+    {
+      "id": "sha256:3a2a0f70d00adc8af3ebf162b9bfd800705f4964bc9c05de459378f466be4896",
+      "references": [
+        "imsop-supplychainservice:production-test",
+        "imsop-supplychainservice@sha256:3a2a0f70d00adc8af3ebf162b9bfd800705f4964bc9c05de459378f466be4896"
+      ],
+      "logicalBytes": 395407046
+    },
+    {
+      "id": "sha256:5b8da546131c109efc3f0ab3398119c8aaad66fe6d7d77b2eb99295d4cfe732e",
+      "references": [],
+      "logicalBytes": 667381118
+    },
+    {
+      "id": "sha256:5c8144f9517d1330edf140aeeea0a39aa19e24866097a09ade6e9992a09a7ad7",
+      "references": [
+        "imsop-app-backend:oracle-38174a7",
+        "imsop-app-backend@sha256:5c8144f9517d1330edf140aeeea0a39aa19e24866097a09ade6e9992a09a7ad7"
+      ],
+      "logicalBytes": 667033877
+    },
+    {
+      "id": "sha256:5e2c9196d032994fb79e8c3f33c4589a36c77b54fc13f3c20647e99d1d2c6eb4",
+      "references": [
+        "imsop-backend:render-test",
+        "imsop-backend@sha256:5e2c9196d032994fb79e8c3f33c4589a36c77b54fc13f3c20647e99d1d2c6eb4"
+      ],
+      "logicalBytes": 706194795
+    },
+    {
+      "id": "sha256:6276f14fb2e7300057fec28796e8e48de3f6a07cb069b3c6297ad0db3babd3ae",
+      "references": [
+        "imsop-remediation:dotnet-build",
+        "imsop-remediation@sha256:6276f14fb2e7300057fec28796e8e48de3f6a07cb069b3c6297ad0db3babd3ae"
+      ],
+      "logicalBytes": 2071733015
+    },
+    {
+      "id": "sha256:680bc9fa6b57c2f03909f82e3c24694a46e5a619b169f02c1974d6affec7c2db",
+      "references": [
+        "imsop-app-backend:oracle-packaging-check",
+        "imsop-app-backend@sha256:680bc9fa6b57c2f03909f82e3c24694a46e5a619b169f02c1974d6affec7c2db"
+      ],
+      "logicalBytes": 660540186
+    },
+    {
+      "id": "sha256:6f46a59c0d611999ba029537d5398455fb6ec2b7c2e12206893e4558380eae11",
+      "references": [
+        "imsop-supply-chain:postgres-test",
+        "imsop-supply-chain@sha256:6f46a59c0d611999ba029537d5398455fb6ec2b7c2e12206893e4558380eae11"
+      ],
+      "logicalBytes": 395451990
+    },
+    {
+      "id": "sha256:78b1b19ab46188e03b307977363472ff682fdd6af0bb4e28636ba3ea13613dcc",
+      "references": [
+        "imsop-app-backend:oracle-8485056",
+        "imsop-app-backend@sha256:78b1b19ab46188e03b307977363472ff682fdd6af0bb4e28636ba3ea13613dcc"
+      ],
+      "logicalBytes": 667030493
+    },
+    {
+      "id": "sha256:792ceb6e50163f869db7876651dc910cde4c36e64f33a5f4056590d1df78a814",
+      "references": [
+        "imsop-remediation:review",
+        "imsop-remediation@sha256:792ceb6e50163f869db7876651dc910cde4c36e64f33a5f4056590d1df78a814"
+      ],
+      "logicalBytes": 667377414
+    },
+    {
+      "id": "sha256:862c94a788a5d958e5cb33f3ebc0bb2bc5f6cad657a11379d0f88d44009f613e",
+      "references": [
+        "imsop-app-backend:oracle-6eff140",
+        "imsop-app-backend@sha256:862c94a788a5d958e5cb33f3ebc0bb2bc5f6cad657a11379d0f88d44009f613e"
+      ],
+      "logicalBytes": 660540292
+    },
+    {
+      "id": "sha256:8896c3cae0c9998ce2a634d7ac05992b412eb1e5c4d7e8ffbddba703a5a89761",
+      "references": [
+        "imsop-backend:postgres-test",
+        "imsop-backend@sha256:8896c3cae0c9998ce2a634d7ac05992b412eb1e5c4d7e8ffbddba703a5a89761"
+      ],
+      "logicalBytes": 708760762
+    },
+    {
+      "id": "sha256:ac6e2cf2476a0cbef07a8185e563ae2f0c5db81abb850d815b02759298d9b688",
+      "references": [
+        "imsop-gateway:production-test",
+        "imsop-gateway@sha256:ac6e2cf2476a0cbef07a8185e563ae2f0c5db81abb850d815b02759298d9b688"
+      ],
+      "logicalBytes": 381624246
+    },
+    {
+      "id": "sha256:b1a4a2544c9c74d95a8497009ef08b24fbf095b0cde7c66c3ce47ea91a4d6c88",
+      "references": [
+        "imsop-remediation:qualification",
+        "imsop-remediation@sha256:b1a4a2544c9c74d95a8497009ef08b24fbf095b0cde7c66c3ce47ea91a4d6c88"
+      ],
+      "logicalBytes": 667389834
+    },
+    {
+      "id": "sha256:b9d452a3a354abd9e0c24a08dff8c333a99f517d243f48ead9e91c9cb76f60b4",
+      "references": [
+        "ghcr.io/druhustle/imsop-backend@sha256:b9d452a3a354abd9e0c24a08dff8c333a99f517d243f48ead9e91c9cb76f60b4"
+      ],
+      "logicalBytes": 667386549
+    },
+    {
+      "id": "sha256:cac16d4b3d6094274a55f3364907978be3581430cc178c05c4bc66ec8aeb276b",
+      "references": [
+        "imsop-remediation:final-review",
+        "imsop-remediation@sha256:cac16d4b3d6094274a55f3364907978be3581430cc178c05c4bc66ec8aeb276b"
+      ],
+      "logicalBytes": 667385407
+    },
+    {
+      "id": "sha256:f188cbe90cacb85087ded16e0837bd6d6084e1b31a2c24e7f91aad93cd41ce14",
+      "references": [
+        "imsop-operationsservice:production-test",
+        "imsop-operationsservice@sha256:f188cbe90cacb85087ded16e0837bd6d6084e1b31a2c24e7f91aad93cd41ce14"
+      ],
+      "logicalBytes": 355257478
+    },
+    {
+      "id": "sha256:f4a932bf570f8732a3fc2955f858cdc8fa24f5bc2646ed92e6eafb41ffba4ef2",
+      "references": [
+        "imsop-backend:release-audit",
+        "imsop-backend@sha256:f4a932bf570f8732a3fc2955f858cdc8fa24f5bc2646ed92e6eafb41ffba4ef2"
+      ],
+      "logicalBytes": 660392715
+    },
+    {
+      "id": "sha256:fd414404cf53a2b90a67dae592716489bc0291baf553e69ced520dcbc8f2ac1f",
+      "references": [
+        "imsop-remediation:rollback",
+        "imsop-remediation@sha256:fd414404cf53a2b90a67dae592716489bc0291baf553e69ced520dcbc8f2ac1f"
+      ],
+      "logicalBytes": 667281939
+    }
+  ],
+  "removed": [],
+  "skipped": [],
+  "errors": []
+}

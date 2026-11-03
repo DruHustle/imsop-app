@@ -1,0 +1,57 @@
+{
+  "apply": true,
+  "retained": [
+    {
+      "id": "sha256:3475bec1379bf3d56a4ed19622ad8905818d345f4d5b2b3b3fc21d6e8ffe8e55",
+      "references": [
+        "imsop-app-backend-gateway:latest",
+        "imsop-app-backend-gateway@sha256:3475bec1379bf3d56a4ed19622ad8905818d345f4d5b2b3b3fc21d6e8ffe8e55"
+      ],
+      "logicalBytes": 381624382,
+      "reason": "referenced by a container"
+    },
+    {
+      "id": "sha256:48ba39454b97c92b1817e7b244966c1a640923abc23bfd6c8db3e10fd86be916",
+      "references": [
+        "imsop-app-backend-supply-chain-service:latest",
+        "imsop-app-backend-supply-chain-service@sha256:48ba39454b97c92b1817e7b244966c1a640923abc23bfd6c8db3e10fd86be916"
+      ],
+      "logicalBytes": 395452139,
+      "reason": "referenced by a container"
+    },
+    {
+      "id": "sha256:705b42082c0dff4d83e0497a4a9f0cef35e704f2c35bbcf0d8d012d8f1e24d0a",
+      "references": [
+        "ghcr.io/druhustle/imsop-backend@sha256:705b42082c0dff4d83e0497a4a9f0cef35e704f2c35bbcf0d8d012d8f1e24d0a"
+      ],
+      "logicalBytes": 662797358,
+      "reason": "explicit current/rollback"
+    },
+    {
+      "id": "sha256:7458865b9a85f1120289ead07db30a576a07d13b370033eeea9057e673b56c45",
+      "references": [
+        "imsop-app-backend-operations-service:latest",
+        "imsop-app-backend-operations-service@sha256:7458865b9a85f1120289ead07db30a576a07d13b370033eeea9057e673b56c45"
+      ],
+      "logicalBytes": 355257625,
+      "reason": "referenced by a container"
+    },
+    {
+      "id": "sha256:fc5bb42f1c6480a6fa900019c33420bc68eb2d59e329a03f1df59cbebd36a0a4",
+      "references": [
+        "imsop-app-backend-server:latest",
+        "imsop-app-backend-server@sha256:fc5bb42f1c6480a6fa900019c33420bc68eb2d59e329a03f1df59cbebd36a0a4"
+      ],
+      "logicalBytes": 273306783,
+      "reason": "referenced by a container"
+    }
+  ],
+  "candidates": [],
+  "removed": [],
+  "skipped": [],
+  "errors": [],
+  "beforeContainerCount": 80,
+  "afterContainerCount": 80,
+  "containerChanges": [],
+  "checkedAt": "2026-10-30T23:39:09Z"
+}
