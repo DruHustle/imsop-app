@@ -50,6 +50,11 @@ jobs:
           echo "$RUNNER_TEMP/imsop-vercel-cli/node_modules/.bin" >> "$GITHUB_PATH"
       - name: Require this exact consolidated backend before any frontend publication
         run: node imsop-app-frontend/scripts/verify-live-release.mjs --api-only "$IMSOP_API_ORIGIN" "$GITHUB_SHA"
+      - name: Require the actual production Origin before staging
+        run: |
+          mkdir -p release-evidence
+          node local-tools/ci/production-preflight.mjs --web-origin "$IMSOP_WEB_ORIGIN" --api-origin "$IMSOP_API_ORIGIN" \
+            --revision "$GITHUB_SHA" --enforce-api --out release-evidence/api-before-stage.json
       - name: Prepare first-party routing and canonical domain
         working-directory: imsop-app-frontend
         run: node scripts/prepare-deployment.mjs
@@ -81,7 +86,10 @@ jobs:
           node local-tools/ci/staged-release.mjs "$staged_url" > release-evidence/staged-smoke.json
           node --input-type=module -e 'import {readFileSync} from "node:fs"; console.log(JSON.parse(readFileSync("release-evidence/staged-smoke.json", "utf8")).origin)' > release-evidence/frontend-deployment-url.txt
       - name: Recheck backend immediately before promotion
-        run: node imsop-app-frontend/scripts/verify-live-release.mjs --api-only "$IMSOP_API_ORIGIN" "$GITHUB_SHA"
+        run: |
+          node imsop-app-frontend/scripts/verify-live-release.mjs --api-only "$IMSOP_API_ORIGIN" "$GITHUB_SHA"
+          node local-tools/ci/production-preflight.mjs --web-origin "$IMSOP_WEB_ORIGIN" --api-origin "$IMSOP_API_ORIGIN" \
+            --revision "$GITHUB_SHA" --enforce-api --out release-evidence/api-before-promotion.json
       - name: Promote only the verified staged production deployment
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
@@ -91,6 +99,8 @@ jobs:
       - name: Verify exact public release and first-party API without protection bypass
         run: |
           node imsop-app-frontend/scripts/verify-live-release.mjs "$IMSOP_WEB_ORIGIN" "$GITHUB_SHA" "$GITHUB_SHA" > release-evidence/production-smoke.json
+          node local-tools/ci/production-preflight.mjs --web-origin "$IMSOP_WEB_ORIGIN" --api-origin "$IMSOP_API_ORIGIN" \
+            --revision "$GITHUB_SHA" --enforce --out release-evidence/public-after-promotion.json
       - name: Preserve non-secret publication evidence
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
