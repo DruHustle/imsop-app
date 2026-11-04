@@ -26,8 +26,10 @@ RUN pnpm build && pnpm prune --prod
 FROM mcr.microsoft.com/dotnet/aspnet:8.0-noble@sha256:d0a0fa004862a9cca83208800f706dcc2523c4db29f09d501395f80969e03070 AS runtime
 
 USER root
+# Refresh the already-installed PCRE2 runtime from Ubuntu's security archive;
+# the immutable base predates the 10.42-4ubuntu2.2 security fixes.
 RUN apt-get update \
-    && apt-get install -y --no-install-recommends ca-certificates curl supervisor \
+    && apt-get install -y --no-install-recommends ca-certificates curl supervisor libpcre2-8-0 \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy the Node 22 runtime from the official image. The application dependencies
