@@ -52,6 +52,9 @@ jobs:
       - name: Check image retention boundaries
         working-directory: imsop-app-backend
         run: python3 -m unittest discover -s scripts -p 'test_image_retention.py' -v
+      - name: Check Onesa origin, sender and private database configuration
+        working-directory: imsop-app-backend
+        run: python3 scripts/test_onesa_migration_config.py --require-compose
 
   backend-dotnet:
     runs-on: ubuntu-24.04

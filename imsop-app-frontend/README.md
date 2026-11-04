@@ -1,5 +1,9 @@
 # IMSOP frontend
 
+The [Onesa domain migration guide](docs/deployment/onesa-domain-migration.md)
+prepares the move to `logistics.onesa.eu` using a qualified backend and the
+existing gated release workflow. Current live defaults remain until cutover.
+
 React/TypeScript workspace for shipment operations, descriptive analytics, deterministic record assistance and durable exception review. The independent [backend repository](https://github.com/DruHustle/imsop-app-backend) owns the Node API, .NET gateway/services, PostgreSQL and deployment.
 
 Use the [current capability/architecture inventory](https://github.com/DruHustle/imsop-app-backend/blob/main/docs/CURRENT_PLATFORM.md), [API](https://github.com/DruHustle/imsop-app-backend/blob/main/docs/API.md), [deployment](https://github.com/DruHustle/imsop-app-backend/blob/main/docs/DEPLOYMENT.md) and [recovery](https://github.com/DruHustle/imsop-app-backend/blob/main/docs/RECOVERY.md). During coordinated remediation review, use the matching backend branch/PR. Historical public designs are retired and obsolete generated PDFs are removed.

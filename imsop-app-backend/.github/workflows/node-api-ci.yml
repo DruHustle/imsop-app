@@ -6,6 +6,8 @@ on:
     paths:
       - 'server/**'
       - 'deploy/oracle/**'
+      - 'deploy/onesa/**'
+      - '.github/workflows/node-api-ci.yml'
       - 'docker-compose.yml'
       - 'scripts/**'
       - 'infrastructure/kubernetes/**'
@@ -14,6 +16,8 @@ on:
     paths:
       - 'server/**'
       - 'deploy/oracle/**'
+      - 'deploy/onesa/**'
+      - '.github/workflows/node-api-ci.yml'
       - 'docker-compose.yml'
       - 'scripts/**'
       - 'infrastructure/kubernetes/**'
@@ -25,6 +29,9 @@ jobs:
     steps:
     - name: Checkout Repository
       uses: actions/checkout@v4
+
+    - name: Validate unapplied Onesa configuration
+      run: python3 scripts/test_onesa_migration_config.py --require-compose
 
     - name: Setup PNPM
       uses: pnpm/action-setup@v3
