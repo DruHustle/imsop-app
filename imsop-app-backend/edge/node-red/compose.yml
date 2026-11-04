@@ -1,0 +1,19 @@
+name: imsop-node-red
+services:
+  node-red:
+    image: ${NODE_RED_IMAGE:?Set a reviewed Node-RED image tag or digest}
+    restart: unless-stopped
+    # Dedicated Linux farm gateway; the editor and Python ingress bind to loopback.
+    network_mode: host
+    environment:
+      TZ: UTC
+      NODE_RED_CREDENTIAL_SECRET: ${NODE_RED_CREDENTIAL_SECRET:?Set Node-RED encryption secret}
+      NODE_RED_ADMIN_USER: ${NODE_RED_ADMIN_USER:?Set Node-RED admin user}
+      NODE_RED_ADMIN_PASSWORD_HASH: ${NODE_RED_ADMIN_PASSWORD_HASH:?Set bcrypt admin hash}
+      EDGE_INGRESS_TOKEN: ${EDGE_INGRESS_TOKEN:?Set Python ingress token}
+    volumes:
+      - node_red_data:/data
+      - ./settings.js:/opt/imsop/settings.js:ro
+    command: ["node", "node_modules/node-red/red.js", "--userDir", "/data", "--settings", "/opt/imsop/settings.js"]
+volumes:
+  node_red_data:
