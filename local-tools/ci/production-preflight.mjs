@@ -160,11 +160,15 @@ export async function inspectProduction({ webOrigin, apiOrigin, revision, fetche
   const originPolicyPassed = probes.filter(p => p.mode !== 'anonymous').every(p => p.passed);
   const candidateRevisionMatched = [frontend, proxy, backend].every(item => item.revision === revision);
   const publicChecksPassed = baselinePassed && originPolicyPassed && candidateRevisionMatched;
+  // Before frontend staging the old frontend is expected; the direct API must
+  // already have this source, readiness, access boundary and production Origin.
+  const apiChecksPassed = backend.revision === revision && backend.contractValid
+    && ready.backend.ready && probes.filter(p => p.target === 'api').every(p => p.passed);
   return {
     schemaVersion: 1, checkedAt: new Date().toISOString(), repository: 'DruHustle/imsop-app',
     expectedRevision: revision, webOrigin: web, apiOrigin: api,
     status: publicChecksPassed ? 'public-checks-passed' : 'blocked',
-    baselinePassed, originPolicyPassed, candidateRevisionMatched, publicChecksPassed,
+    baselinePassed, originPolicyPassed, candidateRevisionMatched, publicChecksPassed, apiChecksPassed,
     observed: { frontend, proxy, backend, readiness: ready }, probes,
     authenticatedAcceptance: 'not-run', rollbackVerification: 'not-run', retirementEligible: false,
   };
@@ -175,12 +179,13 @@ if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) 
     const { values } = parseArgs({ options: {
       'web-origin': { type: 'string' }, 'api-origin': { type: 'string' }, revision: { type: 'string' },
       out: { type: 'string' }, enforce: { type: 'boolean', default: false },
+      'enforce-api': { type: 'boolean', default: false },
     } });
     const report = await inspectProduction({ webOrigin: values['web-origin'], apiOrigin: values['api-origin'], revision: values.revision });
     const serialized = JSON.stringify(report, null, 2) + '\n';
     if (values.out) await writeFile(values.out, serialized, { mode: 0o600 });
     process.stdout.write(serialized);
-    if (values.enforce && !report.publicChecksPassed) process.exitCode = 1;
+    if ((values.enforce && !report.publicChecksPassed) || (values['enforce-api'] && !report.apiChecksPassed)) process.exitCode = 1;
   } catch {
     console.error('Production preflight failed. Check explicit origins, full source SHA and output path; no deployment was performed.');
     process.exitCode = 1;

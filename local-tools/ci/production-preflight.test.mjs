@@ -179,3 +179,28 @@ test('empty ASP.NET Bearer challenges are valid application denials, never HTML 
     assert.equal(report.publicChecksPassed, !html);
   }
 });
+
+
+test('pre-staging API gate accepts a qualified API while the old frontend is still serving', async () => {
+  const { fetcher } = fixture({ frontend: 'b'.repeat(40) });
+  const report = await inspectProduction({ ...settings, fetcher });
+  assert.equal(report.publicChecksPassed, false);
+  assert.equal(report.apiChecksPassed, true);
+  assert.equal(report.retirementEligible, false);
+});
+
+test('pre-staging API gate rejects old source, unhealthy services and missing production origin', async t => {
+  const cases = [
+    ['older API', { backend: 'b'.repeat(40) }],
+    ['unready API', { intercept: url => url.origin === apiOrigin && url.pathname === '/ready'
+      ? Response.json({ status: 'not-ready', dependencies: [] }) : null }],
+    ['missing allowlist', { intercept: (url, options) => url.origin === apiOrigin
+      && url.pathname.startsWith('/api/') && options.headers.Origin === webOrigin
+      ? Response.json({ error: 'unauthorized' }, { status: 401 }) : null }],
+  ];
+  for (const [name, overrides] of cases) await t.test(name, async () => {
+    const { fetcher } = fixture(overrides);
+    const report = await inspectProduction({ ...settings, fetcher });
+    assert.equal(report.apiChecksPassed, false);
+  });
+});
