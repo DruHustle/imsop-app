@@ -1,0 +1,61 @@
+name: Read-only production preflight
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/production-preflight.yml'
+      - 'local-tools/ci/production-preflight*'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: imsop-read-only-preflight-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  evidence:
+    name: Collect public evidence (not deployment approval)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: '22'
+      - name: Verify diagnostic safety and failure sensitivity
+        run: node --test local-tools/ci/production-preflight.test.mjs
+      - name: Inspect serving release without credentials or mutations
+        env:
+          IMSOP_WEB_ORIGIN: ${{ vars.IMSOP_WEB_ORIGIN || 'https://logistics.onesa.eu' }}
+          # This is the documented serving API, not an inferred Onesa destination.
+          IMSOP_API_ORIGIN: ${{ vars.IMSOP_API_ORIGIN || 'https://imsop-api.152-70-22-84.sslip.io' }}
+        run: |
+          mkdir -p release-evidence
+          node local-tools/ci/production-preflight.mjs \
+            --web-origin "$IMSOP_WEB_ORIGIN" --api-origin "$IMSOP_API_ORIGIN" \
+            --revision "$GITHUB_SHA" --out release-evidence/public-preflight.json
+      - name: Make blocked release conditions explicit
+        run: |
+          node --input-type=module <<'JS'
+          import {readFileSync, appendFileSync} from 'node:fs';
+          const report = JSON.parse(readFileSync('release-evidence/public-preflight.json', 'utf8'));
+          if (!report.publicChecksPassed) console.log('::warning::Public release checks are BLOCKED. This diagnostic job does not authorize deployment or repository retirement.');
+          appendFileSync(process.env.GITHUB_STEP_SUMMARY,
+            `## Read-only production evidence\n\nStatus: **${report.status}**\n\n` +
+            `Baseline checks passed: ${report.baselinePassed}\n\n` +
+            `Origin policy passed: ${report.originPolicyPassed}\n\n` +
+            `Consolidated source matched: ${report.candidateRevisionMatched}\n\n` +
+            'No credentials, login, data mutation, deployment or rollback was performed. A successful evidence collection job is not release approval. Authenticated acceptance and rollback remain separate; repository retirement is not authorized by this report.\n');
+          JS
+      - name: Retain sanitized public evidence only
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: public-preflight-${{ github.sha }}
+          path: release-evidence/public-preflight.json
+          if-no-files-found: warn
+          retention-days: 30
