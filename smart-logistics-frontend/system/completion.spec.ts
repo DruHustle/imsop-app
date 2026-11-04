@@ -66,7 +66,7 @@ test("real purchasing, warehouse receiving, email opt-in and validated provider 
   await page.reload();
   await expect(page.getByText("received", { exact: true })).toBeVisible();
   await page.screenshot({
-    path: "verification/remediation/purchasing-received.png",
+    path: "test-results/verification/remediation/purchasing-received.png",
     fullPage: true,
   });
   await page.goto("/#/settings");
@@ -129,7 +129,7 @@ test("real purchasing, warehouse receiving, email opt-in and validated provider 
     .getByRole("radio", { name: "Dark theme", exact: true })
     .click();
   await page.screenshot({
-    path: "verification/remediation/forecast-mobile-dark.png",
+    path: "test-results/verification/remediation/forecast-mobile-dark.png",
     fullPage: true,
   });
   expect(

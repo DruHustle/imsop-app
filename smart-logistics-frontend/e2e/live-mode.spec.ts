@@ -30,7 +30,7 @@ test("demo Live selection requests real authentication, preserves the route and 
   ).toBeVisible();
   await expect(page.locator(".demo-note")).toHaveCount(0);
   expect(reads).toBe(0);
-  await mkdir("verification/live-mode", { recursive: true });
+  await mkdir("test-results/verification/live-mode", { recursive: true });
   for (const theme of ["light", "dark"] as const) {
     await page.emulateMedia({ colorScheme: theme });
     await expect(page.locator("html")).toHaveClass(new RegExp(theme));
@@ -39,7 +39,7 @@ test("demo Live selection requests real authentication, preserves the route and 
       window.scrollTo(0, 0);
     });
     await page.screenshot({
-      path: `verification/live-mode/sign-in-${test.info().project.name}-${theme}.png`,
+      path: `test-results/verification/live-mode/sign-in-${test.info().project.name}-${theme}.png`,
       fullPage: true,
       animations: "disabled",
     });
@@ -114,7 +114,7 @@ test("demo Live selection requests real authentication, preserves the route and 
       window.scrollTo(0, 0);
     });
     await page.screenshot({
-      path: `verification/live-mode/live-${test.info().project.name}-${theme}.png`,
+      path: `test-results/verification/live-mode/live-${test.info().project.name}-${theme}.png`,
       fullPage: true,
       animations: "disabled",
     });

@@ -65,7 +65,7 @@ test("theme icons offer explicit Light, Dark and Auto, persist Auto and follow d
     preferences.getByRole("radio", { name: "Auto theme" })
   ).toBeChecked();
   await expect(auto).toBeChecked();
-  await mkdir("verification/theme-icons", { recursive: true });
+  await mkdir("test-results/verification/theme-icons", { recursive: true });
   for (const theme of ["light", "dark"] as const) {
     await page.emulateMedia({ colorScheme: theme });
     await expect(page.locator("html")).toHaveClass(theme);
@@ -74,7 +74,7 @@ test("theme icons offer explicit Light, Dark and Auto, persist Auto and follow d
       window.scrollTo(0, 0);
     });
     await page.screenshot({
-      path: `verification/theme-icons/preferences-${test.info().project.name}-${theme}.png`,
+      path: `test-results/verification/theme-icons/preferences-${test.info().project.name}-${theme}.png`,
       fullPage: true,
       animations: "disabled",
     });

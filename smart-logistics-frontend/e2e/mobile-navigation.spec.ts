@@ -69,12 +69,12 @@ test("mobile navigation trigger and all sidebar destinations stay reachable on s
         `All links fit at ${viewport.width}x${viewport.height}`
       ).toBeLessThanOrEqual(size.client);
     }
-    await mkdir("verification/mobile-navigation", { recursive: true });
+    await mkdir("test-results/verification/mobile-navigation", { recursive: true });
     for (const theme of ["light", "dark"] as const) {
       await page.emulateMedia({ colorScheme: theme });
       await expect(page.locator("html")).toHaveClass(theme);
       await drawer.screenshot({
-        path: `verification/mobile-navigation/drawer-${test.info().project.name}-${viewport.width}x${viewport.height}-${theme}.png`,
+        path: `test-results/verification/mobile-navigation/drawer-${test.info().project.name}-${viewport.width}x${viewport.height}-${theme}.png`,
         animations: "disabled",
       });
     }

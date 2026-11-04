@@ -90,7 +90,7 @@ test("graphical overview keeps scopes, chart totals, locations and selected reco
         )
       ).toBe(0);
       await page.locator(".overview-map-panel").screenshot({
-        path: `verification/remediation/spatial-${page.viewportSize()!.width}-${theme}.png`,
+        path: `test-results/verification/remediation/spatial-${page.viewportSize()!.width}-${theme}.png`,
         animations: "disabled",
       });
     }

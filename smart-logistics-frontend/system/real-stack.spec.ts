@@ -136,7 +136,7 @@ test("real signed intake, persisted review actions, reload, notifications and ex
   await page.keyboard.press("Escape");
   await expect(notifications).toBeHidden();
   await page.screenshot({
-    path: "verification/remediation/review-desktop.png",
+    path: "test-results/verification/remediation/review-desktop.png",
     fullPage: true,
   });
   await page.goto(
@@ -156,7 +156,7 @@ test("real signed intake, persisted review actions, reload, notifications and ex
   ).toHaveCount(1);
   await page.setViewportSize({ width: 390, height: 844 });
   await page.screenshot({
-    path: "verification/remediation/assistant-mobile.png",
+    path: "test-results/verification/remediation/assistant-mobile.png",
     fullPage: true,
   });
   expect(
@@ -241,7 +241,7 @@ test("exact backend mail link works during demo identity, is scrubbed, survives 
     page.getByRole("heading", { name: "Password Reset!" })
   ).toBeVisible();
   await page.screenshot({
-    path: "verification/remediation/recovery-success.png",
+    path: "test-results/verification/remediation/recovery-success.png",
     fullPage: true,
   });
   await page.goto(link);
@@ -321,7 +321,7 @@ test("actual browser loads beyond 500, finds the old delayed record and exports 
   expect(csv).toContain("Node operational database");
   expect(csv).toContain("Generated");
   await page.screenshot({
-    path: "verification/remediation/real-scale-filter.png",
+    path: "test-results/verification/remediation/real-scale-filter.png",
     fullPage: true,
   });
   const measurement = await page.evaluate(() => {
@@ -339,7 +339,7 @@ test("actual browser loads beyond 500, finds the old delayed record and exports 
     };
   });
   await fs.writeFile(
-    "verification/remediation/real-browser-performance.json",
+    "test-results/verification/remediation/real-browser-performance.json",
     JSON.stringify(
       {
         environment: "local isolated real gateway/PostgreSQL",
