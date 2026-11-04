@@ -41,7 +41,7 @@ test('edge ingest rejects missing signature, uncommissioned source, changed retr
    workspaceId:workspace,secret,sources:['truck-42','warehouse-1']
  }});
  const seen=new Map<string,string>();
- const stub=t.mock.method(connection,'query',async (sql:any,params:any[])=>{
+ const stub=t.mock.method(connection,'query',(async (sql:any,params:any[])=>{
    if(String(sql).startsWith('INSERT INTO edge_observations')){
      const existing=seen.has(params[2]);
      if(!existing)seen.set(params[2],params[7]);
@@ -51,7 +51,7 @@ test('edge ingest rejects missing signature, uncommissioned source, changed retr
      return {rowCount:1,rows:[{payload_hash:seen.get(params[2])}]};
    }
    throw new Error('Unexpected query');
- } as any);
+ }) as any);
  const server=app.listen(0);
  try{
   const address=server.address();assert(address&&typeof address==='object');
