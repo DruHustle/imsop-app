@@ -63,6 +63,13 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm build
       - run: pnpm test
+      - name: Verify standalone Python logistics edge
+        working-directory: imsop-app-backend/edge
+        run: python3 -m unittest discover -s . -p 'test_*.py' -v
+      - name: Validate Node-RED artifacts
+        run: |
+          node --check ../edge/node-red/settings.js
+          python3 -m json.tool ../edge/node-red/flows.example.json > /dev/null
       - run: pnpm audit --prod --audit-level=low
       - name: Check image retention boundaries
         working-directory: imsop-app-backend

@@ -3,6 +3,7 @@ import cors from "cors";
 import authRoutes from "./routes/authRoutes";
 import operationsRoutes from "./routes/operationsRoutes";
 import telemetryRoutes from "./routes/telemetryRoutes";
+import {imsopEdgeRouter} from "./routes/edgeRoutes";
 import { rateLimit } from "./middleware/rateLimit";
 import logisticsIntegrationRoutes from "./routes/logisticsIntegrationRoutes";
 import { db } from "./config/db";
@@ -98,6 +99,7 @@ app.use("/api", (req, res, next) => {
 app.use("/api/auth", authRoutes);
 app.use("/api/operations", operationsRoutes);
 app.use("/api/telemetry", telemetryRoutes);
+app.use("/api/edge", imsopEdgeRouter);
 app.use("/api/integrations/logistics", logisticsIntegrationRoutes);
 
 app.get("/version", (_req, res) => res.json(release));
