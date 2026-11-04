@@ -2,6 +2,7 @@ import { deliverFrozenMail, MailDeliveryError } from "./durableMail";
 import { mailBinding } from "./mailEnvelope";
 import nodemailer from "nodemailer";
 import { renderEmail } from "./emailTemplate";
+import { emailBrand } from "./email-brand";
 
 type EmailProvider = "gmail" | "resend";
 const provider = (): EmailProvider =>
@@ -162,7 +163,7 @@ async function deliverMail(
           text,
           ...(html ? { html } : {}),
         };
-        if (selected === "resend") return JSON.stringify(message);
+        if (selected === "resend") return JSON.stringify({ ...message, ...(html ? { attachments: [{ filename: emailBrand.filename, content: emailBrand.base64, content_type: "image/png", content_id: emailBrand.cid }] } : {}) });
         const compiled = await nodemailer
           .createTransport({
             streamTransport: true,
@@ -171,6 +172,7 @@ async function deliverMail(
           })
           .sendMail({
             ...message,
+            ...(html ? { attachments: [{ filename: emailBrand.filename, content: Buffer.from(emailBrand.base64, "base64"), contentType: "image/png", cid: emailBrand.cid, contentDisposition: "inline" as const }] } : {}),
             messageId: `<${deliveryId}@imsop.test>`,
             date: new Date(),
           });
