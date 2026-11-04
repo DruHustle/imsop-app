@@ -23,7 +23,7 @@ COPY server/src ./src
 COPY server/migrations ./migrations
 RUN pnpm build && pnpm prune --prod
 
-FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
+FROM mcr.microsoft.com/dotnet/aspnet:8.0-noble@sha256:d0a0fa004862a9cca83208800f706dcc2523c4db29f09d501395f80969e03070 AS runtime
 
 USER root
 RUN apt-get update \
@@ -31,7 +31,7 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy the Node 22 runtime from the official image. The application dependencies
-# are JavaScript-only and are built on the same Debian base family.
+# are JavaScript-only; the copied binary and runtime must be tested together.
 COPY --from=node-build /usr/local/bin/node /usr/local/bin/node
 
 WORKDIR /app
