@@ -1,4 +1,4 @@
--- Standalone, read-only Smart Logistics gateway telemetry. No route/status projection is inferred.
+-- Standalone, read-only IMSOP gateway telemetry. No route/status projection is inferred.
 -- Scope every event to a provisioned workspace; old ambiguous rows remain untouched.
 CREATE TABLE edge_observations (
   workspace_id uuid NOT NULL REFERENCES workspaces(id),
