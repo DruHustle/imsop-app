@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
 set -euo pipefail
-# The qualified main workflow owns publishing and its Oracle compatibility gates.
-exec gh workflow run cicd-pipeline.yml --ref main --repo DruHustle/imsop-app-frontend
+# The root workflow requalifies this exact source and verifies the deployed backend.
+command -v gh >/dev/null || { echo 'GitHub CLI is required for release dispatch.' >&2; exit 1; }
+exec gh workflow run deploy-frontend.yml --ref main --repo DruHustle/imsop-app

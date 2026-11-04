@@ -1,0 +1,76 @@
+name: Deploy consolidated frontend
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: imsop-production-release
+  cancel-in-progress: false
+
+jobs:
+  qualify:
+    uses: ./.github/workflows/ci.yml
+
+  deploy:
+    needs: qualify
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    environment: production
+    env:
+      IMSOP_API_ORIGIN: ${{ vars.IMSOP_API_ORIGIN }}
+      IMSOP_WEB_ORIGIN: ${{ vars.IMSOP_WEB_ORIGIN }}
+      VERCEL_CLI_VERSION: ${{ vars.VERCEL_CLI_VERSION }}
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.4.1
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: pnpm
+          cache-dependency-path: imsop-app-frontend/pnpm-lock.yaml
+      - name: Fail closed on missing production configuration
+        run: node local-tools/ci/release-config.mjs
+      - name: Install the locked frontend
+        run: pnpm -C imsop-app-frontend install --frozen-lockfile
+      - name: Require this exact consolidated backend before any frontend publication
+        run: node imsop-app-frontend/scripts/verify-live-release.mjs --api-only "$IMSOP_API_ORIGIN" "$GITHUB_SHA"
+      - name: Prepare first-party routing and canonical domain
+        working-directory: imsop-app-frontend
+        run: node scripts/prepare-deployment.mjs
+      - name: Pull the existing project from the monorepo root
+        run: pnpm dlx "vercel@$VERCEL_CLI_VERSION" pull --yes --environment=production --token="$VERCEL_TOKEN"
+      - name: Verify project identity and monorepo root directory
+        run: node local-tools/ci/release-config.mjs .vercel/project.json
+      - name: Build the qualified source from the monorepo root
+        env:
+          VITE_BASE_PATH: /
+          VERCEL_GIT_COMMIT_SHA: ${{ github.sha }}
+        run: pnpm dlx "vercel@$VERCEL_CLI_VERSION" build --prod --token="$VERCEL_TOKEN"
+      - name: Recheck backend immediately before publication
+        run: node imsop-app-frontend/scripts/verify-live-release.mjs --api-only "$IMSOP_API_ORIGIN" "$GITHUB_SHA"
+      - name: Publish the qualified frontend
+        run: |
+          mkdir -p release-evidence
+          pnpm dlx "vercel@$VERCEL_CLI_VERSION" deploy --prebuilt --prod --token="$VERCEL_TOKEN" > release-evidence/frontend-deployment-url.txt
+      - name: Verify exact public release and first-party API
+        run: |
+          node imsop-app-frontend/scripts/verify-live-release.mjs "$IMSOP_WEB_ORIGIN" "$GITHUB_SHA" "$GITHUB_SHA" > release-evidence/production-smoke.json
+      - name: Preserve non-secret publication evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: frontend-release-${{ github.sha }}
+          path: release-evidence/
+          if-no-files-found: ignore
+          retention-days: 30
+      - name: Remove pulled deployment credentials from the runner
+        if: always()
+        run: rm -rf -- .vercel

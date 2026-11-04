@@ -1,0 +1,100 @@
+name: Publish consolidated backend images
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: imsop-backend-publication
+  cancel-in-progress: false
+
+jobs:
+  source:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Require consolidated main
+        run: |
+          test "$GITHUB_REPOSITORY" = DruHustle/imsop-app
+          test "$GITHUB_REF" = refs/heads/main
+
+  qualify:
+    uses: ./.github/workflows/ci.yml
+
+  images:
+    needs: [source, qualify]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    environment: production
+    permissions:
+      contents: read
+      packages: write
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - image: imsop-gateway
+            dockerfile: imsop-app-backend/infrastructure/docker/Gateway.Dockerfile
+            context: imsop-app-backend
+          - image: imsop-operationsservice
+            dockerfile: imsop-app-backend/infrastructure/docker/OperationsService.Dockerfile
+            context: imsop-app-backend
+          - image: imsop-supplychainservice
+            dockerfile: imsop-app-backend/infrastructure/docker/SupplyChainService.Dockerfile
+            context: imsop-app-backend
+          - image: imsop-node-api
+            dockerfile: imsop-app-backend/server/Dockerfile
+            context: imsop-app-backend/server
+          - image: imsop-backend
+            dockerfile: imsop-app-backend/deploy/oracle/Dockerfile
+            context: imsop-app-backend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-qemu-action@v3
+      - uses: docker/setup-buildx-action@v3
+      - name: Resolve registry name
+        id: image
+        env:
+          IMAGE: ${{ matrix.image }}
+        run: echo "name=ghcr.io/${GITHUB_REPOSITORY_OWNER,,}/$IMAGE" >> "$GITHUB_OUTPUT"
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Publish immutable source-tagged images, not latest
+        id: build
+        uses: docker/build-push-action@v6
+        with:
+          context: ${{ matrix.context }}
+          file: ${{ matrix.dockerfile }}
+          platforms: linux/amd64,linux/arm64
+          build-args: APP_REVISION=${{ github.sha }}
+          labels: |
+            org.opencontainers.image.revision=${{ github.sha }}
+            org.opencontainers.image.source=https://github.com/DruHustle/imsop-app
+          push: true
+          tags: ${{ steps.image.outputs.name }}:${{ github.sha }}
+          cache-from: type=gha,scope=${{ matrix.image }}
+          cache-to: type=gha,scope=${{ matrix.image }},mode=max
+          provenance: mode=max
+          sbom: true
+      - name: Record immutable publication identity
+        env:
+          IMAGE_NAME: ${{ steps.image.outputs.name }}
+          IMAGE_DIGEST: ${{ steps.build.outputs.digest }}
+        run: |
+          python3 - <<'PY'
+          import json, os, re
+          digest = os.environ['IMAGE_DIGEST']
+          assert re.fullmatch(r'sha256:[a-f0-9]{64}', digest)
+          with open('image-publication.json', 'w') as output:
+              json.dump({'repository': os.environ['GITHUB_REPOSITORY'], 'revision': os.environ['GITHUB_SHA'], 'image': os.environ['IMAGE_NAME'], 'digest': digest, 'deployed': False}, output, indent=2)
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: image-${{ matrix.image }}-${{ github.sha }}
+          path: image-publication.json
+          retention-days: 30
