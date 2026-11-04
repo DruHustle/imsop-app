@@ -562,7 +562,42 @@ test("migration upgrade preserves legacy rows; concurrent runners serialize and 
     await pool.query(
       "INSERT INTO shipments(tracking_number,origin,destination,created_at) VALUES('LEGACY','Start','End','2026-10-26 09:00:00')",
     );
+    const beforeMail = await fs.mkdtemp(
+      path.join(os.tmpdir(), "imsop-before-mail-"),
+    );
+    try {
+      for (const file of await fs.readdir("migrations"))
+        if (file.endsWith(".sql") && file < "007_immutable_mail.sql")
+          await fs.copyFile(
+            path.join("migrations", file),
+            path.join(beforeMail, file),
+          );
+      await migrate(url, beforeMail);
+    } finally {
+      await fs.rm(beforeMail, { recursive: true, force: true });
+    }
+    const legacyUser = (
+      await pool.query(
+        "INSERT INTO users(email,password,name,role) VALUES('upgrade@imsop.test','synthetic','Upgrade fixture','user') RETURNING id",
+      )
+    ).rows[0].id;
+    const legacyDelivery = randomUUID();
+    await pool.query(
+      "INSERT INTO reset_deliveries(id,user_id,reset_version,encrypted_payload,state,attempts,expires_at) VALUES($1,$2,0,'preserve-original-synthetic-bytes','pending',1,now()+interval '15 minutes')",
+      [legacyDelivery, legacyUser],
+    );
     await Promise.all([migrate(url), migrate(url)]);
+    const held = (
+      await pool.query(
+        "SELECT state,encrypted_payload,attempts FROM reset_deliveries WHERE id=$1",
+        [legacyDelivery],
+      )
+    ).rows[0];
+    assert.deepEqual(held, {
+      state: "unknown",
+      encrypted_payload: "preserve-original-synthetic-bytes",
+      attempts: 1,
+    });
     const row = (
       await pool.query(
         "SELECT workspace_id,created_at FROM shipments WHERE tracking_number='LEGACY'",
@@ -573,7 +608,7 @@ test("migration upgrade preserves legacy rows; concurrent runners serialize and 
     assert.equal(
       (await pool.query("SELECT count(*)::int AS count FROM schema_migrations"))
         .rows[0].count,
-      7,
+      8,
     );
     const dir = await fs.mkdtemp(path.join(os.tmpdir(), "imsop-migration-"));
     try {
