@@ -1,0 +1,26 @@
+{
+  "services": {
+    "app": {
+      "networks": {
+        "database": {}
+      },
+      "volumes": [
+        {
+          "type": "bind",
+          "source": "${LOGISTICS_DATABASE_CA_FILE:?Use the existing trusted database CA file}",
+          "target": "/run/onesa-db-ca/root.crt",
+          "read_only": true,
+          "bind": {
+            "create_host_path": false
+          }
+        }
+      ]
+    }
+  },
+  "networks": {
+    "database": {
+      "name": "onesa-logistics-database",
+      "external": true
+    }
+  }
+}

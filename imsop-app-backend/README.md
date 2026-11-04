@@ -5,3 +5,5 @@ Node API, .NET 8 gateway, OperationsService and SupplyChainService. PostgreSQL i
 Start with the [current capability and architecture inventory](docs/CURRENT_PLATFORM.md), [API](docs/API.md), [workspace provisioning](docs/PROVISIONING.md), [recovery](docs/RECOVERY.md), [deployment](docs/DEPLOYMENT.md), [Oracle ARM64 runbook](deploy/oracle/README.md), and [remediation review/results](docs/remediation/RESULTS.md). Historical platform designs and Kubernetes examples are explicitly unqualified.
 
 The remediation branch adds scoped revocable sessions, atomic recovery with durable encrypted delivery, deterministic shipment projection, bounded reads/reports, durable exception review and a transactional purchase-order outbox. Production rollout and ambiguous ownership backfill are not performed automatically.
+
+The requested `logistics.onesa.eu` / Onesa move has [unapplied domain, Resend and optional PostgreSQL candidates](deploy/onesa/README.md). The current runtime and external database stay selected until destination and restore qualification pass.

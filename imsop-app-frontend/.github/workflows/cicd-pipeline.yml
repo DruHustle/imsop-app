@@ -91,6 +91,9 @@ jobs:
     needs: [build-and-test, qualify-system]
     if: (github.event_name == 'push' || github.event_name == 'workflow_dispatch') && github.ref == 'refs/heads/main'
     runs-on: ubuntu-24.04
+    env:
+      IMSOP_API_ORIGIN: ${{ vars.IMSOP_API_ORIGIN || 'https://imsop-api.152-70-22-84.sslip.io' }}
+      IMSOP_WEB_ORIGIN: ${{ vars.IMSOP_WEB_ORIGIN || 'https://imsop-app.vercel.app' }}
 
     steps:
       - name: Checkout Code
@@ -123,8 +126,11 @@ jobs:
       - name: Verify the required backend release before publishing
         run: |
           backend_sha="$(git ls-remote https://github.com/DruHustle/imsop-app-backend.git refs/heads/main | cut -f1)"
-          node scripts/verify-live-release.mjs --api-only https://imsop-api.152-70-22-84.sslip.io "$backend_sha"
+          node scripts/verify-live-release.mjs --api-only "$IMSOP_API_ORIGIN" "$backend_sha"
           echo "IMSOP_BACKEND_REVISION=$backend_sha" >> "$GITHUB_ENV"
+
+      - name: Prepare qualified API routing and canonical domain
+        run: node scripts/prepare-deployment.mjs
 
       - name: Pull Vercel Environment Information
         if: steps.vercel.outputs.enabled == 'true'
@@ -153,4 +159,4 @@ jobs:
         run: pnpm dlx vercel@latest deploy --prebuilt --prod --token="$VERCEL_TOKEN"
 
       - name: Verify the published source and first-party API
-        run: node scripts/verify-live-release.mjs https://imsop-app.vercel.app "${{ github.sha }}" "$IMSOP_BACKEND_REVISION"
+        run: node scripts/verify-live-release.mjs "$IMSOP_WEB_ORIGIN" "${{ github.sha }}" "$IMSOP_BACKEND_REVISION"

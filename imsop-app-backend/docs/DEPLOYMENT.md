@@ -1,6 +1,6 @@
 # Supported release path
 
-The supported target is the existing ARM64 Software Engineering Backend VM, independent of Onesa and sibling services. See [Oracle runbook](../deploy/oracle/README.md). Kubernetes manifests are unsupported historical examples and the active deployment workflow is retired. Terraform/Azure designs do not authorize provisioning.
+The supported target is the existing ARM64 Software Engineering Backend VM, independent of Onesa and sibling services. See [Oracle runbook](../deploy/oracle/README.md). Kubernetes manifests are unsupported historical examples and the active deployment workflow is retired. The requested Onesa/Kubernetes target is a new qualification task; [the migration candidate](../deploy/onesa/README.md) does not promote those archived manifests. Terraform/Azure designs do not authorize provisioning.
 
 Build and test a clean committed backend with explicit `linux/arm64` (CI publishing produces amd64/arm64). Supply `APP_REVISION` equal to the exact source SHA. Check image architecture, OCI manifest digest, OCI revision label, `/version` and `/ready`. Generate a release manifest using `node scripts/release-manifest.mjs FRONTEND_SHA BACKEND_SHA OCI_MANIFEST_DIGEST`. A local image qualification receipt is not a production release receipt.
 
