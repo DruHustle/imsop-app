@@ -77,7 +77,10 @@ def validate_event(value, allowed_sources):
     return value
 
 class EdgeState:
-    def __init__(self, filename):
+    def __init__(self, filename, max_pending=50000):
+        if type(max_pending) is not int or not 1 <= max_pending <= 200000:
+            raise ValueError("invalid_edge_queue_limit")
+        self.max_pending = max_pending
         path = Path(filename)
         path.parent.mkdir(parents=True, exist_ok=True, mode=0o700)
         self.conn = sqlite3.connect(str(path), check_same_thread=False)
@@ -115,6 +118,8 @@ class EdgeState:
                 if old[0] != digest:
                     raise ValueError("event_identity_conflict")
                 return True
+            if self.conn.execute("SELECT count(*) FROM outbox").fetchone()[0] >= self.max_pending:
+                raise OverflowError("edge_outbox_full")
             self.conn.execute(
                 "INSERT INTO outbox(event_id,payload,digest) VALUES(?,?,?)",
                 (event["eventId"], canonical, digest)
@@ -169,6 +174,8 @@ class EdgeAgent:
         try:
             event = validate_event(json.loads(payload.decode("utf-8")), self.sources)
             duplicate = self.state.accept(event)
+        except OverflowError:
+            return 503, {"error": "delivery_queue_full"}
         except (ValueError, UnicodeDecodeError, json.JSONDecodeError, TypeError) as error:
             self.state.security(str(error))
             return 400, {"error": "invalid_observation"}
