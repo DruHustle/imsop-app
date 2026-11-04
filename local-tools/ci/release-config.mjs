@@ -11,7 +11,7 @@ export function httpsOrigin(value, name) {
 }
 
 export function releaseConfig(env) {
-  assert.equal(env.GITHUB_REPOSITORY, 'DruHustle/imsop-app', 'Use the consolidated repository');
+  assert.equal(env.GITHUB_REPOSITORY, 'DruHustle/smart-logistics', 'Use the consolidated repository');
   assert.equal(env.GITHUB_REF, 'refs/heads/main', 'Only main may publish production');
   assert(/^[a-f0-9]{40}$/.test(env.GITHUB_SHA || ''), 'An exact consolidated source revision is required');
   assert(/^\d+\.\d+\.\d+$/.test(env.VERCEL_CLI_VERSION || ''), 'Set VERCEL_CLI_VERSION to an approved exact x.y.z release');
@@ -21,8 +21,8 @@ export function releaseConfig(env) {
   return {
     repository: env.GITHUB_REPOSITORY,
     revision: env.GITHUB_SHA,
-    apiOrigin: httpsOrigin(env.IMSOP_API_ORIGIN, 'IMSOP_API_ORIGIN'),
-    webOrigin: httpsOrigin(env.IMSOP_WEB_ORIGIN, 'IMSOP_WEB_ORIGIN'),
+    apiOrigin: httpsOrigin(env.SMART_LOGISTICS_API_ORIGIN, 'SMART_LOGISTICS_API_ORIGIN'),
+    webOrigin: httpsOrigin(env.SMART_LOGISTICS_WEB_ORIGIN, 'SMART_LOGISTICS_WEB_ORIGIN'),
     cliVersion: env.VERCEL_CLI_VERSION,
   };
 }
@@ -30,8 +30,8 @@ export function releaseConfig(env) {
 export function verifyVercelProject(project, env) {
   assert.equal(project.orgId, env.VERCEL_ORG_ID, 'The pulled Vercel organization differs from the configured one');
   assert.equal(project.projectId, env.VERCEL_PROJECT_ID, 'The pulled Vercel project differs from the configured one');
-  assert.equal(project.settings?.rootDirectory, 'imsop-app-frontend',
-    'Set the existing Vercel project Root Directory to imsop-app-frontend before using the monorepo workflow');
+  assert.equal(project.settings?.rootDirectory, 'smart-logistics-frontend',
+    'Set the existing Vercel project Root Directory to smart-logistics-frontend before using the monorepo workflow');
 }
 
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {

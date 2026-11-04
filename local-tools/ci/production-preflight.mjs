@@ -165,7 +165,7 @@ export async function inspectProduction({ webOrigin, apiOrigin, revision, fetche
   const apiChecksPassed = backend.revision === revision && backend.contractValid
     && ready.backend.ready && probes.filter(p => p.target === 'api').every(p => p.passed);
   return {
-    schemaVersion: 1, checkedAt: new Date().toISOString(), repository: 'DruHustle/imsop-app',
+    schemaVersion: 1, checkedAt: new Date().toISOString(), repository: 'DruHustle/smart-logistics',
     expectedRevision: revision, webOrigin: web, apiOrigin: api,
     status: publicChecksPassed ? 'public-checks-passed' : 'blocked',
     baselinePassed, originPolicyPassed, candidateRevisionMatched, publicChecksPassed, apiChecksPassed,

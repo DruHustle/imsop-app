@@ -1,0 +1,132 @@
+{
+  "version": 2,
+  "git": {
+    "deploymentEnabled": {
+      "main": false
+    }
+  },
+  "rewrites": [
+    {
+      "source": "/version",
+      "destination": "https://imsop-api.152-70-22-84.sslip.io/version"
+    },
+    {
+      "source": "/supply-chain/:path*",
+      "destination": "https://imsop-api.152-70-22-84.sslip.io/supply-chain/:path*"
+    },
+    {
+      "source": "/health",
+      "destination": "https://imsop-api.152-70-22-84.sslip.io/health"
+    },
+    {
+      "source": "/ready",
+      "destination": "https://imsop-api.152-70-22-84.sslip.io/ready"
+    },
+    {
+      "source": "/api/:path*",
+      "destination": "https://imsop-api.152-70-22-84.sslip.io/api/:path*"
+    },
+    {
+      "source": "/smart-logistics-frontend/assets/(.*)",
+      "destination": "/assets/$1"
+    },
+    {
+      "source": "/smart-logistics-frontend/(.*)",
+      "destination": "/$1"
+    },
+    {
+      "source": "/imsop-app/assets/(.*)",
+      "destination": "/assets/$1"
+    },
+    {
+      "source": "/imsop-app/(.*)",
+      "destination": "/$1"
+    },
+    {
+      "source": "/imsop-app-frontend/assets/(.*)",
+      "destination": "/assets/$1"
+    },
+    {
+      "source": "/imsop-app-frontend/(.*)",
+      "destination": "/$1"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/version",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "no-store"
+        }
+      ]
+    },
+    {
+      "source": "/release.json",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "no-store"
+        }
+      ]
+    },
+    {
+      "source": "/supply-chain/:path*",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "private, no-store"
+        }
+      ]
+    },
+    {
+      "source": "/api/:path*",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "private, no-store"
+        }
+      ]
+    },
+    {
+      "source": "/ready",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "no-store"
+        }
+      ]
+    },
+    {
+      "source": "/health",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "no-store"
+        }
+      ]
+    },
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        }
+      ]
+    }
+  ],
+  "buildCommand": "VITE_API_URL=https://imsop-api.152-70-22-84.sslip.io VITE_BASE_PATH=/ pnpm build"
+}

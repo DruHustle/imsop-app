@@ -31,15 +31,15 @@ test('publication requalifies the same source and never floats a production imag
     assert(source.includes('cancel-in-progress: false'));
   }
   const frontend = read('.github/workflows/deploy-frontend.yml');
-  assert(frontend.includes('--api-only "$IMSOP_API_ORIGIN" "$GITHUB_SHA"'));
-  assert(frontend.includes('"$IMSOP_WEB_ORIGIN" "$GITHUB_SHA" "$GITHUB_SHA"'));
+  assert(frontend.includes('--api-only "$SMART_LOGISTICS_API_ORIGIN" "$GITHUB_SHA"'));
+  assert(frontend.includes('"$SMART_LOGISTICS_WEB_ORIGIN" "$GITHUB_SHA" "$GITHUB_SHA"'));
   assert(frontend.indexOf('release-config.mjs .vercel/project.json') < frontend.indexOf('build --prod'));
   assert(!read('.github/workflows/publish-backend.yml').includes(':latest'));
 });
 test('frontend deployment command dispatches only the consolidated workflow', () => {
-  const source = read('imsop-app-frontend/deploy.sh');
-  assert(source.includes('gh workflow run deploy-frontend.yml --ref main --repo DruHustle/imsop-app\n'));
-  assert(!source.includes('imsop-app-frontend\n'));
+  const source = read('smart-logistics-frontend/deploy.sh');
+  assert(source.includes('gh workflow run deploy-frontend.yml --ref main --repo DruHustle/smart-logistics\n'));
+  assert(!source.includes('smart-logistics-frontend\n'));
 });
 test('inactive component workflows are removed, not mistaken for active CI', () => {
   for (const component of ['frontend', 'backend']) {

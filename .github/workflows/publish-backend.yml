@@ -17,7 +17,7 @@ jobs:
     steps:
       - name: Require consolidated main
         run: |
-          test "$GITHUB_REPOSITORY" = DruHustle/imsop-app
+          test "$GITHUB_REPOSITORY" = DruHustle/smart-logistics
           test "$GITHUB_REF" = refs/heads/main
 
   qualify:
@@ -36,20 +36,20 @@ jobs:
       matrix:
         include:
           - image: imsop-gateway
-            dockerfile: imsop-app-backend/infrastructure/docker/Gateway.Dockerfile
-            context: imsop-app-backend
+            dockerfile: smart-logistics-backend/infrastructure/docker/Gateway.Dockerfile
+            context: smart-logistics-backend
           - image: imsop-operationsservice
-            dockerfile: imsop-app-backend/infrastructure/docker/OperationsService.Dockerfile
-            context: imsop-app-backend
+            dockerfile: smart-logistics-backend/infrastructure/docker/OperationsService.Dockerfile
+            context: smart-logistics-backend
           - image: imsop-supplychainservice
-            dockerfile: imsop-app-backend/infrastructure/docker/SupplyChainService.Dockerfile
-            context: imsop-app-backend
+            dockerfile: smart-logistics-backend/infrastructure/docker/SupplyChainService.Dockerfile
+            context: smart-logistics-backend
           - image: imsop-node-api
-            dockerfile: imsop-app-backend/server/Dockerfile
-            context: imsop-app-backend/server
+            dockerfile: smart-logistics-backend/server/Dockerfile
+            context: smart-logistics-backend/server
           - image: imsop-backend
-            dockerfile: imsop-app-backend/deploy/oracle/Dockerfile
-            context: imsop-app-backend
+            dockerfile: smart-logistics-backend/deploy/oracle/Dockerfile
+            context: smart-logistics-backend
     steps:
       - uses: actions/checkout@v4
       - uses: docker/setup-qemu-action@v3
@@ -74,7 +74,7 @@ jobs:
           build-args: APP_REVISION=${{ github.sha }}
           labels: |
             org.opencontainers.image.revision=${{ github.sha }}
-            org.opencontainers.image.source=https://github.com/DruHustle/imsop-app
+            org.opencontainers.image.source=https://github.com/DruHustle/smart-logistics
           push: true
           tags: ${{ steps.image.outputs.name }}:${{ github.sha }}
           cache-from: type=gha,scope=${{ matrix.image }}

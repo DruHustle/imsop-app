@@ -30,13 +30,13 @@ jobs:
         run: node --test local-tools/ci/production-preflight.test.mjs
       - name: Inspect serving release without credentials or mutations
         env:
-          IMSOP_WEB_ORIGIN: ${{ vars.IMSOP_WEB_ORIGIN || 'https://logistics.onesa.eu' }}
+          SMART_LOGISTICS_WEB_ORIGIN: ${{ vars.SMART_LOGISTICS_WEB_ORIGIN || 'https://logistics.onesa.eu' }}
           # This is the documented serving API, not an inferred Onesa destination.
-          IMSOP_API_ORIGIN: ${{ vars.IMSOP_API_ORIGIN || 'https://imsop-api.152-70-22-84.sslip.io' }}
+          SMART_LOGISTICS_API_ORIGIN: ${{ vars.SMART_LOGISTICS_API_ORIGIN || 'https://imsop-api.152-70-22-84.sslip.io' }}
         run: |
           mkdir -p release-evidence
           node local-tools/ci/production-preflight.mjs \
-            --web-origin "$IMSOP_WEB_ORIGIN" --api-origin "$IMSOP_API_ORIGIN" \
+            --web-origin "$SMART_LOGISTICS_WEB_ORIGIN" --api-origin "$SMART_LOGISTICS_API_ORIGIN" \
             --revision "$GITHUB_SHA" --out release-evidence/public-preflight.json
       - name: Make blocked release conditions explicit
         run: |
