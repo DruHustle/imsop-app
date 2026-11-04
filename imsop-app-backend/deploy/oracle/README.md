@@ -17,6 +17,8 @@ Run the repository checks first. Build a clean checkout for ARM64 using
 `docker build --platform linux/arm64 --build-arg APP_REVISION=<sha> -f deploy/oracle/Dockerfile -t imsop-app-backend:oracle-<sha> .`.
 For IMSOP, the existing Dockerfile starts the .NET gateway, operations and supply
 chain services plus the Node API; all internal service ports stay private.
+The ARM64/amd64 runtime base is pinned to the Microsoft .NET 8 Ubuntu 24.04
+image index; qualify and scan image updates before replacing that digest.
 Exclude local environment files, `.git`, dependencies, build output and private
 files from the context. Transfer with `docker save`, verify the archive checksum
 and load with `sudo docker load` on the VM. No registry credentials are needed.
