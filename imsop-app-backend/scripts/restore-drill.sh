@@ -11,11 +11,11 @@ point=$(docker exec "$container" psql -U imsop_test -d imsop_test -Atc "SELECT n
 docker exec "$container" pg_dump -U imsop_test -d imsop_test -Fc > "$backup_file"
 docker exec "$container" createdb -U imsop_test "$restore_database"
 docker exec -i "$container" pg_restore -U imsop_test -d "$restore_database" --no-owner < "$backup_file"
-for table in provisioning_runs users workspaces workspace_memberships logistics_connectors shipments orders telemetry logistics_events review_cases review_actions auth_sessions reset_deliveries notification_preferences notification_deliveries forecast_observations forecast_runs supply_chain.purchase_orders supply_chain.purchase_order_items supply_chain.order_outbox supply_chain.inventories supply_chain.purchase_receipts supply_chain.purchase_receipt_items; do
+while IFS= read -r table; do
   source_count=$(docker exec "$container" psql -U imsop_test -d imsop_test -Atc "SELECT count(*) FROM $table")
   restored_count=$(docker exec "$container" psql -U imsop_test -d "$restore_database" -Atc "SELECT count(*) FROM $table")
   [ "$source_count" = "$restored_count" ]
   printf '%s: source=%s restored=%s\n' "$table" "$source_count" "$restored_count"
-done
+done < <(docker exec "$container" psql -U imsop_test -d imsop_test -Atc "SELECT format('%I.%I',schemaname,tablename) FROM pg_tables WHERE schemaname NOT IN ('pg_catalog','information_schema') ORDER BY schemaname,tablename")
 printf 'Restored snapshot point: %s\nDisposable destination: %s\nRecovery elapsed seconds: %s\n' "$point" "$restore_database" "$(($(date +%s)-started))"
 # Keep the disposable restored copy for review; remove with an explicit test-only cleanup later.

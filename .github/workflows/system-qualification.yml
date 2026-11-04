@@ -39,6 +39,13 @@ jobs:
           DATABASE_URL: postgresql://imsop_test:isolated-test-only@127.0.0.1:55467/imsop_test
           NODE_ENV: test
         run: pnpm -C server exec node --test --import tsx system/gateway.test.ts
+      - name: Durable mail bytes, lost acknowledgements and recipient binding
+        env:
+          DATABASE_URL: postgresql://imsop_test:isolated-test-only@127.0.0.1:55467/imsop_mail_test
+          NODE_ENV: test
+        run: |
+          docker exec imsop-remediation-database-1 createdb -U imsop_test imsop_mail_test
+          pnpm -C server exec node --test --import tsx system/mail-durability.test.ts
       - name: Purchase receiving, opt-in mail and forecast evidence
         env:
           DATABASE_URL: postgresql://imsop_test:isolated-test-only@127.0.0.1:55467/imsop_test

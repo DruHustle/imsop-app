@@ -400,7 +400,7 @@ test("forecast requests require source observations and preserve workspace, hori
     400,
   );
 });
-test("a reset worker crash on its final lease becomes a failed row with erased credential material", async () => {
+test("a reset worker crash on its final lease remains unknown with erased credential material", async () => {
   const id = randomUUID();
   await db.query(
     "INSERT INTO reset_deliveries(id,user_id,reset_version,encrypted_payload,state,attempts,lease_until,expires_at) VALUES($1,$2,99,'not-a-real-credential','sending',5,now()-interval '1 second',now()+interval '15 minutes')",
@@ -409,7 +409,7 @@ test("a reset worker crash on its final lease becomes a failed row with erased c
   await wait(
     async () =>
       (await db.query("SELECT state FROM reset_deliveries WHERE id=$1", [id]))
-        .rows[0].state === "failed",
+        .rows[0].state === "unknown",
   );
   assert.equal(
     (
