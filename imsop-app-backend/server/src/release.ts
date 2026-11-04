@@ -8,7 +8,8 @@ export const release = {
     "purchase-pagination-v1",
     "scoped-reviews-v1",
     "customer-order-search-v1",
+    "workspace-edge-observations-v1",
   ],
-  nodeSchema: "005_provisioning_audit.sql",
+  nodeSchema: "006_edge_observations.sql",
   supplyChainSchema: "202610270002_PurchaseReceiving",
 };
