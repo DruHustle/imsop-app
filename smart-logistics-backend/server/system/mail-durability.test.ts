@@ -164,6 +164,10 @@ test("lost HTTP acknowledgement replays exact persisted bytes and returns one pr
   await assert.rejects(send(id), outcome("pending"));
   const frozen = await row(id);
   assert.equal(frozen.state, "pending");
+  const message = JSON.parse(decryptMail(frozen.encrypted_request));
+  assert.equal(typeof message.html, "string");
+  assert.ok(message.html.includes("Smart Logistics"));
+  assert.equal(message.text, "Original body");
   assert.equal(
     mailDigest(decryptMail(frozen.encrypted_request)),
     frozen.request_sha256,
