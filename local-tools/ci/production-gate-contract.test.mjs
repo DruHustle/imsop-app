@@ -14,8 +14,8 @@ test('production origin must pass before staging and again before promotion', ()
   const first = step('Require the actual production Origin before staging');
   const second = step('Recheck backend immediately before promotion');
   for (const value of [first, second]) {
-    assert(value.includes('--web-origin "$IMSOP_WEB_ORIGIN"'));
-    assert(value.includes('--api-origin "$IMSOP_API_ORIGIN"'));
+    assert(value.includes('--web-origin "$SMART_LOGISTICS_WEB_ORIGIN"'));
+    assert(value.includes('--api-origin "$SMART_LOGISTICS_API_ORIGIN"'));
     assert(value.includes('--revision "$GITHUB_SHA" --enforce-api'));
     assert(!value.includes('VERCEL_TOKEN'));
     assert(!value.includes('BYPASS'));

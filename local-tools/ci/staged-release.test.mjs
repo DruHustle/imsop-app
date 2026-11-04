@@ -2,15 +2,15 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { stagedOrigin, verifyStagedRelease } from './staged-release.mjs';
-import { verifyLiveRelease } from '../../imsop-app-frontend/scripts/verify-live-release.mjs';
+import { verifyLiveRelease } from '../../smart-logistics-frontend/scripts/verify-live-release.mjs';
 const sha = 'a'.repeat(40);
-const env = { GITHUB_REPOSITORY: 'DruHustle/imsop-app', GITHUB_REF: 'refs/heads/main', GITHUB_SHA: sha,
+const env = { GITHUB_REPOSITORY: 'DruHustle/smart-logistics', GITHUB_REF: 'refs/heads/main', GITHUB_SHA: sha,
   VERCEL_TOKEN: 'synthetic-api-secret', VERCEL_ORG_ID: 'team_test', VERCEL_PROJECT_ID: 'prj_test',
-  VERCEL_CLI_VERSION: '1.2.3', IMSOP_API_ORIGIN: 'https://api.example.test', IMSOP_WEB_ORIGIN: 'https://web.example.test',
+  VERCEL_CLI_VERSION: '1.2.3', SMART_LOGISTICS_API_ORIGIN: 'https://api.example.test', SMART_LOGISTICS_WEB_ORIGIN: 'https://web.example.test',
   VERCEL_AUTOMATION_BYPASS_SECRET: 'synthetic-protection-secret' };
 const origin = 'https://imsop-test.vercel.app';
 const metadata = { id: 'dpl_test', projectId: env.VERCEL_PROJECT_ID, url: 'imsop-test.vercel.app',
-  target: 'production', readyState: 'READY', meta: { imsopSourceRevision: sha, imsopRepository: env.GITHUB_REPOSITORY } };
+  target: 'production', readyState: 'READY', meta: { smartLogisticsSourceRevision: sha, smartLogisticsRepository: env.GITHUB_REPOSITORY } };
 function route(url) {
   if (url.pathname === '/release.json') return Response.json({ frontendRevision: sha });
   if (url.pathname === '/version') return Response.json({ revision: sha, apiContract: 2, capabilities: ['purchase-pagination-v1', 'optional-adapters-v1'] });

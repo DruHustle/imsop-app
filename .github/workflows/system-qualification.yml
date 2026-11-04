@@ -13,7 +13,7 @@ jobs:
     timeout-minutes: 30
     defaults:
       run:
-        working-directory: imsop-app-backend
+        working-directory: smart-logistics-backend
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
@@ -23,7 +23,7 @@ jobs:
         with:
           node-version: '22'
           cache: pnpm
-          cache-dependency-path: imsop-app-backend/server/pnpm-lock.yaml
+          cache-dependency-path: smart-logistics-backend/server/pnpm-lock.yaml
       - run: pnpm -C server install --frozen-lockfile
       - name: Build this consolidated backend revision
         run: docker build --build-arg APP_REVISION="$GITHUB_SHA" -f deploy/oracle/Dockerfile -t imsop-remediation:qualification .
@@ -78,19 +78,19 @@ jobs:
           node-version: '22'
           cache: pnpm
           cache-dependency-path: |
-            imsop-app-frontend/pnpm-lock.yaml
-            imsop-app-backend/server/pnpm-lock.yaml
+            smart-logistics-frontend/pnpm-lock.yaml
+            smart-logistics-backend/server/pnpm-lock.yaml
       - name: Install both locked source trees
         run: |
-          pnpm -C imsop-app-frontend install --frozen-lockfile
-          pnpm -C imsop-app-backend/server install --frozen-lockfile
+          pnpm -C smart-logistics-frontend install --frozen-lockfile
+          pnpm -C smart-logistics-backend/server install --frozen-lockfile
       - name: Build the exact consolidated backend source
-        run: docker build --build-arg APP_REVISION="$GITHUB_SHA" -f imsop-app-backend/deploy/oracle/Dockerfile -t imsop-remediation:qualification imsop-app-backend
+        run: docker build --build-arg APP_REVISION="$GITHUB_SHA" -f smart-logistics-backend/deploy/oracle/Dockerfile -t imsop-remediation:qualification smart-logistics-backend
       - name: Start only the disposable qualification stack
-        working-directory: imsop-app-backend
+        working-directory: smart-logistics-backend
         run: docker compose -f server/system/compose.yaml up -d --wait
       - name: Verify the real gateway and prepare isolated browser identities
-        working-directory: imsop-app-backend/server
+        working-directory: smart-logistics-backend/server
         env:
           DATABASE_URL: postgresql://imsop_test:isolated-test-only@127.0.0.1:55467/imsop_test
           NODE_ENV: test
@@ -98,25 +98,25 @@ jobs:
           pnpm exec node --test --import tsx system/gateway.test.ts
           pnpm exec tsx system/scale-fixture.ts
       - name: Reset the isolated process limiter before browser qualification
-        working-directory: imsop-app-backend
+        working-directory: smart-logistics-backend
         run: |
           docker compose -f server/system/compose.yaml restart backend
           docker compose -f server/system/compose.yaml up -d --wait
       - name: Install Chromium and system libraries
-        working-directory: imsop-app-frontend
+        working-directory: smart-logistics-frontend
         run: pnpm exec playwright install --with-deps chromium
       - name: Real recovery, scoped reads, reviews, purchasing, receipts, mail and forecasts
-        working-directory: imsop-app-frontend
+        working-directory: smart-logistics-frontend
         run: pnpm exec playwright test --config playwright.system.config.ts
       - uses: actions/upload-artifact@v4
         if: failure()
         with:
           name: real-browser-failure-${{ github.run_id }}
           path: |
-            imsop-app-frontend/playwright-report/
-            imsop-app-frontend/test-results/
+            smart-logistics-frontend/playwright-report/
+            smart-logistics-frontend/test-results/
           retention-days: 7
       - name: Stop only the disposable qualification stack
         if: always()
-        working-directory: imsop-app-backend
+        working-directory: smart-logistics-backend
         run: docker compose -f server/system/compose.yaml down -v

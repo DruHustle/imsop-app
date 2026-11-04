@@ -15,7 +15,7 @@ jobs:
     timeout-minutes: 25
     defaults:
       run:
-        working-directory: imsop-app-frontend
+        working-directory: smart-logistics-frontend
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
@@ -25,7 +25,7 @@ jobs:
         with:
           node-version: '22'
           cache: pnpm
-          cache-dependency-path: imsop-app-frontend/pnpm-lock.yaml
+          cache-dependency-path: smart-logistics-frontend/pnpm-lock.yaml
       - run: pnpm install --frozen-lockfile
       - run: pnpm exec tsc --noEmit
       - run: pnpm build
@@ -40,8 +40,8 @@ jobs:
         with:
           name: frontend-browser-failure-${{ github.run_id }}
           path: |
-            imsop-app-frontend/playwright-report/
-            imsop-app-frontend/test-results/
+            smart-logistics-frontend/playwright-report/
+            smart-logistics-frontend/test-results/
           retention-days: 7
 
   backend-node:
@@ -49,7 +49,7 @@ jobs:
     timeout-minutes: 15
     defaults:
       run:
-        working-directory: imsop-app-backend/server
+        working-directory: smart-logistics-backend/server
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
@@ -59,12 +59,12 @@ jobs:
         with:
           node-version: '22'
           cache: pnpm
-          cache-dependency-path: imsop-app-backend/server/pnpm-lock.yaml
+          cache-dependency-path: smart-logistics-backend/server/pnpm-lock.yaml
       - run: pnpm install --frozen-lockfile
       - run: pnpm build
       - run: pnpm test
       - name: Verify standalone Python logistics edge
-        working-directory: imsop-app-backend/edge
+        working-directory: smart-logistics-backend/edge
         run: python3 -m unittest discover -s . -p 'test_*.py' -v
       - name: Validate Node-RED artifacts
         run: |
@@ -72,10 +72,10 @@ jobs:
           python3 -m json.tool ../edge/node-red/flows.example.json > /dev/null
       - run: pnpm audit --prod --audit-level=low
       - name: Check image retention boundaries
-        working-directory: imsop-app-backend
+        working-directory: smart-logistics-backend
         run: python3 -m unittest discover -s scripts -p 'test_image_retention.py' -v
       - name: Check Onesa origin, sender and private database configuration
-        working-directory: imsop-app-backend
+        working-directory: smart-logistics-backend
         run: python3 scripts/test_onesa_migration_config.py --require-compose
 
   backend-dotnet:
@@ -83,15 +83,15 @@ jobs:
     timeout-minutes: 20
     defaults:
       run:
-        working-directory: imsop-app-backend
+        working-directory: smart-logistics-backend
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '8.0.x'
-      - run: dotnet restore src/IMSOP.sln -p:NuGetAudit=true -p:NuGetAuditMode=all -warnaserror:NU1901,NU1902,NU1903,NU1904
-      - run: dotnet build src/IMSOP.sln --no-restore --configuration Release
-      - run: dotnet test src/IMSOP.sln --no-build --configuration Release --verbosity normal
+      - run: dotnet restore src/SmartLogistics.sln -p:NuGetAudit=true -p:NuGetAuditMode=all -warnaserror:NU1901,NU1902,NU1903,NU1904
+      - run: dotnet build src/SmartLogistics.sln --no-restore --configuration Release
+      - run: dotnet test src/SmartLogistics.sln --no-build --configuration Release --verbosity normal
 
   release-boundaries:
     runs-on: ubuntu-24.04
@@ -102,7 +102,7 @@ jobs:
         with:
           node-version: '22'
       - run: node --test local-tools/ci/*.test.mjs
-      - run: bash -n imsop-app-frontend/deploy.sh
+      - run: bash -n smart-logistics-frontend/deploy.sh
 
   qualify-system:
     uses: ./.github/workflows/system-qualification.yml

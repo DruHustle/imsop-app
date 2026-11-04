@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { pathToFileURL } from 'node:url';
 import { releaseConfig } from './release-config.mjs';
-import { verifyLiveRelease } from '../../imsop-app-frontend/scripts/verify-live-release.mjs';
+import { verifyLiveRelease } from '../../smart-logistics-frontend/scripts/verify-live-release.mjs';
 
 export function stagedOrigin(value) {
   const url = new URL(value);
@@ -27,8 +27,8 @@ export async function verifyStagedRelease(value, env) {
   assert.equal(deployment.url, origin.hostname, 'Staged deployment hostname differs from its metadata');
   assert.equal(deployment.target, 'production', 'Only a staged production build may be promoted');
   assert.equal(deployment.readyState, 'READY', 'Staged production build is not ready');
-  assert.equal(deployment.meta?.imsopSourceRevision, config.revision, 'Staged source revision differs');
-  assert.equal(deployment.meta?.imsopRepository, config.repository, 'Staged source repository differs');
+  assert.equal(deployment.meta?.smartLogisticsSourceRevision, config.revision, 'Staged source revision differs');
+  assert.equal(deployment.meta?.smartLogisticsRepository, config.repository, 'Staged source repository differs');
   assert(/^dpl_[A-Za-z0-9]+$/.test(deployment.id || ''), 'Invalid staged deployment identity');
   const smoke = await verifyLiveRelease(origin.origin, config.revision, config.revision, {
     protectionBypass: env.VERCEL_AUTOMATION_BYPASS_SECRET || undefined,

@@ -1,0 +1,76 @@
+[
+  {
+    "id": "imsop-tab",
+    "type": "tab",
+    "label": "Smart Logistics - read-only test fixture",
+    "disabled": true,
+    "info": "Synthetic GPS example disabled by default. Never treat this as a real truck location."
+  },
+  {
+    "id": "imsop-inject",
+    "type": "inject",
+    "z": "imsop-tab",
+    "name": "Manual GPS SIMULATION only",
+    "props": [
+      {
+        "p": "payload"
+      }
+    ],
+    "payload": "true",
+    "payloadType": "bool",
+    "once": false,
+    "wires": [
+      [
+        "imsop-map"
+      ]
+    ]
+  },
+  {
+    "id": "imsop-map",
+    "type": "function",
+    "z": "imsop-tab",
+    "name": "Build synthetic GPS event",
+    "func": "// Demonstration only. Not a real location, do not enable in production.\nconst crypto = global.get('crypto');\nmsg.payload={schemaVersion:1,eventId:crypto.randomUUID(),sourceId:'demo-truck',\n  observedAt:new Date().toISOString(),kind:'truck_gps',\n  data:{vehicleId:'demo-truck',latitude:0,longitude:0}};\nmsg.headers={'Content-Type':'application/json',\n  'Authorization':'Bearer '+env.get('EDGE_INGRESS_TOKEN')};\nreturn msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "initialize": "",
+    "finalize": "",
+    "libs": [],
+    "wires": [
+      [
+        "imsop-http"
+      ]
+    ]
+  },
+  {
+    "id": "imsop-http",
+    "type": "http request",
+    "z": "imsop-tab",
+    "name": "Local Smart Logistics Python agent",
+    "method": "POST",
+    "ret": "obj",
+    "paytoqs": "ignore",
+    "url": "http://127.0.0.1:18779/ingest",
+    "tls": "",
+    "persist": false,
+    "proxy": "",
+    "authType": "",
+    "senderr": false,
+    "wires": [
+      [
+        "imsop-debug"
+      ]
+    ]
+  },
+  {
+    "id": "imsop-debug",
+    "type": "debug",
+    "z": "imsop-tab",
+    "name": "Python admission receipt",
+    "active": true,
+    "tosidebar": true,
+    "complete": "true",
+    "targetType": "full",
+    "wires": []
+  }
+]
