@@ -46,3 +46,8 @@ have passed qualification; deployment preparation sets the verified route.
 Only `DruHustle/imsop-app-frontend` and `DruHustle/imsop-app-backend` are the
 separate legacy component repositories eligible for eventual retirement.
 Their exact names/IDs and preservation gates remain unchanged.
+
+Historical SQL migration files retain their exact original bytes, including names
+in comments, because existing database ledgers validate the full file checksum.
+The root CI protects the eight migrations released before this rename. Schema
+changes must use a new forward migration rather than editing those files.
