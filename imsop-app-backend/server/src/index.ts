@@ -2,8 +2,10 @@ import "./config/env";
 import app from "./app";
 import { assertProductionConfiguration } from "./config/security";
 import { connection } from "./config/db";
+import {imsopEdgeGateways} from "./routes/edgeRoutes";
 
 assertProductionConfiguration();
+imsopEdgeGateways();
 
 import { dispatchResetDeliveries } from "./services/resetDelivery";
 import {dispatchOperationalNotifications} from "./services/notificationDelivery";
