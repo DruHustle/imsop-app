@@ -1,0 +1,104 @@
+name: Deploy consolidated frontend
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: imsop-production-release
+  cancel-in-progress: false
+
+jobs:
+  qualify:
+    uses: ./.github/workflows/ci.yml
+
+  deploy:
+    needs: qualify
+    if: github.repository == 'DruHustle/imsop-app' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    environment: production
+    env:
+      IMSOP_API_ORIGIN: ${{ vars.IMSOP_API_ORIGIN }}
+      IMSOP_WEB_ORIGIN: ${{ vars.IMSOP_WEB_ORIGIN }}
+      VERCEL_CLI_VERSION: ${{ vars.VERCEL_CLI_VERSION }}
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - uses: pnpm/action-setup@b906affcce14559ad1aafd4ab0e942779e9f58b1 # v4
+        with:
+          version: 10.4.1
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: '22'
+          cache: pnpm
+          cache-dependency-path: imsop-app-frontend/pnpm-lock.yaml
+      - name: Fail closed on missing production configuration
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        run: node local-tools/ci/release-config.mjs
+      - name: Install the locked frontend without deployment credentials
+        run: pnpm -C imsop-app-frontend install --frozen-lockfile
+      - name: Install the approved exact CLI without deployment credentials
+        run: |
+          npm install --prefix "$RUNNER_TEMP/imsop-vercel-cli" --no-audit --no-fund "vercel@$VERCEL_CLI_VERSION"
+          echo "$RUNNER_TEMP/imsop-vercel-cli/node_modules/.bin" >> "$GITHUB_PATH"
+      - name: Require this exact consolidated backend before any frontend publication
+        run: node imsop-app-frontend/scripts/verify-live-release.mjs --api-only "$IMSOP_API_ORIGIN" "$GITHUB_SHA"
+      - name: Prepare first-party routing and canonical domain
+        working-directory: imsop-app-frontend
+        run: node scripts/prepare-deployment.mjs
+      - name: Pull the existing project from the monorepo root
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        run: vercel pull --yes --environment=production
+      - name: Verify project identity and monorepo root directory
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        run: node local-tools/ci/release-config.mjs .vercel/project.json
+      - name: Build the qualified source from the monorepo root
+        env:
+          VITE_BASE_PATH: /
+          VERCEL_GIT_COMMIT_SHA: ${{ github.sha }}
+        run: vercel build --prod
+      - name: Stage production without changing live domains
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        run: |
+          mkdir -p release-evidence
+          vercel deploy --prebuilt --prod --skip-domain --meta "imsopSourceRevision=$GITHUB_SHA" --meta "imsopRepository=$GITHUB_REPOSITORY" > "$RUNNER_TEMP/imsop-staged-url.txt"
+      - name: Verify ownership, exact staged release and first-party API before promotion
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
+        run: |
+          staged_url="$(cat "$RUNNER_TEMP/imsop-staged-url.txt")"
+          node local-tools/ci/staged-release.mjs "$staged_url" > release-evidence/staged-smoke.json
+          node --input-type=module -e 'import {readFileSync} from "node:fs"; console.log(JSON.parse(readFileSync("release-evidence/staged-smoke.json", "utf8")).origin)' > release-evidence/frontend-deployment-url.txt
+      - name: Recheck backend immediately before promotion
+        run: node imsop-app-frontend/scripts/verify-live-release.mjs --api-only "$IMSOP_API_ORIGIN" "$GITHUB_SHA"
+      - name: Promote only the verified staged production deployment
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        run: |
+          deployment_id="$(node --input-type=module -e 'import {readFileSync} from "node:fs"; console.log(JSON.parse(readFileSync("release-evidence/staged-smoke.json", "utf8")).deploymentId)')"
+          vercel promote "$deployment_id" --yes
+      - name: Verify exact public release and first-party API without protection bypass
+        run: |
+          node imsop-app-frontend/scripts/verify-live-release.mjs "$IMSOP_WEB_ORIGIN" "$GITHUB_SHA" "$GITHUB_SHA" > release-evidence/production-smoke.json
+      - name: Preserve non-secret publication evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: frontend-release-${{ github.sha }}
+          path: release-evidence/
+          if-no-files-found: ignore
+          retention-days: 30
+      - name: Remove pulled deployment credentials from the runner
+        if: always()
+        run: rm -rf -- .vercel

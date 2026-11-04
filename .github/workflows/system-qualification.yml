@@ -1,0 +1,115 @@
+name: Consolidated real-stack qualification
+
+on:
+  workflow_call:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  postgres-gateway:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    defaults:
+      run:
+        working-directory: imsop-app-backend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.4.1
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: pnpm
+          cache-dependency-path: imsop-app-backend/server/pnpm-lock.yaml
+      - run: pnpm -C server install --frozen-lockfile
+      - name: Build this consolidated backend revision
+        run: docker build --build-arg APP_REVISION="$GITHUB_SHA" -f deploy/oracle/Dockerfile -t imsop-remediation:qualification .
+      - run: docker compose -f server/system/compose.yaml up -d --wait
+      - name: Real PostgreSQL security, reducers and upgrades
+        env:
+          DATABASE_URL: postgresql://imsop_test:isolated-test-only@127.0.0.1:55467/imsop_test
+          NODE_ENV: test
+          TZ: Pacific/Honolulu
+        run: pnpm -C server exec node --test --import tsx system/security.test.ts
+      - name: Real gateway, mail sink and order outbox
+        env:
+          DATABASE_URL: postgresql://imsop_test:isolated-test-only@127.0.0.1:55467/imsop_test
+          NODE_ENV: test
+        run: pnpm -C server exec node --test --import tsx system/gateway.test.ts
+      - name: Purchase receiving, opt-in mail and forecast evidence
+        env:
+          DATABASE_URL: postgresql://imsop_test:isolated-test-only@127.0.0.1:55467/imsop_test
+          NODE_ENV: test
+        run: pnpm -C server exec node --test --import tsx system/completion.test.ts
+      - name: Prove regression sensitivity
+        env:
+          DATABASE_URL: postgresql://imsop_test:isolated-test-only@127.0.0.1:55467/imsop_test
+          NODE_ENV: test
+        run: pnpm -C server exec node system/mutation-check.mjs
+      - name: Production-mode fresh boot and origin boundary
+        run: bash server/system/production-boot-check.sh
+      - name: Restore only the disposable qualification database
+        run: bash scripts/restore-drill.sh
+      - name: Stop only the isolated stack
+        if: always()
+        run: docker compose -f server/system/compose.yaml down -v
+
+  real-browser-workflows:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - name: Checkout both applications at the same revision
+        uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.4.1
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: pnpm
+          cache-dependency-path: |
+            imsop-app-frontend/pnpm-lock.yaml
+            imsop-app-backend/server/pnpm-lock.yaml
+      - name: Install both locked source trees
+        run: |
+          pnpm -C imsop-app-frontend install --frozen-lockfile
+          pnpm -C imsop-app-backend/server install --frozen-lockfile
+      - name: Build the exact consolidated backend source
+        run: docker build --build-arg APP_REVISION="$GITHUB_SHA" -f imsop-app-backend/deploy/oracle/Dockerfile -t imsop-remediation:qualification imsop-app-backend
+      - name: Start only the disposable qualification stack
+        working-directory: imsop-app-backend
+        run: docker compose -f server/system/compose.yaml up -d --wait
+      - name: Verify the real gateway and prepare isolated browser identities
+        working-directory: imsop-app-backend/server
+        env:
+          DATABASE_URL: postgresql://imsop_test:isolated-test-only@127.0.0.1:55467/imsop_test
+          NODE_ENV: test
+        run: |
+          pnpm exec node --test --import tsx system/gateway.test.ts
+          pnpm exec tsx system/scale-fixture.ts
+      - name: Reset the isolated process limiter before browser qualification
+        working-directory: imsop-app-backend
+        run: |
+          docker compose -f server/system/compose.yaml restart backend
+          docker compose -f server/system/compose.yaml up -d --wait
+      - name: Install Chromium and system libraries
+        working-directory: imsop-app-frontend
+        run: pnpm exec playwright install --with-deps chromium
+      - name: Real recovery, scoped reads, reviews, purchasing, receipts, mail and forecasts
+        working-directory: imsop-app-frontend
+        run: pnpm exec playwright test --config playwright.system.config.ts
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: real-browser-failure-${{ github.run_id }}
+          path: |
+            imsop-app-frontend/playwright-report/
+            imsop-app-frontend/test-results/
+          retention-days: 7
+      - name: Stop only the disposable qualification stack
+        if: always()
+        working-directory: imsop-app-backend
+        run: docker compose -f server/system/compose.yaml down -v
