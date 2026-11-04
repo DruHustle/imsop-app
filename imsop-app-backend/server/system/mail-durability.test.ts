@@ -5,6 +5,7 @@ import net from "node:net";
 import { randomUUID } from "node:crypto";
 import { connection } from "../src/config/db";
 import { migrate } from "../src/migrate";
+import app from "../src/app";
 import { sendOperationalEmail } from "../src/services/emailService";
 import { MailDeliveryError } from "../src/services/durableMail";
 import { decryptMail, mailDigest } from "../src/services/mailEnvelope";
@@ -128,6 +129,33 @@ const row = async (id: string) =>
     .rows[0];
 const outcome = (state: string) => (error: unknown) =>
   error instanceof MailDeliveryError && error.state === state;
+
+test("readiness refuses an unapplied mail migration and recovers after the exact ledger is restored", async () => {
+  const server = app.listen(0, "127.0.0.1");
+  await new Promise<void>((resolve) => server.once("listening", resolve));
+  const address = server.address();
+  assert(address && typeof address === "object");
+  const url = `http://127.0.0.1:${address.port}/ready`;
+  const checksum = (
+    await connection.query(
+      "SELECT checksum FROM schema_migrations WHERE name='007_immutable_mail.sql'",
+    )
+  ).rows[0].checksum;
+  try {
+    assert.equal((await originalFetch(url)).status, 200);
+    await connection.query(
+      "UPDATE schema_migrations SET checksum=NULL WHERE name='007_immutable_mail.sql'",
+    );
+    assert.equal((await originalFetch(url)).status, 503);
+  } finally {
+    await connection.query(
+      "UPDATE schema_migrations SET checksum=$1 WHERE name='007_immutable_mail.sql'",
+      [checksum],
+    );
+    assert.equal((await originalFetch(url)).status, 200);
+    await new Promise<void>((resolve) => server.close(() => resolve()));
+  }
+});
 
 test("lost HTTP acknowledgement replays exact persisted bytes and returns one provider receipt", async () => {
   settings();
