@@ -34,7 +34,7 @@ test("accepts same-origin and Oracle bundles", () =>
     );
     await writeFile(
       path.join(directory, "assets/Operations.js"),
-      'const base="https://imsop-api.152-70-22-84.sslip.io";'
+      'const base="https://logistics-api.onesa.eu";'
     );
     assert.equal(await verifyDeployment(directory), 2);
   }));
@@ -57,7 +57,7 @@ test("purchasing keeps first-party cookie requests out of the SPA fallback", asy
   );
   assert.equal(
     config.rewrites[index].destination,
-    "https://imsop-api.152-70-22-84.sslip.io/supply-chain/:path*"
+    "https://logistics-api.onesa.eu/supply-chain/:path*"
   );
   assert(
     config.headers.some(
@@ -90,7 +90,7 @@ test("production publishing uses the qualified CI path and exposes source identi
   assert(version >= 0 && version < spa);
   assert.equal(
     config.rewrites[version].destination,
-    "https://imsop-api.152-70-22-84.sslip.io/version"
+    "https://logistics-api.onesa.eu/version"
   );
   assert(
     config.headers.some(

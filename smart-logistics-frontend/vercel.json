@@ -8,23 +8,23 @@
   "rewrites": [
     {
       "source": "/version",
-      "destination": "https://imsop-api.152-70-22-84.sslip.io/version"
+      "destination": "https://logistics-api.onesa.eu/version"
     },
     {
       "source": "/supply-chain/:path*",
-      "destination": "https://imsop-api.152-70-22-84.sslip.io/supply-chain/:path*"
+      "destination": "https://logistics-api.onesa.eu/supply-chain/:path*"
     },
     {
       "source": "/health",
-      "destination": "https://imsop-api.152-70-22-84.sslip.io/health"
+      "destination": "https://logistics-api.onesa.eu/health"
     },
     {
       "source": "/ready",
-      "destination": "https://imsop-api.152-70-22-84.sslip.io/ready"
+      "destination": "https://logistics-api.onesa.eu/ready"
     },
     {
       "source": "/api/:path*",
-      "destination": "https://imsop-api.152-70-22-84.sslip.io/api/:path*"
+      "destination": "https://logistics-api.onesa.eu/api/:path*"
     },
     {
       "source": "/smart-logistics-frontend/assets/(.*)",
@@ -128,5 +128,5 @@
       ]
     }
   ],
-  "buildCommand": "VITE_API_URL=https://imsop-api.152-70-22-84.sslip.io VITE_BASE_PATH=/ pnpm build"
+  "buildCommand": "VITE_BASE_PATH=/ pnpm build"
 }
