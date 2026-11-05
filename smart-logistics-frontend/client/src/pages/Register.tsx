@@ -72,6 +72,7 @@ export default function Register() {
                 <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                 <Input
                   id="name"
+                  autoComplete="name"
                   type="text"
                   placeholder="Enter your full name"
                   value={name}
@@ -89,6 +90,7 @@ export default function Register() {
                 <Input
                   id="email"
                   type="email"
+                  autoComplete="email"
                   placeholder="Enter your email"
                   value={email}
                   onChange={e => setEmail(e.target.value)}
@@ -108,17 +110,19 @@ export default function Register() {
                   maxLength={128}
                   aria-describedby="password-policy"
                   type={showPassword ? "text" : "password"}
+                  autoComplete="new-password"
                   placeholder="Create a password"
                   value={password}
                   onChange={e => setPassword(e.target.value)}
-                  className="pl-10 pr-10 bg-background/50 border-border"
+                  className="h-11 pl-10 pr-12 bg-background/50 border-border"
                   required
                 />
                 <button
                   type="button"
                   aria-label={showPassword ? "Hide password" : "Show password"}
+                  aria-pressed={showPassword}
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                  className="absolute right-0 top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-md text-muted-foreground hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                 >
                   {showPassword ? (
                     <EyeOff className="w-4 h-4" />
