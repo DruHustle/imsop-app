@@ -35,8 +35,10 @@ protocol/storage migration replaces them:
 - Historical release receipts, verification logs and archived source snapshots.
   Their original bytes and names describe the releases that actually ran.
 
-The retention helper accepts both the historical `IMSOP backend` image title
-and the new `Smart Logistics backend` title. Exact repository ownership,
+The retention helper accepts the exact local image repository
+`smart-logistics-backend` as well as the retained legacy repository names. It
+also recognizes both the historical `IMSOP backend` image title and the new
+`Smart Logistics backend` title for untagged images. Exact repository ownership,
 container protections, the deployment lock and the compatible rollback
 requirement still apply. Do not rename live state with global string replacement.
 Existing website path aliases continue to work. The baseline Vercel rewrites and

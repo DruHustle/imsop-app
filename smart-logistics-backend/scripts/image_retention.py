@@ -8,6 +8,7 @@ import subprocess
 import sys
 
 REPOSITORIES = {
+    "smart-logistics-backend",
     "imsop-app-backend", "imsop-backend", "imsop-remediation",
     "imsop-gateway", "imsop-node-api", "imsop-operationsservice",
     "imsop-supplychainservice", "imsop-supply-chain",
@@ -84,7 +85,9 @@ def container_images(project=None):
 
 def inventory():
     ids = set()
-    for selector in ("reference=*imsop*", "label=org.opencontainers.image.title=IMSOP backend", "label=org.opencontainers.image.title=Smart Logistics backend"):
+    for selector in ("reference=*imsop*", "reference=smart-logistics-backend:*",
+                     "label=org.opencontainers.image.title=IMSOP backend",
+                     "label=org.opencontainers.image.title=Smart Logistics backend"):
         ids.update(docker("image", "ls", "--all", "--quiet", "--no-trunc", "--filter", selector).split())
     return json.loads(docker("image", "inspect", *sorted(ids))) if ids else []
 
