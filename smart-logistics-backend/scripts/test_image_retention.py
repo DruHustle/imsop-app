@@ -20,7 +20,7 @@ OLD = image("sha256:old", ["imsop-app-backend:old"])
 
 
 class RetentionTests(unittest.TestCase):
-    def run_cleanup(self, images, containers=None, apply=True, fresh=None, docker_error=None):
+    def run_cleanup(self, images, containers=None, apply=True, fresh=None, docker_error=None, keep=None):
         def inspect(ref):
             if ref == CURRENT["Id"]:
                 return CURRENT
@@ -29,8 +29,44 @@ class RetentionTests(unittest.TestCase):
              patch.object(retention, "inventory", return_value=images), \
              patch.object(retention, "container_images", side_effect=containers or [{}, {}]), \
              patch.object(retention, "docker", side_effect=docker_error, return_value="") as docker:
-            result = retention.cleanup([CURRENT["Id"]], apply)
+            result = retention.cleanup(keep or [CURRENT["Id"]], apply)
             return result, docker.call_args_list
+
+    def test_canonical_current_rollback_and_container_protection(self):
+        current = image("sha256:canonical-current", ["smart-logistics-backend:current"])
+        rollback = image("sha256:canonical-rollback", ["smart-logistics-backend:rollback"])
+        stopped = image("sha256:canonical-stopped", ["smart-logistics-backend:stopped"])
+        unused = image("sha256:canonical-unused", ["smart-logistics-backend:unused"])
+        shared = image("sha256:canonical-shared", ["smart-logistics-backend:shared", "another-app:rollback"])
+        similar = image("sha256:similar", ["smart-logistics-backend-extra:old"], "Smart Logistics backend")
+        rows = [current, rollback, stopped, unused, shared, similar]
+        containers = {"stopped": {"image": stopped["Id"]}}
+        result, calls = self.run_cleanup(rows, [containers, containers], keep=[current["Id"], rollback["Id"]])
+        self.assertEqual({row["id"] for row in result["retained"]},
+                         {row["Id"] for row in [current, rollback, stopped, shared, similar]})
+        self.assertEqual([row["id"] for row in result["removed"]], [unused["Id"]])
+        self.assertEqual([call.args for call in calls], [("image", "rm", "--no-prune", unused["Id"])])
+
+    def test_canonical_manifest_alias_and_new_shared_alias_prevent_removal(self):
+        manifest = image("sha256:canonical-index", ["smart-logistics-backend:latest"])
+        result, calls = self.run_cleanup([manifest], [{"running": {
+            "image": "sha256:platform", "reference": "smart-logistics-backend"}}])
+        self.assertEqual(result["retained"][0]["reason"], "referenced by a container")
+        self.assertEqual(calls, [])
+        shared = image(manifest["Id"], ["smart-logistics-backend:latest", "another-app:new"])
+        result, calls = self.run_cleanup([manifest], fresh={manifest["Id"]: shared})
+        self.assertEqual(len(result["skipped"]), 1)
+        self.assertEqual(calls, [])
+
+    def test_inventory_finds_unlabelled_canonical_repository_images(self):
+        canonical = image("sha256:canonical-unlabelled", ["smart-logistics-backend:old"])
+        def docker(*args):
+            if args[:2] == ("image", "ls"):
+                return canonical["Id"] if args[-1] == "reference=smart-logistics-backend:*" else ""
+            self.assertEqual(args, ("image", "inspect", canonical["Id"]))
+            return json.dumps([canonical])
+        with patch.object(retention, "docker", side_effect=docker):
+            self.assertEqual(retention.inventory(), [canonical])
 
     def test_current_and_stopped_container_images_are_protected(self):
         rows = [CURRENT, OLD]
@@ -144,28 +180,31 @@ class RetentionTests(unittest.TestCase):
                 self.assertEqual(state.read_bytes(), original)
 
     def test_successful_deployment_records_previous_image_then_cleans_up(self):
-        with tempfile.TemporaryDirectory() as folder:
-            root = pathlib.Path(folder)
-            state = root / ".image-retention.json"
-            state.write_text(json.dumps({"services": {"app": {"current": OLD["Id"], "rollback": "older"}}}))
-            snapshots = [{"container": {"image": OLD["Id"], "service": "app"}},
-                         {"container": {"image": CURRENT["Id"], "service": "app"}}]
-            def inspect(ref):
-                return CURRENT if ref == CURRENT["Id"] else OLD
-            with patch("sys.argv", ["deploy_compose.py", "--project-directory", folder, "--file", "compose.yaml",
-                                   "--origin", "http://127.0.0.1:11001", "--expect-revision", "a" * 40, "--service", "app"]), \
-                 patch.object(deploy_compose, "container_images", side_effect=snapshots), \
-                 patch.object(deploy_compose, "inspect_image", side_effect=inspect), \
-                 patch.object(deploy_compose.subprocess, "run") as run, \
-                 patch.object(deploy_compose, "verify") as verify, \
-                 patch("builtins.print"), \
-                 patch.object(deploy_compose, "cleanup", return_value={"errors": []}) as cleanup:
-                deploy_compose.main()
-                verify.assert_called_once_with("http://127.0.0.1:11001", "a" * 40)
-                self.assertEqual(run.call_args.args[0][-2:], ["--no-deps", "app"])
-                cleanup.assert_called_once_with(sorted([CURRENT["Id"], OLD["Id"]]), apply=True)
-                self.assertEqual(json.loads(state.read_text())["services"]["app"],
-                                 {"current": CURRENT["Id"], "rollback": OLD["Id"]})
+        for repository in ("imsop-app-backend", "smart-logistics-backend"):
+            current = image("sha256:current", [repository + ":current"])
+            old = image("sha256:old", [repository + ":old"])
+            with self.subTest(repository=repository), tempfile.TemporaryDirectory() as folder:
+                root = pathlib.Path(folder)
+                state = root / ".image-retention.json"
+                state.write_text(json.dumps({"services": {"app": {"current": old["Id"], "rollback": "older"}}}))
+                snapshots = [{"container": {"image": old["Id"], "service": "app"}},
+                             {"container": {"image": current["Id"], "service": "app"}}]
+                def inspect(ref):
+                    return current if ref == current["Id"] else old
+                with patch("sys.argv", ["deploy_compose.py", "--project-directory", folder, "--file", "compose.yaml",
+                                       "--origin", "http://127.0.0.1:11001", "--expect-revision", "a" * 40, "--service", "app"]), \
+                     patch.object(deploy_compose, "container_images", side_effect=snapshots), \
+                     patch.object(deploy_compose, "inspect_image", side_effect=inspect), \
+                     patch.object(deploy_compose.subprocess, "run") as run, \
+                     patch.object(deploy_compose, "verify") as verify, \
+                     patch("builtins.print"), \
+                     patch.object(deploy_compose, "cleanup", return_value={"errors": []}) as cleanup:
+                    deploy_compose.main()
+                    verify.assert_called_once_with("http://127.0.0.1:11001", "a" * 40)
+                    self.assertEqual(run.call_args.args[0][-2:], ["--no-deps", "app"])
+                    cleanup.assert_called_once_with(sorted([current["Id"], old["Id"]]), apply=True)
+                    self.assertEqual(json.loads(state.read_text())["services"]["app"],
+                                     {"current": current["Id"], "rollback": old["Id"]})
 
 
 if __name__ == "__main__":
