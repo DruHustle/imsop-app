@@ -177,7 +177,7 @@ export default function ResetPassword() {
                   placeholder="Enter new password"
                   value={password}
                   onChange={e => setPassword(e.target.value)}
-                  className="pl-10 pr-10 bg-background/50 border-border"
+                  className="h-11 pl-10 pr-12 bg-background/50 border-border"
                   required
                   minLength={12}
                   maxLength={128}
@@ -187,8 +187,9 @@ export default function ResetPassword() {
                 <button
                   type="button"
                   aria-label={showPassword ? "Hide password" : "Show password"}
+                  aria-pressed={showPassword}
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                  className="absolute right-0 top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-md text-muted-foreground hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                 >
                   {showPassword ? (
                     <EyeOff className="w-4 h-4" />
@@ -205,6 +206,7 @@ export default function ResetPassword() {
                 <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                 <Input
                   id="confirmPassword"
+                  autoComplete="new-password"
                   type={showPassword ? "text" : "password"}
                   placeholder="Confirm new password"
                   value={confirmPassword}
