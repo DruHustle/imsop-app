@@ -32,7 +32,7 @@ jobs:
         env:
           SMART_LOGISTICS_WEB_ORIGIN: ${{ vars.SMART_LOGISTICS_WEB_ORIGIN || 'https://logistics.onesa.eu' }}
           # This is the documented serving API, not an inferred Onesa destination.
-          SMART_LOGISTICS_API_ORIGIN: ${{ vars.SMART_LOGISTICS_API_ORIGIN || 'https://imsop-api.152-70-22-84.sslip.io' }}
+          SMART_LOGISTICS_API_ORIGIN: ${{ vars.SMART_LOGISTICS_API_ORIGIN || 'https://logistics-api.onesa.eu' }}
         run: |
           mkdir -p release-evidence
           node local-tools/ci/production-preflight.mjs \
