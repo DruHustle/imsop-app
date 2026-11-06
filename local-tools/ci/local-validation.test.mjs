@@ -141,6 +141,28 @@ test('installation is opt-in, idempotent, executable and removable only when unc
   assert(!existsSync(path));
 });
 
+test('linked worktrees cannot install or remove the shared clone hook', t => {
+  const directory = repository(t);
+  const linked = resolve(directory, 'linked');
+  const hookPath = resolve(directory, '.git/hooks/pre-push');
+  git(directory, 'worktree', 'add', '--quiet', '--detach', linked, 'HEAD');
+  try {
+    assert.throws(() => installHook(linked), /primary checkout.*linked worktrees share/i);
+    assert(!existsSync(hookPath));
+    installHook(directory);
+    const source = readFileSync(hookPath, 'utf8');
+    const mode = lstatSync(hookPath).mode;
+    assert.throws(() => installHook(linked), /primary checkout.*linked worktrees share/i);
+    assert.throws(() => installHook(linked, true), /primary checkout.*linked worktrees share/i);
+    assert.equal(readFileSync(hookPath, 'utf8'), source);
+    assert.equal(lstatSync(hookPath).mode, mode);
+    assert.match(installHook(directory, true), /Removed only/);
+    assert(!existsSync(hookPath));
+  } finally {
+    git(directory, 'worktree', 'remove', '--force', linked);
+  }
+});
+
 test('existing hooks, hook symlinks and custom hook configurations are preserved', t => {
   const directory = repository(t);
   const path = resolve(directory, '.git/hooks/pre-push');
