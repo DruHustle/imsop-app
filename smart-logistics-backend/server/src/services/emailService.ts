@@ -1,6 +1,8 @@
 import { deliverFrozenMail, MailDeliveryError } from "./durableMail";
 import { mailBinding } from "./mailEnvelope";
 import nodemailer from "nodemailer";
+import { renderEmail } from "./emailTemplate";
+import { emailBrand } from "./email-brand";
 
 type EmailProvider = "gmail" | "resend";
 const provider = (): EmailProvider =>
@@ -61,14 +63,9 @@ export async function sendPasswordResetEmail(
   deliveryId: string,
   expiresAt: Date,
 ): Promise<void> {
-  const safeUrl = resetUrl
-    .replaceAll("&", "&amp;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;");
   const subject = "Reset your Smart Logistics password";
   const text = `A password reset was requested for your Smart Logistics account. This link expires in 15 minutes:\n\n${resetUrl}\n\nIf you did not request this, ignore this message.`;
-  const html = `<p>A password reset was requested for your Smart Logistics account.</p><p><a href="${safeUrl}">Reset password</a></p><p>This link expires in 15 minutes. If you did not request this, ignore this message.</p>`;
+  const html = renderEmail(subject, text, { resetUrl });
   await deliverMail(recipient, subject, text, html, deliveryId, expiresAt);
 }
 export async function sendOperationalEmail(
@@ -78,7 +75,7 @@ export async function sendOperationalEmail(
   deliveryId: string,
   expiresAt: Date,
 ) {
-  await deliverMail(recipient, subject, text, undefined, deliveryId, expiresAt);
+  await deliverMail(recipient, subject, text, renderEmail(subject, text), deliveryId, expiresAt);
 }
 async function smtpSend(
   transport: ReturnType<typeof nodemailer.createTransport>,
@@ -166,7 +163,7 @@ async function deliverMail(
           text,
           ...(html ? { html } : {}),
         };
-        if (selected === "resend") return JSON.stringify(message);
+        if (selected === "resend") return JSON.stringify({ ...message, ...(html ? { attachments: [{ filename: emailBrand.filename, content: emailBrand.base64, content_type: "image/png", content_id: emailBrand.cid }] } : {}) });
         const compiled = await nodemailer
           .createTransport({
             streamTransport: true,
@@ -175,6 +172,7 @@ async function deliverMail(
           })
           .sendMail({
             ...message,
+            ...(html ? { attachments: [{ filename: emailBrand.filename, content: Buffer.from(emailBrand.base64, "base64"), contentType: "image/png", cid: emailBrand.cid, contentDisposition: "inline" as const }] } : {}),
             messageId: `<${deliveryId}@imsop.test>`,
             date: new Date(),
           });
