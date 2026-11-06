@@ -14,7 +14,10 @@ and queues have been qualified.
 - .NET solution/assemblies/namespaces: `SmartLogistics`.
 - GitHub release variables: `SMART_LOGISTICS_WEB_ORIGIN` and
   `SMART_LOGISTICS_API_ORIGIN`. Use verified routes; no credentialed wildcard.
-- The existing Vercel project must use this canonical repository and
+- Vercel project: `smart-logistics` (ID `prj_W9oH4fYMiTNlb7MAu0wKFoKFuQYE`).
+  Its retained `imsop-app.vercel.app` domain is a compatibility alias; the public
+  canonical website remains `https://logistics.onesa.eu`.
+- This Vercel project must use the canonical repository and
   `smart-logistics-frontend` as its root during the qualified cutover. Preserve
   its project ID, domains, protections and retained deployments.
 - Production publication still requires the exact canonical main SHA, full CI,
