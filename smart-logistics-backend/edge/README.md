@@ -120,3 +120,11 @@ accuracy, duplicate/out-of-order GPS, SIM/roaming outage, power loss and
 restart, event queue restore, workspace permission isolation, retention/privacy
 policy, field calibration, and proof that no Node-RED command reaches machinery
 outside its controller safety layer.
+
+## Optional package management
+
+Individual administrators can review and add exact Node-RED node/plugin package
+versions on explicitly enrolled gateways in their live workspace. See
+[Node-RED package management](../docs/NODE_RED_PACKAGE_MANAGEMENT.md) for private
+route commissioning, narrow credentials, durable uncertain outcomes and release
+gates. It defaults off and does not commission a gateway or change its flows.

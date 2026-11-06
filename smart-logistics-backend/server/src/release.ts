@@ -10,7 +10,8 @@ export const release = {
     "customer-order-search-v1",
     "workspace-edge-observations-v1",
     "immutable-mail-v1",
+    "node-red-package-management-v1",
   ],
-  nodeSchema: "007_immutable_mail.sql",
+  nodeSchema: "008_node_red_package_management.sql",
   supplyChainSchema: "202610270002_PurchaseReceiving",
 };

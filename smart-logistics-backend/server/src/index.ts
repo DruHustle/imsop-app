@@ -2,10 +2,12 @@ import "./config/env";
 import app from "./app";
 import { assertProductionConfiguration } from "./config/security";
 import { connection } from "./config/db";
-import {smartLogisticsEdgeGateways} from "./routes/edgeRoutes";
+import {smartLogisticsEdgeGateways} from "./config/edge";
+import { nodeRedConfigurations } from "./node-red/configuration";
 
 assertProductionConfiguration();
 smartLogisticsEdgeGateways();
+nodeRedConfigurations();
 
 import { dispatchResetDeliveries } from "./services/resetDelivery";
 import {dispatchOperationalNotifications} from "./services/notificationDelivery";
