@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // Voluntary local guard, not a GitHub check receipt or an untrusted-code sandbox.
-import { lstatSync, mkdirSync, mkdtempSync, readFileSync, rmSync, unlinkSync, writeFileSync } from 'node:fs';
+import { lstatSync, mkdirSync, mkdtempSync, readFileSync, realpathSync, rmSync, unlinkSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { dirname, resolve } from 'node:path';
 import { spawnSync } from 'node:child_process';
@@ -22,11 +22,10 @@ export function cleanGitEnvironment(environment = process.env) {
   return { ...Object.fromEntries(Object.entries(environment).filter(([name]) => !name.startsWith('GIT_'))), GIT_NO_REPLACE_OBJECTS: '1' };
 }
 
-function git(directory, args, { allowMissing = false } = {}) {
+function git(directory, args) {
   const result = spawnSync('git', ['--no-replace-objects', '-c', 'core.hooksPath=/dev/null', ...args], {
     cwd: directory, env: cleanGitEnvironment(), encoding: 'utf8', maxBuffer: 1024 * 1024,
   });
-  if (allowMissing && result.status === 1) return undefined;
   if (result.error || result.status !== 0) throw new Error('Git could not prepare the exact pushed commit. No source checks passed.');
   return result.stdout.trim();
 }
@@ -101,7 +100,13 @@ export function installHook(directory, remove = false) {
   });
   if (configured.error || ![0, 1].includes(configured.status)) throw new Error('Cannot inspect the existing hook configuration.');
   if (configured.status === 0) throw new Error('core.hooksPath is already configured. Preserve it and deliberately chain the validator from your existing pre-push hook; no configuration was changed.');
-  const common = resolve(directory, git(directory, ['rev-parse', '--git-common-dir']));
+  const common = realpathSync(resolve(directory, git(directory, ['rev-parse', '--git-common-dir'])));
+  const current = realpathSync(resolve(directory, git(directory, ['rev-parse', '--git-dir'])));
+  // Default hooks outlive a linked checkout and affect every worktree in the
+  // clone. Manage them only from the primary checkout, never a temporary one.
+  if (current !== common) {
+    throw new Error('Install or remove the hook from the primary checkout; linked worktrees share its Git hooks. No hook was changed.');
+  }
   const path = resolve(common, 'hooks/pre-push');
   const hooksDirectory = dirname(path);
   // Check the parent before either reading or removing a hook. A symlinked

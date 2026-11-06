@@ -22,7 +22,8 @@ band. Docker is needed only for configuration rendering in this source profile;
 the hook does not start containers or contact production. Dependency installation
 uses frozen lockfiles, and package/NuGet audits require network access.
 
-After reviewing this source, install the optional hook once in your own clone:
+After reviewing this source, install the optional hook once from your clone's
+primary checkout:
 
 ```sh
 node local-tools/ci/pre-push.mjs install
@@ -52,12 +53,19 @@ paired browser qualification, nor prove a deployment or production rollback.
 It executes the committed source with your user privileges; it is not a sandbox
 for untrusted public pull requests.
 
+Git's default hook belongs to the clone and affects all of its linked worktrees.
+Installation and removal from a linked worktree are refused, preserving the shared
+hook after temporary checkouts are removed. The generated handler resolves the
+checkout being pushed at invocation time; a checkout missing the committed
+validator refuses the push.
+
 Installation never changes `core.hooksPath` or overwrites an existing hook. If you
 already use a hook manager or custom hook, preserve it and deliberately chain
 `node local-tools/ci/pre-push.mjs run "$@"`, forwarding Git's original two arguments
 and the complete original stdin to both validators. An earlier hook consuming
 stdin must not leave this one an empty input. Uninstall only the unchanged generated
-hook with `node local-tools/ci/pre-push.mjs uninstall`. Hooks are opt-in per clone
+hook from the primary checkout with `node local-tools/ci/pre-push.mjs uninstall`.
+Hooks are opt-in per clone
 and Git can bypass them; hosted required checks remain independent and mandatory.
 
 ## Hosted CI usage
