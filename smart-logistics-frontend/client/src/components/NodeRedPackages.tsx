@@ -157,8 +157,13 @@ function GatewayPackages({ target }: { target: NodeRedTarget }) {
     [target.id, target.gatewayId, target.revision]
   );
   const refresh = useCallback(async () => {
-    if (!lifecycle.current || lifecycle.current.signal.aborted) return;
-    statusRequest.current?.abort();
+    const owner = lifecycle.current;
+    if (
+      !owner ||
+      owner.signal.aborted ||
+      (statusRequest.current && !statusRequest.current.signal.aborted)
+    )
+      return;
     const controller = new AbortController();
     statusRequest.current = controller;
     setChecking(true);
@@ -172,7 +177,7 @@ function GatewayPackages({ target }: { target: NodeRedTarget }) {
           controller.signal
         )
       );
-      if (controller.signal.aborted || lifecycle.current.signal.aborted) return;
+      if (controller.signal.aborted || owner.signal.aborted) return;
       confirmTarget(data.target);
       if (
         data.operation &&
@@ -183,13 +188,16 @@ function GatewayPackages({ target }: { target: NodeRedTarget }) {
       setStatus(data);
       setNeedsCheck(data.state !== "ready");
     } catch (failure) {
-      if (!controller.signal.aborted && !lifecycle.current.signal.aborted) {
+      if (!controller.signal.aborted && !owner.signal.aborted) {
         setError(nodeRedError(failure));
         setNeedsCheck(true);
       }
     } finally {
-      if (!controller.signal.aborted && !lifecycle.current.signal.aborted)
-        setChecking(false);
+      if (statusRequest.current === controller) {
+        statusRequest.current = null;
+        if (!controller.signal.aborted && !owner.signal.aborted)
+          setChecking(false);
+      }
     }
   }, [path, target.id, target.gatewayId, confirmTarget]);
   useEffect(() => {

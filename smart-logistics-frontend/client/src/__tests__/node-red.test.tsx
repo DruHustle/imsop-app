@@ -308,3 +308,152 @@ it("an idle or action-time expired review cannot submit an installation", async 
   expect(screen.getByText(/This package review expired/)).toBeTruthy();
   expect(installs).toBe(0);
 });
+
+it("a pending status read completes across multiple polling intervals without cancellation", async () => {
+  vi.useFakeTimers();
+  let statusReads = 0;
+  const deferred: {
+    signal: AbortSignal;
+    complete: (value: unknown) => void;
+  }[] = [];
+  harness.request.mockImplementation(
+    (
+      path: string,
+      _method: string,
+      _body: unknown,
+      _key: unknown,
+      signal: AbortSignal
+    ) => {
+      if (path === "/version")
+        return Promise.resolve({
+          capabilities: ["node-red-package-management-v1"],
+        });
+      if (path === "/api/edge/node-red") return Promise.resolve(targets);
+      if (path.endsWith("/status")) {
+        statusReads++;
+        if (statusReads === 1)
+          return Promise.resolve(status({ ...operation, state: "installing" }));
+        return new Promise(complete => deferred.push({ signal, complete }));
+      }
+      throw Error("Unexpected fixture request");
+    }
+  );
+  render(<NodeRedPackages />);
+  await act(async () => {});
+  expect(screen.getByText("installing", { selector: "strong" })).toBeTruthy();
+  await act(async () => {
+    vi.advanceTimersByTime(3000);
+  });
+  expect(deferred).toHaveLength(1);
+  const pending = deferred[0];
+  await act(async () => {
+    vi.advanceTimersByTime(9000);
+  });
+  expect(pending.signal.aborted).toBe(false);
+  expect(statusReads).toBe(2);
+  await act(async () => {
+    pending.complete(
+      status({
+        ...operation,
+        state: "installed",
+        message: "Deferred read confirmed the installation",
+      })
+    );
+  });
+  expect(
+    screen.getByText("Deferred read confirmed the installation")
+  ).toBeTruthy();
+  expect(
+    (
+      screen.getByRole("button", {
+        name: "Refresh gateway",
+      }) as HTMLButtonElement
+    ).disabled
+  ).toBe(false);
+  await act(async () => {
+    vi.advanceTimersByTime(6000);
+  });
+  expect(statusReads).toBe(2);
+});
+
+it("a mutation cancels a pending read without letting its late completion clear the replacement read", async () => {
+  vi.useFakeTimers();
+  let statusReads = 0;
+  const deferred: {
+    signal: AbortSignal;
+    complete: (value: unknown) => void;
+  }[] = [];
+  harness.request.mockImplementation(
+    (
+      path: string,
+      _method: string,
+      _body: unknown,
+      _key: unknown,
+      signal: AbortSignal
+    ) => {
+      if (path === "/version")
+        return Promise.resolve({
+          capabilities: ["node-red-package-management-v1"],
+        });
+      if (path === "/api/edge/node-red") return Promise.resolve(targets);
+      if (path.endsWith("/status")) {
+        statusReads++;
+        if (statusReads === 1)
+          return Promise.resolve(status({ ...operation, state: "installing" }));
+        return new Promise(complete => deferred.push({ signal, complete }));
+      }
+      if (path.endsWith("/reconcile"))
+        return Promise.resolve({ ...operation, state: "installing" });
+      throw Error("Unexpected fixture request");
+    }
+  );
+  const component = render(<NodeRedPackages />);
+  await act(async () => {});
+  const reconcile = screen.getByRole("button", { name: "Check saved outcome" });
+  await act(async () => {
+    // A poll starts in the same render as the user's explicit reconciliation.
+    vi.advanceTimersByTime(3000);
+    fireEvent.click(reconcile);
+  });
+  expect(deferred).toHaveLength(2);
+  expect(deferred[0].signal.aborted).toBe(true);
+  expect(deferred[1].signal.aborted).toBe(false);
+  await act(async () => {
+    deferred[0].complete(
+      status({
+        ...operation,
+        state: "installed",
+        message: "Stale status must be ignored",
+      })
+    );
+  });
+  expect(screen.queryByText("Stale status must be ignored")).toBeNull();
+  expect(
+    (
+      screen.getByRole("button", {
+        name: "Checking gateway…",
+      }) as HTMLButtonElement
+    ).disabled
+  ).toBe(true);
+  await act(async () => {
+    deferred[1].complete(
+      status({
+        ...operation,
+        state: "installed",
+        message: "Replacement status confirmed",
+      })
+    );
+  });
+  expect(screen.getByText("Replacement status confirmed")).toBeTruthy();
+  fireEvent.click(screen.getByRole("button", { name: "Refresh gateway" }));
+  expect(deferred).toHaveLength(3);
+  harness.user = { id: "engineer-a", role: "engineer" };
+  component.rerender(<NodeRedPackages />);
+  expect(deferred[2].signal.aborted).toBe(true);
+  await act(async () => {
+    deferred[2].complete(status());
+    vi.advanceTimersByTime(9000);
+  });
+  expect(screen.queryByText("Node-RED packages")).toBeNull();
+  expect(statusReads).toBe(4);
+});
