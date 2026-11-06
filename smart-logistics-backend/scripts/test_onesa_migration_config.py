@@ -11,7 +11,6 @@ import tempfile
 import unittest
 from urllib.parse import urlsplit
 
-PRODUCT = "logistics"
 PREFIX = "LOGISTICS"
 ROOT = Path(__file__).resolve().parents[1]
 PREPARED = ROOT / "deploy/onesa"
@@ -89,75 +88,43 @@ class ConfigurationBoundaries(unittest.TestCase):
             self.assertLess(rules.index(deny), rules.index(allow))
 
     def test_canonical_reset_origins_provider_keys_and_existing_identities(self):
-        if PRODUCT == "factory":
-            api, worker = environment("api.env.example"), environment("worker.env.example")
-            self.assertEqual(api["ALLOWED_ORIGIN"], "https://factory.onesa.eu")
-            for role in (api, worker):
-                self.assertEqual(role["PASSWORD_RESET_ORIGIN"], "https://factory.onesa.eu")
-                self.assertEqual(role["BACKEND_DEPLOYMENT_MODE"], "render-bundle")
-                self.assertEqual(role["EMAIL_PROVIDER"], "resend")
-                self.assertIn("preserve-existing", role["DASHBOARD_SERVICE_TOKEN"])
-            self.assertEqual(api["RENDER_SERVICE_ROLE"], "web")
-            self.assertEqual(worker["RENDER_SERVICE_ROLE"], "worker")
-            self.assertNotIn("RESEND_API_KEY", api)
-            self.assertEqual(api["EMAIL_DELIVERY_CONFIGURED"], "false")
-            self.assertIn("notifications@factory.onesa.eu", worker["RESEND_FROM"])
-            self.assertIn("preserve-approved", worker["RESEND_ALLOWED_RECIPIENT_DOMAINS"])
-            self.assertIn("preserve-existing-singleton", worker["MqttClientId"])
-        else:
-            runtime = environment("runtime.env.example")
-            origin = "https://logistics.onesa.eu"
-            self.assertEqual(runtime["ALLOWED_ORIGIN"], origin)
-            self.assertEqual(runtime["CORS_ALLOWED_ORIGINS"], origin)
-            self.assertEqual(runtime["PASSWORD_RESET_BASE_URL"], origin + "/#/reset-password")
-            self.assertEqual(urlsplit(runtime["PASSWORD_RESET_BASE_URL"]).fragment, "/reset-password")
-            self.assertEqual(runtime["EMAIL_PROVIDER"], "resend")
-            self.assertEqual(runtime["EMAIL_FROM"],
-                             "Smart Logistics <notifications-logistics@onesa.eu>")
-            self.assertIn("RESEND_API_KEY", runtime)
-            self.assertNotIn("RESEND_FROM", runtime)
-            self.assertEqual(runtime["EMAIL_NOTIFICATIONS_ENABLED"], "false")
-            self.assertEqual(runtime["RUN_NODE_MIGRATIONS"], "false")
-            self.assertEqual(runtime["Database__AutoMigrate"], "false")
-            self.assertNotIn("MIGRATION_DATABASE_URL", runtime)
-            self.assertIn("preserve-existing", runtime["RESET_DELIVERY_KEY"])
+        runtime = environment("runtime.env.example")
+        origin = "https://logistics.onesa.eu"
+        self.assertEqual(runtime["ALLOWED_ORIGIN"], origin)
+        self.assertEqual(runtime["CORS_ALLOWED_ORIGINS"], origin)
+        self.assertEqual(runtime["PASSWORD_RESET_BASE_URL"], origin + "/#/reset-password")
+        self.assertEqual(urlsplit(runtime["PASSWORD_RESET_BASE_URL"]).fragment, "/reset-password")
+        self.assertEqual(runtime["EMAIL_PROVIDER"], "resend")
+        self.assertEqual(runtime["EMAIL_FROM"],
+                         "Smart Logistics <notifications-logistics@onesa.eu>")
+        self.assertIn("RESEND_API_KEY", runtime)
+        self.assertNotIn("RESEND_FROM", runtime)
+        self.assertEqual(runtime["EMAIL_NOTIFICATIONS_ENABLED"], "false")
+        self.assertEqual(runtime["RUN_NODE_MIGRATIONS"], "false")
+        self.assertEqual(runtime["Database__AutoMigrate"], "false")
+        self.assertNotIn("MIGRATION_DATABASE_URL", runtime)
+        self.assertIn("preserve-existing", runtime["RESET_DELIVERY_KEY"])
 
     def test_external_primary_and_verified_client_tls_remain_supported(self):
-        if PRODUCT == "factory":
-            for filename, dotnet in (("api.env.example", "DEVICE_DATABASE_CONNECTION"),
-                                     ("worker.env.example", "TELEMETRY_DATABASE_CONNECTION")):
-                values = environment(filename)
-                self.assertIn("<current-or-qualified-database-host>", values["DATABASE_URL"])
-                self.assertEqual(values["DATABASE_SSL_MODE"], "verify-full")
-                self.assertIn("SSL Mode=VerifyFull", values[dotnet])
-                self.assertIn("Root Certificate=/run/secrets/aiven-ca.pem", values[dotnet])
-                self.assertIn("DATABASE_CA_CERT", values)
-        else:
-            values = environment("runtime.env.example")
-            self.assertIn("<current-or-qualified-database-host>", values["DATABASE_URL"])
-            self.assertIn("sslmode=verify-full", values["DATABASE_URL"])
-            self.assertIn("sslrootcert=/run/onesa-db-ca/root.crt", values["DATABASE_URL"])
-            self.assertIn("SSL Mode=VerifyFull", values["ConnectionStrings__DefaultConnection"])
-            self.assertIn("Root Certificate=/run/onesa-db-ca/root.crt",
-                          values["ConnectionStrings__DefaultConnection"])
+        values = environment("runtime.env.example")
+        self.assertIn("<current-or-qualified-database-host>", values["DATABASE_URL"])
+        self.assertIn("sslmode=verify-full", values["DATABASE_URL"])
+        self.assertIn("sslrootcert=/run/onesa-db-ca/root.crt", values["DATABASE_URL"])
+        self.assertIn("SSL Mode=VerifyFull", values["ConnectionStrings__DefaultConnection"])
+        self.assertIn("Root Certificate=/run/onesa-db-ca/root.crt",
+                      values["ConnectionStrings__DefaultConnection"])
 
     def test_overlay_changes_only_network_and_required_public_ca(self):
         self.assertTrue(self.overlay["networks"]["database"]["external"])
         self.assertEqual(self.overlay["networks"]["database"]["name"],
                          self.db["networks"]["database"]["name"])
-        if PRODUCT == "factory":
-            self.assertEqual(set(self.overlay["services"]), {"api", "worker"})
-            for service in self.overlay["services"].values():
-                self.assertEqual(set(service), {"networks"})
-                self.assertEqual(set(service["networks"]), {"default", "database"})
-        else:
-            self.assertEqual(set(self.overlay["services"]), {"app"})
-            app = self.overlay["services"]["app"]
-            self.assertEqual(set(app), {"networks", "volumes"})
-            mount, = app["volumes"]
-            self.assertEqual(mount["target"], "/run/onesa-db-ca/root.crt")
-            self.assertTrue(mount["read_only"])
-            self.assertFalse(mount["bind"]["create_host_path"])
+        self.assertEqual(set(self.overlay["services"]), {"app"})
+        app = self.overlay["services"]["app"]
+        self.assertEqual(set(app), {"networks", "volumes"})
+        mount, = app["volumes"]
+        self.assertEqual(mount["target"], "/run/onesa-db-ca/root.crt")
+        self.assertTrue(mount["read_only"])
+        self.assertFalse(mount["bind"]["create_host_path"])
 
 
 class ComposeConfigurationOnly(unittest.TestCase):
@@ -223,33 +190,29 @@ class ComposeConfigurationOnly(unittest.TestCase):
         self.assertNotEqual(result.returncode, 0)
         self.assertIn(PREFIX + "_POSTGRES_IMAGE", result.stderr)
 
-    def test_app_overlay_keeps_existing_primary_ingress_and_worker_default(self):
-        # Structural fixture for the retained app contract, not a replacement deployment.
+    def test_app_overlay_preserves_private_primary_and_independent_runtime_network(self):
+        # Render the actual Oracle topology with synthetic settings, without a daemon.
         image = "example.invalid/application:configuration-fixture"
         retained = {"DATABASE_URL": "postgresql://existing-primary.invalid/retained"}
-        if PRODUCT == "factory":
-            base = {"name": "factory-config-fixture", "services": {
-                "api": {"image": image, "environment": retained,
-                        "networks": {"default": {}, "basyx": {}}},
-                "worker": {"image": image, "environment": retained}},
-                "networks": {"basyx": {"name": "fixture-retained-ingress", "external": True}}}
-            expected = {"api": {"default", "basyx", "database"},
-                        "worker": {"default", "database"}}
-        else:
-            base = {"name": "logistics-config-fixture", "services": {
-                "app": {"image": image, "environment": retained, "networks": {"ingress": {}}}},
-                "networks": {"ingress": {"name": "fixture-retained-ingress", "external": True}}}
-            expected = {"app": {"ingress", "database"}}
+        base = json.loads((ROOT / "deploy/oracle/compose.yaml").read_text())
+        base["services"]["app"]["image"] = image
+        base["services"]["app"]["environment"] = retained
         base_file = Path(self.temporary.name) / "retained-application.json"
         base_file.write_text(json.dumps(base))
         result = self.compose([base_file, PREPARED / "compose.application-database.yaml"])
         self.assertEqual(result.returncode, 0, result.stderr)
         rendered = json.loads(result.stdout)
-        for name, networks in expected.items():
-            service = rendered["services"][name]
-            self.assertEqual(set(service["networks"]), networks)
-            self.assertEqual(service["environment"], retained)
-            self.assertEqual(service["image"], image)
+        service = rendered["services"]["app"]
+        self.assertEqual(set(service["networks"]), {"runtime", "database"})
+        self.assertEqual(service["environment"], retained)
+        self.assertEqual(service["image"], image)
+        self.assertEqual(rendered["name"], "imsop-app-backend")
+        self.assertEqual(rendered["networks"]["runtime"]["name"], "imsop-app-backend-runtime")
+        self.assertFalse(rendered["networks"]["runtime"].get("external", False))
+        self.assertEqual(rendered["networks"]["database"]["name"], "onesa-logistics-database")
+        self.assertTrue(rendered["networks"]["database"]["external"])
+        self.assertEqual([(p["host_ip"], str(p["published"]), p["target"])
+                          for p in service["ports"]], [("127.0.0.1", "11001", 10000)])
 
 
 if __name__ == "__main__":

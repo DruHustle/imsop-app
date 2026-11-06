@@ -1,10 +1,23 @@
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import { test } from "node:test";
-import { prepareDeployment, httpsOrigin } from "./prepare-deployment.mjs";
+import { currentApiOrigin, prepareDeployment, httpsOrigin } from "./prepare-deployment.mjs";
 
 const config = JSON.parse(await readFile(new URL("../vercel.json", import.meta.url), "utf8"));
 const html = await readFile(new URL("../client/index.html", import.meta.url), "utf8");
+
+test("production defaults and first-party proxy routes use the canonical Logistics API", async () => {
+  assert.equal(currentApiOrigin, "https://logistics-api.onesa.eu");
+  const environment = await readFile(new URL("../.env.production", import.meta.url), "utf8");
+  assert.deepEqual(
+    environment.split(/\r?\n/).filter(line => line.startsWith("VITE_API_URL=")),
+    ["VITE_API_URL=" + currentApiOrigin]
+  );
+  for (const pathname of ["/version", "/api/:path*", "/supply-chain/:path*", "/health", "/ready"]) {
+    assert.equal(config.rewrites.find(route => route.source === pathname)?.destination,
+      currentApiOrigin + pathname);
+  }
+});
 
 test("domain migration moves every authenticated and readiness path before the SPA fallback", () => {
   const original = structuredClone(config);
