@@ -1,0 +1,16 @@
+{
+  "config": {
+    "ingress": [
+      {
+        "hostname": "logistics-api.onesa.eu",
+        "service": "http://127.0.0.1:11001"
+      },
+      {
+        "service": "http_status:404"
+      }
+    ],
+    "warp-routing": {
+      "enabled": false
+    }
+  }
+}

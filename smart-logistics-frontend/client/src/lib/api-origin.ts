@@ -8,7 +8,7 @@ export function resolveApiOrigin(
   return (
     configured?.trim().replace(/\/+$/, "") ||
     (production
-      ? "https://imsop-api.152-70-22-84.sslip.io"
+      ? "https://logistics-api.onesa.eu"
       : "http://localhost:3001")
   );
 }
