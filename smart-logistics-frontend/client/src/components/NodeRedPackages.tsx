@@ -138,6 +138,7 @@ function GatewayPackages({ target }: { target: NodeRedTarget }) {
       null
     ),
     [acknowledged, setAcknowledged] = useState(false);
+  const [reviewExpired, setReviewExpired] = useState(false);
   const lifecycle = useRef<AbortController | null>(null),
     statusRequest = useRef<AbortController | null>(null),
     mutation = useRef(false);
@@ -206,6 +207,20 @@ function GatewayPackages({ target }: { target: NodeRedTarget }) {
     }, 3000);
     return () => window.clearInterval(timer);
   }, [status?.operation?.state, refresh]);
+  useEffect(() => {
+    setReviewExpired(false);
+    if (!review) return;
+    let timer: ReturnType<typeof setTimeout>;
+    const expire = () => {
+      const remaining = Date.parse(review.expiresAt) - Date.now();
+      if (remaining <= 0) {
+        setReviewExpired(true);
+        setAcknowledged(false);
+      } else timer = setTimeout(expire, Math.min(remaining, 2_147_483_647));
+    };
+    expire();
+    return () => clearTimeout(timer);
+  }, [review]);
   const pending = pendingNodeRedInstall(status?.operation ?? null);
   const canReview =
     status?.state === "ready" && !pending && !needsCheck && !busy && !checking;
@@ -458,6 +473,12 @@ function GatewayPackages({ target }: { target: NodeRedTarget }) {
             Gateway: {review.target.label}. Review expires{" "}
             {new Date(review.expiresAt).toLocaleTimeString()}.
           </p>
+          {reviewExpired ? (
+            <p role="status" className="text-sm">
+              This package review expired. Review the exact version again before
+              installing.
+            </p>
+          ) : null}
           <p className="text-sm">
             Declared node sets: {review.nodeSets.join(", ") || "None"}. Plugin
             sets: {review.pluginSets.join(", ") || "None"}.
@@ -486,10 +507,20 @@ function GatewayPackages({ target }: { target: NodeRedTarget }) {
             disabled={
               !canReview ||
               !acknowledged ||
+              reviewExpired ||
               Date.parse(review.expiresAt) <= Date.now()
             }
             onClick={() => {
               if (!canReview || !acknowledged) return;
+              // Background-tab timers may be throttled; check at the action too.
+              if (Date.parse(review.expiresAt) <= Date.now()) {
+                setReviewExpired(true);
+                setAcknowledged(false);
+                setError(
+                  "The package review expired. Review the exact version again before installing."
+                );
+                return;
+              }
               const approved = review;
               void act(async signal => {
                 setReview(null);

@@ -73,6 +73,7 @@ beforeEach(() => {
 });
 afterEach(() => {
   cleanup();
+  vi.useRealTimers();
   vi.restoreAllMocks();
 });
 
@@ -118,6 +119,8 @@ it("one acknowledged install remains blocked after a lost response and remount u
     reconciles = 0,
     saved: typeof operation | null = null;
   let rejectInstall!: (error: Error) => void;
+  let normalSuccess = false;
+  let reviewedModule = review.module;
   harness.request.mockImplementation(
     (path: string, _method: string, body: any) => {
       if (path === "/version")
@@ -128,16 +131,25 @@ it("one acknowledged install remains blocked after a lost response and remount u
       if (path.endsWith("/status")) return Promise.resolve(status(saved));
       if (path.endsWith("/review")) {
         expect(body).toEqual({
-          module: review.module,
+          module: normalSuccess ? "@fixture/node-red-next" : review.module,
           version: review.version,
         });
-        return Promise.resolve(review);
+        reviewedModule = body.module;
+        return Promise.resolve({ ...review, module: reviewedModule });
       }
       if (path.endsWith("/install")) {
         installs++;
         expect(body.acknowledgeCodeExecution).toBe(true);
         expect(body.reviewToken).toBe(review.reviewToken);
-        saved = { ...operation, id: body.requestId };
+        saved = { ...operation, id: body.requestId, module: reviewedModule };
+        if (normalSuccess) {
+          saved = {
+            ...saved,
+            state: "installed",
+            message: "Successful installation verified in inventory",
+          };
+          return Promise.resolve({ ...saved, state: "installing" });
+        }
         return new Promise((_resolve, reject) => {
           rejectInstall = reject;
         });
@@ -200,4 +212,99 @@ it("one acknowledged install remains blocked after a lost response and remount u
   await screen.findByText("Read-back confirmed the exact version");
   expect(installs).toBe(1);
   expect(reconciles).toBe(1);
+  normalSuccess = true;
+  fireEvent.change(screen.getByLabelText("Package name"), {
+    target: { value: "@fixture/node-red-next" },
+  });
+  fireEvent.change(screen.getByLabelText("Exact version"), {
+    target: { value: review.version },
+  });
+  fireEvent.click(screen.getByRole("button", { name: "Review exact version" }));
+  await screen.findByRole("button", { name: "Install reviewed package" });
+  fireEvent.click(
+    screen.getByRole("checkbox", { name: /I reviewed this package/ })
+  );
+  fireEvent.click(
+    screen.getByRole("button", { name: "Install reviewed package" })
+  );
+  await screen.findByText("Successful installation verified in inventory");
+  await waitFor(() =>
+    expect(
+      (
+        screen.getByRole("button", {
+          name: "Review exact version",
+        }) as HTMLButtonElement
+      ).disabled
+    ).toBe(false)
+  );
+  expect(
+    screen.queryByText(
+      /Refresh the saved status before requesting another installation/
+    )
+  ).toBeNull();
+  expect(installs).toBe(2);
+  expect(reconciles).toBe(1);
+});
+
+it("an idle or action-time expired review cannot submit an installation", async () => {
+  vi.useFakeTimers();
+  let installs = 0;
+  harness.request.mockImplementation((path: string) => {
+    if (path === "/version")
+      return Promise.resolve({
+        capabilities: ["node-red-package-management-v1"],
+      });
+    if (path === "/api/edge/node-red") return Promise.resolve(targets);
+    if (path.endsWith("/status")) return Promise.resolve(status());
+    if (path.endsWith("/review"))
+      return Promise.resolve({
+        ...review,
+        expiresAt: new Date(Date.now() + 1000).toISOString(),
+      });
+    if (path.endsWith("/install")) installs++;
+    throw Error("Unexpected fixture request");
+  });
+  render(<NodeRedPackages />);
+  await act(async () => {});
+  fireEvent.change(screen.getByLabelText("Package name"), {
+    target: { value: review.module },
+  });
+  fireEvent.change(screen.getByLabelText("Exact version"), {
+    target: { value: review.version },
+  });
+  await act(async () => {
+    fireEvent.click(
+      screen.getByRole("button", { name: "Review exact version" })
+    );
+  });
+  fireEvent.click(
+    screen.getByRole("checkbox", { name: /I reviewed this package/ })
+  );
+  // Advance the wall clock without firing the expiry timer, as in a suspended tab.
+  vi.setSystemTime(Date.now() + 2000);
+  fireEvent.click(
+    screen.getByRole("button", { name: "Install reviewed package" })
+  );
+  expect(installs).toBe(0);
+  expect(screen.getByRole("alert").textContent).toContain("review expired");
+  await act(async () => {
+    fireEvent.click(
+      screen.getByRole("button", { name: "Review exact version" })
+    );
+  });
+  fireEvent.click(
+    screen.getByRole("checkbox", { name: /I reviewed this package/ })
+  );
+  await act(async () => {
+    vi.advanceTimersByTime(1001);
+  });
+  expect(
+    (
+      screen.getByRole("button", {
+        name: "Install reviewed package",
+      }) as HTMLButtonElement
+    ).disabled
+  ).toBe(true);
+  expect(screen.getByText(/This package review expired/)).toBeTruthy();
+  expect(installs).toBe(0);
 });
