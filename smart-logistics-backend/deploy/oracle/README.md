@@ -210,6 +210,17 @@ policy across releases; missing rollback images stop cleanup rather than guessin
 This command does not replace qualification, backups, migration procedures or
 compatibility rehearsal. Use the saved manifest to roll back if promotion fails.
 
+When relocating to an approved destination with no Logistics containers, retain
+the reviewed source `.image-retention.json` with both referenced image archives,
+verify their transfer, and preserve the policy's private ownership and permissions.
+If the first destination release changes the saved current image, that image is
+retained as rollback; installing the same image retains its existing rollback.
+An observed destination container takes precedence over the saved current field.
+A missing retained image stops policy replacement and cleanup; the tool does not
+silently select an older fallback. This retention behavior does not establish
+host identity, migration completion or rollback compatibility. Those require the
+source/destination, runtime, data and acceptance checks above.
+
 To review cleanup without deploying or restarting anything, use the cleanup tool
 with explicit installed current and rollback references. It defaults to a dry run:
 

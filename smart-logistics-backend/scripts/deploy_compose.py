@@ -27,8 +27,11 @@ def verify(url, revision):
 def retained_services(before, after, previous):
     result = {}
     for service, image in after.items():
-        old = before.get(service)
-        rollback = old if old and old != image else previous.get(service, {}).get("rollback")
+        retained = previous.get(service, {})
+        # Relocation can restore verified images and retention state before any
+        # destination container exists. Preserve that last current image too.
+        old = before.get(service) or retained.get("current")
+        rollback = old if old and old != image else retained.get("rollback")
         result[service] = {"current": image, "rollback": rollback}
     return result
 

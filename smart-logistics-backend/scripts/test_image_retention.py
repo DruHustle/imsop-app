@@ -162,6 +162,62 @@ class RetentionTests(unittest.TestCase):
         self.assertEqual(result["app"], {"current": "new", "rollback": "old"})
         self.assertEqual(result["node"]["rollback"], "node-rollback")
 
+    def test_destination_without_containers_preserves_restored_current_image(self):
+        saved = image("sha256:saved-current", ["imsop-app-backend:saved-current"])
+        fallback = image("sha256:saved-rollback", ["imsop-app-backend:saved-rollback"])
+        candidate = image("sha256:candidate", ["imsop-app-backend:candidate"])
+        for selected, expected_rollback in ((candidate, saved), (saved, fallback)):
+            with self.subTest(image=selected["Id"]), tempfile.TemporaryDirectory() as folder:
+                state = pathlib.Path(folder) / ".image-retention.json"
+                state.write_text(json.dumps({"services": {"app": {
+                    "current": saved["Id"], "rollback": fallback["Id"]}}}))
+                known_images = {row["Id"]: row for row in (saved, fallback, candidate)}
+                with patch("sys.argv", ["deploy_compose.py", "--project-directory", folder,
+                                       "--file", "compose.yaml", "--origin", "http://127.0.0.1:11001",
+                                       "--expect-revision", "a" * 40, "--service", "app"]), \
+                     patch.object(deploy_compose, "container_images", side_effect=[{}, {
+                         "new-container": {"image": selected["Id"], "service": "app"}}]), \
+                     patch.object(deploy_compose, "inspect_image", side_effect=known_images.__getitem__), \
+                     patch.object(deploy_compose.subprocess, "run"), \
+                     patch.object(deploy_compose, "verify"), patch("builtins.print"), \
+                     patch.object(deploy_compose, "cleanup", return_value={"errors": []}) as cleanup:
+                    deploy_compose.main()
+                self.assertEqual(json.loads(state.read_text())["services"]["app"], {
+                    "current": selected["Id"], "rollback": expected_rollback["Id"]})
+                cleanup.assert_called_once_with(sorted([selected["Id"], expected_rollback["Id"]]), apply=True)
+
+    def test_observed_runtime_takes_precedence_over_restored_state(self):
+        result = deploy_compose.retained_services(
+            {"app": "observed-current"}, {"app": "new"},
+            {"app": {"current": "stale-current", "rollback": "older"}})
+        self.assertEqual(result["app"], {"current": "new", "rollback": "observed-current"})
+
+    def test_missing_restored_current_stops_cleanup_without_replacing_policy(self):
+        with tempfile.TemporaryDirectory() as folder:
+            state = pathlib.Path(folder) / ".image-retention.json"
+            state.write_text(json.dumps({"services": {"app": {
+                "current": "sha256:missing-current", "rollback": OLD["Id"]}}}))
+            original = state.read_bytes()
+
+            def inspect(ref):
+                if ref == "sha256:missing-current":
+                    raise RuntimeError("saved current image missing")
+                return CURRENT if ref == CURRENT["Id"] else OLD
+
+            with patch("sys.argv", ["deploy_compose.py", "--project-directory", folder,
+                                   "--file", "compose.yaml", "--origin", "http://127.0.0.1:11001",
+                                   "--expect-revision", "a" * 40, "--service", "app"]), \
+                 patch.object(deploy_compose, "container_images", side_effect=[{}, {
+                     "new-container": {"image": CURRENT["Id"], "service": "app"}}]), \
+                 patch.object(deploy_compose, "inspect_image", side_effect=inspect), \
+                 patch.object(deploy_compose.subprocess, "run"), \
+                 patch.object(deploy_compose, "verify"), patch("builtins.print"), \
+                 patch.object(deploy_compose, "cleanup", return_value={"errors": []}) as cleanup:
+                with self.assertRaisesRegex(RuntimeError, "saved current image missing"):
+                    deploy_compose.main()
+                cleanup.assert_not_called()
+            self.assertEqual(state.read_bytes(), original)
+
     def test_failed_readiness_leaves_policy_and_images_unchanged(self):
         with tempfile.TemporaryDirectory() as folder:
             root = pathlib.Path(folder)
