@@ -20,7 +20,7 @@
         "127.0.0.1:11001:10000"
       ],
       "networks": {
-        "ingress": {
+        "runtime": {
           "aliases": [
             "imsop-app-backend-api"
           ]
@@ -36,9 +36,8 @@
     }
   },
   "networks": {
-    "ingress": {
-      "name": "imsop-app-backend-ingress",
-      "external": true
+    "runtime": {
+      "name": "imsop-app-backend-runtime"
     }
   }
 }

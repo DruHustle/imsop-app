@@ -1,15 +1,34 @@
 # Oracle backend
 
-The API runs on the shared **Software Engineering Backend** VM, hostname
-`software-engineering-backend`, ARM64, at `152.70.22.84`. The Onesa VM is separate.
+The current source prepares independent Smart Logistics ingress at
+`https://logistics-api.onesa.eu`. It does not install a service, change provider
+configuration or move live traffic. Inspect the authorized destination and its
+existing private runtime before staging this candidate.
 
-- API: `https://imsop-api.152-70-22-84.sslip.io`
-- Runtime directory: `/opt/imsop-app-backend`
+- Retained Compose project/service: `imsop-app-backend` / `app`
+- Retained application alias: `imsop-app-backend-api`
+- Logistics-owned Compose network: `imsop-app-backend-runtime`
 - Readiness: `/ready`; liveness: `/health`
 - Diagnostic port: `127.0.0.1:11001` (never public)
-- External private network: `imsop-app-backend-ingress`
-- Caddy upstream: `imsop-app-backend-api:10000`
-- Initial source revision: `6eff140eafb7d9455a957ad86354fe5b157b1591`
+- Independent connector: `onesa-logistics-tunnel.service`
+
+The app keeps its existing pinned image selection, resources and loopback mapping
+`127.0.0.1:11001:10000`. The optional database overlay keeps the existing
+`onesa-logistics-database` network. Preserve the installed runtime directory,
+private manifests, `.deployment.lock`, retention policy, database identities,
+queues and credentials; an ingress change does not relocate or copy them.
+
+## Historical source binding — October 2026
+
+The October deployment used the separate **Software Engineering Backend** VM,
+hostname `software-engineering-backend`, ARM64, at `152.70.22.84`, with runtime
+directory `/opt/imsop-app-backend`. Its API was
+`https://imsop-api.152-70-22-84.sslip.io`, and the initial source revision was
+`6eff140eafb7d9455a957ad86354fe5b157b1591`. The former external network
+`imsop-app-backend-ingress` exposed `imsop-app-backend-api:10000` to Caddy under
+`/opt/smart-factory-basyx`. These identifiers explain the dated receipts. They
+are not the current ingress or rollback procedure, and do not prove what still
+runs on either VM.
 
 ## Build and deploy
 
@@ -26,7 +45,7 @@ and load with `sudo docker load` on the VM. No registry credentials are needed.
 Back up the installed manifest before updating its pinned image. Production
 variables live in mode-600 `compose.runtime.json`, an untracked environment
 override preserving the existing managed database, signing keys, CORS origins
-and provider configuration. No database was copied or deleted. Never print or
+and provider configuration. This candidate does not copy or delete a database. Never print or
 commit this file. JSON strings must escape `$` as `$$` for Compose interpolation.
 
 From the runtime directory, validate with
@@ -38,18 +57,110 @@ through both Oracle HTTPS and the frontend. Do not run destructive database
 migrations or create production users to test deployment. Keep CORS restricted
 to the actual production frontend origins; do not use a wildcard.
 
-## Shared ingress and rollback
+## Independent tunnel candidate
 
-Caddy remains in `/opt/smart-factory-basyx` for continuity, with each application's
-external ingress network declared in its Compose file. Back up and validate its
-configuration before graceful reloads. Do not restart sibling applications or
-duplicate the existing singleton IoT worker.
+[`onesa-logistics-tunnel.service`](onesa-logistics-tunnel.service) runs the pinned
+`/usr/local/lib/onesa-tunnel/cloudflared-2026.10.3` binary with a dedicated
+`DynamicUser`. Systemd loads the dedicated root-owned credential from
+`/etc/onesa/backends/tunnel-logistics.token` using `LoadCredential`; do not place
+the token in this checkout, a command argument or release evidence. The unit
+opens no inbound port 80 or 443 and requires no Factory or Portal application,
+checkout, runtime configuration or certificate state. Its unit/binary layout
+follows the shared Onesa host tunnel pattern; that platform provenance is not a
+Portal application dependency.
 
-Oracle releases are manual and independent from frontend releases. The former
-Render service stays suspended with automatic deployment disabled. Retain the
-previous image and manifest; restore its tag and run the same Compose update
-command to roll back. An emergency Render rollback requires explicitly resuming
-and checking that service before restoring the frontend API destination.
+The approved raw Linux ARM64 binary is the
+[official cloudflared 2026.10.3 release](https://github.com/cloudflare/cloudflared/releases/tag/2026.10.3),
+37,652,905 bytes, SHA-256
+`89297ebfb9e8c99c0dc013a1140601453cf3798d8306c5591651f4a3f5210be8`.
+The checker verifies this exact asset and its installed custody; it has no
+caller-supplied checksum bypass. A package archive or another architecture is
+not this binary.
+
+[`tunnel-config.json`](tunnel-config.json) is a **remotely managed Cloudflare
+provider configuration payload**, not a local cloudflared configuration file.
+It defines exactly `logistics-api.onesa.eu` to `http://127.0.0.1:11001`, followed
+by a terminal HTTP 404 rule, with private WARP routing disabled. Select the
+existing approved account and dedicated Logistics tunnel through authorized
+provider access; no account ID, tunnel UUID or token is guessed by these files.
+Installing the unit does not apply this provider payload or create a DNS route.
+
+### Read-only checks
+
+Run from the backend source directory:
+
+```sh
+python3 scripts/check_logistics_ingress.py
+```
+
+This validates the source payload only. For a provider configuration comparison,
+obtain a fresh authorized
+[configuration GET response](https://developers.cloudflare.com/api/resources/zero_trust/subresources/tunnels/subresources/cloudflared/subresources/configurations/methods/get/)
+for the independently selected account and tunnel, and keep it outside the
+checkout. Record its retrieval time and provenance privately. A configuration
+creation timestamp is not its capture time. Supply the full API response,
+including `result.account_id`, `result.tunnel_id` and `result.source=cloudflare`:
+
+```sh
+python3 scripts/check_logistics_ingress.py \
+  --provider-config /private/path/PRIVATE_API_GET_RESPONSE.json \
+  --account-id REVIEWED_ACCOUNT_ID --tunnel-id REVIEWED_UUID
+```
+
+On the selected Linux ARM64 host, existing authorized root access can add local
+unit, binary and container prerequisite checks:
+
+```sh
+sudo python3 scripts/check_logistics_ingress.py \
+  --provider-config /private/path/PRIVATE_API_GET_RESPONSE.json \
+  --account-id REVIEWED_ACCOUNT_ID --tunnel-id REVIEWED_UUID \
+  --check-host --expect-revision FULL_BACKEND_SHA
+```
+
+Host checks use the fixed local Docker socket, require Docker Engine 28 or newer,
+and compare the installed unit, approved binary custody and selected Logistics
+container/network against the reviewed source and exact application revision.
+The credential file is checked through metadata without reading its token.
+The checker installs or restarts nothing and performs no provider, DNS,
+configuration, token or secret writes. Supplied provider JSON establishes only
+snapshot consistency; the checker does not independently authenticate its
+provenance or freshness. Every mode explicitly reports `liveVerified=false`.
+
+Commissioning still requires the provider connector to be bound to the selected
+account/tunnel and actual host; correct DNS and public TLS; refusal of external
+access to the loopback origin, including from another host on the local network;
+forwarded-header spoofing and rate-limit checks; and approved cookie, CORS,
+session, role and cross-workspace browser acceptance through the first-party
+frontend proxy. Test independent rollback as described below. Source checks or a
+healthy connector alone do not satisfy these gates.
+
+## Network cutover and independent rollback
+
+Stage and review the merged manifest before changing the installed network.
+Preserve all selected private overrides and any qualified database overlay;
+blindly replacing `compose.yaml` can retain an old network through an override
+or remove required connectivity. Keep the existing directory and deployment
+lock, record the current image/manifest and review the application recreation
+needed for the network change. Coordinate one active application writer and
+dispatcher; do not start a second copy against an unreviewed database or duplicate
+queues. Preserve database endpoints, roles, durable volumes and encryption keys.
+
+Before cutover, retain and rehearse a previous compatible Logistics image with
+an independent Logistics manifest and its Logistics-only tunnel route. Restore
+that image/manifest through the same deployment lock, retaining the private
+runtime and qualified database state, then check exact revision, readiness and
+scoped browser acceptance. The route remains the dedicated Logistics connector
+to the loopback gateway. A historical manifest tied to the Factory edge must be
+adapted and independently qualified as a rollback candidate before use; keep its
+original receipt intact. Rollback must not require starting Factory, restoring
+its edge configuration or reading another application's certificates. Database
+rollback or reconciliation after new writes remains a separate reviewed action.
+
+Oracle releases remain independent from frontend releases. The October 2026
+runbook recorded the former Render service suspended with automatic deployment
+disabled; that historical status is not a currently verified rollback route.
+No live tunnel, provider, DNS or application cutover is performed by this source
+change.
 
 ## Remediation release verification
 
@@ -69,12 +180,15 @@ images on both the development host and Oracle. Do not retain every historical
 release or rejected candidate. Shared base layers may remain while still used.
 
 Install `scripts/image_retention.py` and `scripts/deploy_compose.py` together in
-`/opt/imsop-app-backend/tools/` on Oracle. After qualification, backup, migration
-and rollback rehearsal, pin the new image in the existing manifest and run:
+the existing Logistics runtime's `tools/` directory on Oracle. Keep the current
+runtime location and lock rather than creating a second installation. After
+qualification, backup, migration and rollback rehearsal, pin the new image in
+the existing manifest. From that verified runtime directory, retaining any
+additional qualified Compose files in the command, run:
 
 ```sh
-sudo python3 /opt/imsop-app-backend/tools/deploy_compose.py \
-  --project-directory /opt/imsop-app-backend \
+sudo python3 ./tools/deploy_compose.py \
+  --project-directory . \
   --file compose.yaml --file compose.runtime.json --service app \
   --origin http://127.0.0.1:11001 --expect-revision FULL_BACKEND_SHA
 ```
@@ -95,6 +209,17 @@ use `.deployment.lock`, shared with the existing Oracle release tooling. Keep th
 policy across releases; missing rollback images stop cleanup rather than guessing.
 This command does not replace qualification, backups, migration procedures or
 compatibility rehearsal. Use the saved manifest to roll back if promotion fails.
+
+When relocating to an approved destination with no Logistics containers, retain
+the reviewed source `.image-retention.json` with both referenced image archives,
+verify their transfer, and preserve the policy's private ownership and permissions.
+If the first destination release changes the saved current image, that image is
+retained as rollback; installing the same image retains its existing rollback.
+An observed destination container takes precedence over the saved current field.
+A missing retained image stops policy replacement and cleanup; the tool does not
+silently select an older fallback. This retention behavior does not establish
+host identity, migration completion or rollback compatibility. Those require the
+source/destination, runtime, data and acceptance checks above.
 
 To review cleanup without deploying or restarting anything, use the cleanup tool
 with explicit installed current and rollback references. It defaults to a dry run:

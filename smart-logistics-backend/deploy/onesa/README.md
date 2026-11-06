@@ -2,8 +2,28 @@
 
 These files prepare `https://logistics.onesa.eu` and the requested Onesa UG
 backend consolidation. They are **source candidates**. They do not change the
-serving backend, databases, release tooling or image
-retention policy.
+serving backend or databases, install resources, apply provider configuration or
+move live traffic. Existing image-retention and data-preservation gates remain.
+
+## Independent ingress and runtime continuity
+
+The [Oracle runbook](../oracle/README.md#independent-tunnel-candidate) prepares
+`logistics-api.onesa.eu` through a dedicated Logistics systemd/cloudflared
+connector to the existing `127.0.0.1:11001` gateway. It needs no Factory or Portal
+application, configuration, certificates or checkout, and opens no inbound port
+80 or 443. Its shared Onesa host tunnel conventions are platform provenance,
+not an application dependency. The provider JSON is a remotely managed
+configuration payload; it is not consumed as a local cloudflared config.
+
+The retained `imsop-app-backend` project and `app` service use their own
+`imsop-app-backend-runtime` network with alias `imsop-app-backend-api`. Image
+selection, resource limits and loopback mapping remain unchanged. Review a
+staged merged manifest and an independent Logistics rollback before replacing
+the former external ingress network; preserve the actual runtime directory,
+private overrides, `.deployment.lock`, retention policy and one active writer.
+No database, queue, worker identity or data volume is renamed or recreated for
+this change. Historical Software Engineering Backend and shared-edge references
+in the dated Oracle receipts do not establish current host state.
 
 ## Application domain, identity and email
 
@@ -57,8 +77,9 @@ independent backup.
 
 The optional `compose.application-database.yaml` adds only the database
 network and a read-only CA certificate mount to the retained Oracle `app`
-service. The existing explicit ingress network remains through Compose merging.
-It changes no app image, environment, port or dependency. The mounted CA path
+service. The Logistics-owned `runtime` network remains through Compose merging;
+the external database network remains `onesa-logistics-database`.
+It changes no app image, environment or port. The mounted CA path
 `/run/onesa-db-ca/root.crt` is referenced by both Node and .NET examples.
 For an existing external provider, preserve its qualified TLS/secret mechanism;
 do not attach this candidate network merely to change a hostname.
@@ -145,6 +166,23 @@ checks and Docker Compose **configuration-only** checks with temporary synthetic
 inputs. It does not pull/start database images, initialize a database, perform
 TLS handshakes or restore data. CI validates this newly authored source; it does
 not reproduce or certify the earlier unpublished local preparation.
+
+`python3 scripts/check_logistics_ingress.py` separately validates the source
+tunnel payload. Its optional provider and host checks are described in the
+[Oracle runbook](../oracle/README.md#read-only-checks). Provider comparison needs
+a fresh authorized configuration GET response plus the independently selected
+account and tunnel IDs. The response's configuration creation time is not its
+capture time, and supplied JSON is not independently verified live provenance.
+Host checking additionally requires the exact approved application revision,
+Linux ARM64 root access, Docker Engine 28 or newer and the pinned official
+binary. It performs no installation, restart or provider/DNS/secret write and
+always reports `liveVerified=false`.
+
+Actual connector/host binding, DNS/TLS, external origin refusal, forwarded-header
+spoofing and rate-limit behavior, cookie/CORS/scoped browser acceptance and an
+independent Logistics rollback remain commissioning gates. Keep the existing
+primary and its recovery evidence until any separate database migration is
+qualified; an ingress change is not a backup or data cutover.
 
 The actual image digest, init permissions, restore, private network isolation,
 mail delivery and destination runtime remain unqualified. Kubernetes installation

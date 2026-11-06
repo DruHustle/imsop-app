@@ -2,12 +2,19 @@ name: Application checks
 
 on:
   push:
+    branches: [dev, staging, main]
   pull_request:
   workflow_dispatch:
   workflow_call:
 
 permissions:
   contents: read
+
+# Feature branches qualify through their PR, rather than push + PR duplicates.
+# Manual publication callers retain their own exact-source qualification run.
+concurrency:
+  group: application-checks-${{ github.workflow }}-${{ github.event_name }}-${{ github.event.pull_request.number || github.ref }}-${{ (github.event_name != 'push' && github.event_name != 'pull_request') && github.run_id || 'automatic' }}
+  cancel-in-progress: ${{ github.event_name == 'push' || github.event_name == 'pull_request' }}
 
 jobs:
   frontend:
@@ -26,13 +33,9 @@ jobs:
           node-version: '22'
           cache: pnpm
           cache-dependency-path: smart-logistics-frontend/pnpm-lock.yaml
-      - run: pnpm install --frozen-lockfile
-      - run: pnpm exec tsc --noEmit
-      - run: pnpm build
-        env:
-          VITE_BASE_PATH: /
-      - run: pnpm test
-      - run: pnpm audit --prod --audit-level=moderate
+      - name: Shared local and hosted frontend source checks
+        working-directory: .
+        run: node local-tools/ci/local-checks.mjs frontend
       - run: pnpm exec playwright install --with-deps chromium
       - run: pnpm e2e
       - uses: actions/upload-artifact@v4
@@ -60,23 +63,9 @@ jobs:
           node-version: '22'
           cache: pnpm
           cache-dependency-path: smart-logistics-backend/server/pnpm-lock.yaml
-      - run: pnpm install --frozen-lockfile
-      - run: pnpm build
-      - run: pnpm test
-      - name: Verify standalone Python logistics edge
-        working-directory: smart-logistics-backend/edge
-        run: python3 -m unittest discover -s . -p 'test_*.py' -v
-      - name: Validate Node-RED artifacts
-        run: |
-          node --check ../edge/node-red/settings.js
-          python3 -m json.tool ../edge/node-red/flows.example.json > /dev/null
-      - run: pnpm audit --prod --audit-level=low
-      - name: Check image retention boundaries
-        working-directory: smart-logistics-backend
-        run: python3 -m unittest discover -s scripts -p 'test_image_retention.py' -v
-      - name: Check Onesa origin, sender and private database configuration
-        working-directory: smart-logistics-backend
-        run: python3 scripts/test_onesa_migration_config.py --require-compose
+      - name: Shared local and hosted backend source checks
+        working-directory: .
+        run: node local-tools/ci/local-checks.mjs backend-node
 
   backend-dotnet:
     runs-on: ubuntu-24.04
@@ -89,9 +78,12 @@ jobs:
       - uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '8.0.x'
-      - run: dotnet restore src/SmartLogistics.sln -p:NuGetAudit=true -p:NuGetAuditMode=all -warnaserror:NU1901,NU1902,NU1903,NU1904
-      - run: dotnet build src/SmartLogistics.sln --no-restore --configuration Release
-      - run: dotnet test src/SmartLogistics.sln --no-build --configuration Release --verbosity normal
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Shared local and hosted .NET source checks
+        working-directory: .
+        run: node local-tools/ci/local-checks.mjs backend-dotnet
 
   release-boundaries:
     runs-on: ubuntu-24.04
@@ -101,8 +93,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - run: node --test local-tools/ci/*.test.mjs
-      - run: bash -n smart-logistics-frontend/deploy.sh
+      - run: node local-tools/ci/local-checks.mjs release-boundaries
 
   qualify-system:
     uses: ./.github/workflows/system-qualification.yml

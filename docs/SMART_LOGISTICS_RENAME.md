@@ -35,13 +35,17 @@ protocol/storage migration replaces them:
 - Historical release receipts, verification logs and archived source snapshots.
   Their original bytes and names describe the releases that actually ran.
 
-The retention helper accepts both the historical `IMSOP backend` image title
-and the new `Smart Logistics backend` title. Exact repository ownership,
+The retention helper accepts the exact local image repository
+`smart-logistics-backend` as well as the retained legacy repository names. It
+also recognizes both the historical `IMSOP backend` image title and the new
+`Smart Logistics backend` title for untagged images. Exact repository ownership,
 container protections, the deployment lock and the compatible rollback
 requirement still apply. Do not rename live state with global string replacement.
-Existing website path aliases continue to work. The old API route remains in
-baseline routing until the destination backend and `logistics-api.onesa.eu`
-have passed qualification; deployment preparation sets the verified route.
+Existing website path aliases continue to work. The baseline Vercel rewrites and
+deployment preparation now use the qualified `https://logistics-api.onesa.eu`
+destination. Browser requests stay on the frontend origin; the Vercel proxy owns
+API routing. Retained historical deployments keep their original configuration
+for rollback and must be checked before retiring the previous host.
 
 Only `DruHustle/imsop-app-frontend` and `DruHustle/imsop-app-backend` are the
 separate legacy component repositories eligible for eventual retirement.

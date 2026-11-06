@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { readFile, writeFile } from "node:fs/promises";
 import { pathToFileURL } from "node:url";
 
-export const currentApiOrigin = "https://imsop-api.152-70-22-84.sslip.io";
+export const currentApiOrigin = "https://logistics-api.onesa.eu";
 export const currentWebOrigin = "https://logistics.onesa.eu";
 const apiPaths = ["/version", "/supply-chain/:path*", "/health", "/ready", "/api/:path*"];
 
