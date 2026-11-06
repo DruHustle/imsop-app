@@ -8,6 +8,7 @@ import { spawnSync } from 'node:child_process';
 
 export const root = fileURLToPath(new URL('../../', import.meta.url));
 export const suites = ['release-boundaries', 'frontend', 'backend-node', 'backend-dotnet'];
+export const pnpmVersion = '10.34.5';
 const frontend = 'smart-logistics-frontend';
 const backend = 'smart-logistics-backend';
 const server = `${backend}/server`;
@@ -35,6 +36,7 @@ export function commandsFor(suite, directory = root) {
       step(frontend, pnpm('build'), { VITE_BASE_PATH: '/' }),
       step(frontend, pnpm('test')),
       step(frontend, pnpm('audit', '--prod', '--audit-level=moderate')),
+      step(frontend, pnpm('audit', '--audit-level=high')),
     ];
     case 'backend-node': return [
       install(server),
@@ -65,18 +67,21 @@ export function checkPrerequisites(selected, directory = root, execute = run) {
   if (!['linux', 'darwin'].includes(process.platform) || !['x64', 'arm64'].includes(process.arch)) {
     throw new Error('Local source preflight supports Linux/macOS on x64/ARM64. Hosted Linux qualification is still required.');
   }
-  if (process.versions.node.split('.')[0] !== '22') throw new Error('Use Node.js 22, matching the repository workflow.');
-  if (!/^v22\./.test(execute(['node', '--version'], directory, process.env, true))) {
-    throw new Error('Put Node.js 22 on PATH so child commands use the same project runtime.');
+  const [nodeMajor, nodeMinor] = process.versions.node.split('.').map(Number);
+  if (nodeMajor !== 22 || nodeMinor < 12) throw new Error('Use Node.js 22.12 or newer in the 22.x release line, matching the repository workflow.');
+  const childNode = /^v22\.(\d+)\.\d+$/.exec(execute(['node', '--version'], directory, process.env, true));
+  if (!childNode || Number(childNode[1]) < 12) {
+    throw new Error('Put Node.js 22.12 or newer in the 22.x release line on PATH so child commands use the same project runtime.');
   }
   for (const [suite, cwd] of [['frontend', frontend], ['backend-node', server]]) {
     if (!selected.includes(suite)) continue;
     const metadata = JSON.parse(readFileSync(resolve(directory, cwd, 'package.json'), 'utf8'));
-    if (!/^pnpm@10\.4\.1(?:\+sha512\.[a-f0-9]+)?$/.test(metadata.packageManager ?? '')) {
+    const committedPin = /^pnpm@(\d+\.\d+\.\d+)(?:\+sha512\.[a-f0-9]+)?$/.exec(metadata.packageManager ?? '');
+    if (committedPin?.[1] !== pnpmVersion) {
       throw new Error('The committed package-manager pin changed; review local and hosted tooling together.');
     }
-    if (execute(['corepack', 'pnpm', '--version'], resolve(directory, cwd), process.env, true) !== '10.4.1') {
-      throw new Error('Corepack must resolve the committed pnpm 10.4.1 pin.');
+    if (execute(['corepack', 'pnpm', '--version'], resolve(directory, cwd), process.env, true) !== pnpmVersion) {
+      throw new Error(`Corepack must resolve the committed pnpm ${pnpmVersion} pin.`);
     }
   }
   if (selected.includes('backend-node')) {

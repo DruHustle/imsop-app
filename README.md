@@ -14,7 +14,8 @@ Public website: **https://logistics.onesa.eu**. See [naming and compatibility](d
 
 ## Local validation before push
 
-Use a persistent development workstation with **Node.js 22, Corepack, pnpm 10.4.1
+Use a persistent development workstation with **Node.js 22.12 or newer in the
+22.x release line, Corepack, pnpm 10.34.5
 (resolved from each committed `packageManager` pin), Python 3.10+, .NET SDK 8,
 Bash, Git and the Docker Compose CLI**. Linux/macOS on x64/ARM64 are supported.
 The backend `global.json` selects the latest installed stable .NET 8 feature
