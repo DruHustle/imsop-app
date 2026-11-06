@@ -1,3 +1,4 @@
+import { NodeRedPackages } from "@/components/NodeRedPackages";
 import { NotificationDeliveryPreferences } from "@/components/NotificationDeliveryPreferences";
 import { PageHeader, Panel } from "@/components/Workspace";
 import { ThemeSwitcher } from "@/components/ThemeSwitcher";
@@ -79,6 +80,7 @@ export default function Settings() {
           </div>
           <NotificationDeliveryPreferences />
         </Panel>
+        <NodeRedPackages />
         <Panel title="Security capabilities">
           <div className="preference-row">
             <div>

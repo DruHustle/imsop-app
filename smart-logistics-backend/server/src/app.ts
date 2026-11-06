@@ -4,6 +4,7 @@ import authRoutes from "./routes/authRoutes";
 import operationsRoutes from "./routes/operationsRoutes";
 import telemetryRoutes from "./routes/telemetryRoutes";
 import {smartLogisticsEdgeRouter} from "./routes/edgeRoutes";
+import { nodeRedRouter } from "./node-red/router";
 import { rateLimit } from "./middleware/rateLimit";
 import logisticsIntegrationRoutes from "./routes/logisticsIntegrationRoutes";
 import { db } from "./config/db";
@@ -99,6 +100,7 @@ app.use("/api", (req, res, next) => {
 app.use("/api/auth", authRoutes);
 app.use("/api/operations", operationsRoutes);
 app.use("/api/telemetry", telemetryRoutes);
+app.use("/api/edge/node-red", nodeRedRouter);
 app.use("/api/edge", smartLogisticsEdgeRouter);
 app.use("/api/integrations/logistics", logisticsIntegrationRoutes);
 
@@ -109,9 +111,10 @@ app.get("/health", (_req, res) => {
 app.get("/ready", async (_req, res) => {
   try {
     const ledger = await db.execute(
-      sql`SELECT name FROM schema_migrations WHERE name=${release.nodeSchema} AND checksum IS NOT NULL`,
+      sql`SELECT name FROM schema_migrations WHERE name IN ('007_immutable_mail.sql', ${release.nodeSchema}) AND checksum IS NOT NULL`,
     );
-    if (!ledger.rowCount)
+    // Retain the immutable-mail prerequisite when advancing the current schema.
+    if (ledger.rowCount !== 2)
       return res.status(503).json({ status: "schema_not_ready", ...release });
     res.json({ status: "ready", ...release });
   } catch {

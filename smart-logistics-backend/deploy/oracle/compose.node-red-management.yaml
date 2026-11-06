@@ -1,0 +1,43 @@
+# Optional, operator-commissioned private route. Never included by normal releases.
+services:
+  node-red-admin-tunnel:
+    profiles: [node-red-management]
+    image: ${IMSOP_NODE_RED_SSH_CLIENT_IMAGE:?Set a reviewed SSH client image at an immutable digest}
+    # Loopback listener exists only inside the API container's network namespace.
+    network_mode: service:app
+    depends_on:
+      app: { condition: service_started }
+    user: ${IMSOP_NODE_RED_SSH_CLIENT_UID:?Set the non-root UID and GID authorized for this private SSH config}
+    entrypoint: [ssh]
+    command:
+      - -F
+      - /run/node-red-ssh/config
+      - -N
+      - -T
+      - -o
+      - BatchMode=yes
+      - -o
+      - StrictHostKeyChecking=yes
+      - -o
+      - IdentitiesOnly=yes
+      - -o
+      - ExitOnForwardFailure=yes
+      - -o
+      - ServerAliveInterval=30
+      - -o
+      - ServerAliveCountMax=3
+      - -L
+      - 127.0.0.1:18882:127.0.0.1:1882
+      - logistics-node-red-gateway
+    volumes:
+      - ${IMSOP_NODE_RED_SSH_CONFIG_DIR:?Set the existing authorized private SSH configuration directory}:/run/node-red-ssh:ro
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    init: true
+    restart: unless-stopped
+    pids_limit: 32
+    mem_limit: 64m
+    logging:
+      driver: json-file
+      options: { max-size: "5m", max-file: "2" }

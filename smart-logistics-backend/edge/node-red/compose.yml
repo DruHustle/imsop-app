@@ -3,7 +3,7 @@ services:
   node-red:
     image: ${NODE_RED_IMAGE:?Set a reviewed Node-RED image tag or digest}
     restart: unless-stopped
-    # Dedicated Linux farm gateway; the editor and Python ingress bind to loopback.
+    # Dedicated Linux Logistics gateway; editor and Python ingress bind to loopback.
     network_mode: host
     environment:
       TZ: UTC
@@ -11,6 +11,12 @@ services:
       NODE_RED_ADMIN_USER: ${NODE_RED_ADMIN_USER:?Set Node-RED admin user}
       NODE_RED_ADMIN_PASSWORD_HASH: ${NODE_RED_ADMIN_PASSWORD_HASH:?Set bcrypt admin hash}
       EDGE_INGRESS_TOKEN: ${EDGE_INGRESS_TOKEN:?Set Python ingress token}
+      # Optional, separately commissioned package-management enrollment.
+      NODE_RED_RUNTIME_ID: ${NODE_RED_RUNTIME_ID:-}
+      NODE_RED_ADMIN_TOKEN: ${NODE_RED_ADMIN_TOKEN:-}
+      NPM_CONFIG_REGISTRY: https://registry.npmjs.org
+      NPM_CONFIG_SAVE_EXACT: "true"
+      NPM_CONFIG_PACKAGE_LOCK: "true"
     volumes:
       - node_red_data:/data
       - ./settings.js:/opt/imsop/settings.js:ro

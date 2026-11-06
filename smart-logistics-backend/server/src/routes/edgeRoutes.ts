@@ -4,13 +4,9 @@ import {z} from 'zod';
 import {connection} from '../config/db';
 import {authenticate, authorize, requireWorkspace, type AuthRequest} from '../middleware/auth';
 
-const identity=z.string().regex(/^[a-zA-Z0-9][a-zA-Z0-9_.:-]{0,79}$/);
-const gatewaySchema=z.object({
-  workspaceId:z.string().uuid(),
-  secret:z.string().min(32).max(256),
-  sources:z.array(identity).min(1).max(200)
-}).strict();
-const gatewayMap=z.record(identity,gatewaySchema);
+import {edgeIdentity as identity, smartLogisticsEdgeGateways} from '../config/edge';
+export {smartLogisticsEdgeGateways} from '../config/edge';
+
 const common=z.object({
   schemaVersion:z.literal(1),eventId:z.string().uuid(),sourceId:identity,
   observedAt:z.iso.datetime({offset:true})
@@ -34,13 +30,6 @@ export const imsopEdgeEvent=z.discriminatedUnion('kind',[
     }).strict()
   }).strict()
 ]);
-
-export function smartLogisticsEdgeGateways(){
-  const raw=process.env.IMSOP_EDGE_GATEWAYS;
-  if(!raw)return {} as z.infer<typeof gatewayMap>;
-  try{return gatewayMap.parse(JSON.parse(raw));}
-  catch {throw new Error('IMSOP_EDGE_GATEWAYS is invalid; each gateway requires a reviewed workspace/source allowlist');}
-}
 
 export function verifyEdgeHmac(raw:Buffer, timestamp:string|undefined,
                               signature:string|undefined,secret:string,nowMs=Date.now()):boolean{
